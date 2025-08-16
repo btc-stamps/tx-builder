@@ -1,0 +1,178 @@
+name: Version Check
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  version-sync-check:
+    name: Check Version Sync
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check version sync between package.json and deno.json
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          DENO_VERSION=$(node -p "require('./deno.json').version")
+
+          echo "package.json version: $PACKAGE_VERSION"
+          echo "deno.json version: $DENO_VERSION"
+
+          if [ "$PACKAGE_VERSION" != "$DENO_VERSION" ]; then
+            echo "❌ Version mismatch detected!"
+            echo "package.json: $PACKAGE_VERSION"
+            echo "deno.json: $DENO_VERSION"
+            echo ""
+            echo "Please run 'npm run sync-version' to fix this."
+            exit 1
+          else
+            echo "✅ Versions are synchronized: $PACKAGE_VERSION"
+          fi
+
+  conventional-commits-check:
+    name: Check Conventional Commits
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check conventional commits
+        run: |
+          echo "Checking conventional commit format for PR commits..."
+
+          # Get the base branch point
+          BASE_SHA=$(git merge-base origin/main HEAD)
+
+          # Get all commits in this PR
+          COMMITS=$(git rev-list --no-merges ${BASE_SHA}..HEAD)
+
+          if [ -z "$COMMITS" ]; then
+            echo "No commits to check"
+            exit 0
+          fi
+
+          FAILED=0
+
+          for commit in $COMMITS; do
+            MESSAGE=$(git log --format=%s -n 1 $commit)
+            echo "Checking commit: $MESSAGE"
+
+            # Check if message follows conventional commits format
+            if echo "$MESSAGE" | grep -qE '^(feat|fix|docs|style|refactor|perf|test|chore|build|ci)(\(.+\))?: .+'; then
+              echo "✅ Valid: $MESSAGE"
+            else
+              echo "❌ Invalid: $MESSAGE"
+              echo "   Expected format: type(scope): description"
+              echo "   Valid types: feat, fix, docs, style, refactor, perf, test, chore, build, ci"
+              FAILED=1
+            fi
+          done
+
+          if [ $FAILED -eq 1 ]; then
+            echo ""
+            echo "❌ Some commits do not follow conventional commits format."
+            echo "Please update your commit messages or squash commits."
+            echo ""
+            echo "Examples of valid commit messages:"
+            echo "  feat: add new UTXO selection algorithm"
+            echo "  fix(encoder): handle edge case in stamp encoding"
+            echo "  docs: update API documentation"
+            echo "  chore: bump dependencies"
+            exit 1
+          else
+            echo ""
+            echo "✅ All commits follow conventional commits format!"
+          fi
+
+  validate-package-structure:
+    name: Validate Package Structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate package.json structure
+        run: |
+          echo "Validating package.json structure..."
+
+          # Check required fields
+          node -e "
+            const pkg = require('./package.json');
+            const required = ['name', 'version', 'description', 'main', 'types', 'exports', 'files', 'scripts', 'keywords', 'author', 'license', 'repository'];
+
+            const missing = required.filter(field => !pkg[field]);
+            if (missing.length > 0) {
+              console.error('❌ Missing required fields:', missing.join(', '));
+              process.exit(1);
+            }
+
+            // Check publishConfig
+            if (!pkg.publishConfig || !pkg.publishConfig.access) {
+              console.error('❌ Missing publishConfig.access for npm publishing');
+              process.exit(1);
+            }
+
+            console.log('✅ package.json structure is valid');
+          "
+
+      - name: Validate deno.json structure
+        run: |
+          echo "Validating deno.json structure..."
+
+          node -e "
+            const deno = require('./deno.json');
+            const required = ['name', 'version', 'exports'];
+
+            const missing = required.filter(field => !deno[field]);
+            if (missing.length > 0) {
+              console.error('❌ Missing required fields:', missing.join(', '));
+              process.exit(1);
+            }
+
+            // Check publish config
+            if (!deno.publish) {
+              console.error('❌ Missing publish configuration for JSR');
+              process.exit(1);
+            }
+
+            console.log('✅ deno.json structure is valid');
+          "
+
+      - name: Check build configuration
+        run: |
+          # Verify build works
+          npm run build
+
+          # Check if dist files are created
+          if [ ! -d "dist" ]; then
+            echo "❌ Build did not create dist directory"
+            exit 1
+          fi
+
+          # Check if main entry points exist
+          if [ ! -f "dist/index.js" ] || [ ! -f "dist/index.d.ts" ]; then
+            echo "❌ Main entry points missing in dist/"
+            exit 1
+          fi
+
+          echo "✅ Build configuration is valid"

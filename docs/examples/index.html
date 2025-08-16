@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@btc-stamps/tx-builder - Bitcoin Transaction Builder</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+          sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f8f9fa;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      header {
+        background: white;
+        padding: 2rem 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+      }
+      .subtitle {
+        font-size: 1.2rem;
+        color: #718096;
+      }
+      .badges {
+        margin: 1.5rem 0;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: #4299e1;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: background 0.3s;
+      }
+      .badge:hover {
+        background: #3182ce;
+      }
+      .badge.npm {
+        background: #cb3837;
+      }
+      .badge.npm:hover {
+        background: #a82e2e;
+      }
+      .badge.jsr {
+        background: #f7b93e;
+        color: #333;
+      }
+      .badge.jsr:hover {
+        background: #f5a020;
+      }
+      .badge.github {
+        background: #24292e;
+      }
+      .badge.github:hover {
+        background: #1a1e22;
+      }
+
+      .section {
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        margin-bottom: 1.5rem;
+        color: #2c3e50;
+        font-size: 1.8rem;
+      }
+      .examples-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+      .example-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .example-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .example-card h3 {
+        color: #2d3748;
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+      }
+      .example-card p {
+        color: #718096;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+      }
+      .example-card a {
+        color: #4299e1;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .example-card a:hover {
+        text-decoration: underline;
+      }
+      .icon {
+        font-size: 1.5rem;
+        margin-right: 0.5rem;
+      }
+      @media (max-width: 768px) {
+        .container {
+          padding: 1rem;
+        }
+        h1 {
+          font-size: 2rem;
+        }
+        .examples-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>@btc-stamps/tx-builder</h1>
+        <p class="subtitle">
+          Comprehensive Bitcoin transaction builder with native Stamps and SRC-20 support
+        </p>
+
+        <div class="badges">
+          <a href="https://www.npmjs.com/package/@btc-stamps/tx-builder" class="badge npm"
+          >📦 npm</a>
+          <a href="https://jsr.io/@btc-stamps/tx-builder" class="badge jsr">🦕 JSR</a>
+          <a href="https://github.com/btc-stamps/tx-builder" class="badge github">🔗 GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <section class="section">
+        <h2>🚀 Quick Start</h2>
+        <p>
+          Install the package and start building Bitcoin transactions with built-in protection for
+          valuable assets.
+        </p>
+        <pre
+          style="background: #f7fafc; padding: 1rem; border-radius: 4px; overflow-x: auto"
+        >
+<code>npm install @btc-stamps/tx-builder
+
+# or for Deno
+import { BitcoinStampBuilder } from "jsr:@btc-stamps/tx-builder";</code>
+      </pre>
+      </section>
+
+      <section class="section">
+        <h2>📚 Examples</h2>
+        <div class="examples-grid">
+          <div class="example-card">
+            <h3><span class="icon">🖼️</span>Bitcoin Stamps</h3>
+            <p>
+              Create immutable digital artifacts using the Bitcoin Stamps protocol with automatic
+              UTXO selection.
+            </p>
+            <a href="https://github.com/btc-stamps/tx-builder/blob/main/examples/bitcoin-stamps.ts"
+            >View Example →</a>
+          </div>
+
+          <div class="example-card">
+            <h3><span class="icon">🪙</span>SRC-20 Tokens</h3>
+            <p>Deploy, mint, and transfer fungible tokens on Bitcoin using the SRC-20 standard.</p>
+            <a href="https://github.com/btc-stamps/tx-builder/blob/main/examples/src20-tokens.ts"
+            >View Example →</a>
+          </div>
+
+          <div class="example-card">
+            <h3><span class="icon">🛡️</span>UTXO Protection</h3>
+            <p>
+              Protect valuable UTXOs containing Ordinals, Inscriptions, and Stamps from accidental
+              spending.
+            </p>
+            <a
+              href="https://github.com/btc-stamps/tx-builder/blob/main/examples/utxo-selection-protected.ts"
+            >View Example →</a>
+          </div>
+
+          <div class="example-card">
+            <h3><span class="icon">⚡</span>UTXO Selection</h3>
+            <p>
+              Multiple selection algorithms including Branch & Bound for optimal transaction
+              construction.
+            </p>
+            <a href="https://github.com/btc-stamps/tx-builder/blob/main/examples/utxo-selection.ts"
+            >View Example →</a>
+          </div>
+
+          <div class="example-card">
+            <h3><span class="icon">🔍</span>Multi-Provider Detection</h3>
+            <p>
+              Configure multiple detection providers for maximum reliability in asset protection.
+            </p>
+            <a
+              href="https://github.com/btc-stamps/tx-builder/blob/main/examples/protection-multi-provider.ts"
+            >View Example →</a>
+          </div>
+
+          <div class="example-card">
+            <h3><span class="icon">⚙️</span>ElectrumX Configuration</h3>
+            <p>Zero-configuration with automatic public servers or custom enterprise setups.</p>
+            <a
+              href="https://github.com/btc-stamps/tx-builder/blob/main/examples/configuration-electrumx.ts"
+            >View Example →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>✨ Key Features</h2>
+        <ul style="list-style: none; padding: 0">
+          <li style="padding: 0.5rem 0">
+            ✅ <strong>Bitcoin Stamps</strong>: Complete protocol implementation with Counterparty
+            integration
+          </li>
+          <li style="padding: 0.5rem 0">
+            ✅ <strong>SRC-20 Tokens</strong>: Full lifecycle support (deploy, mint, transfer)
+          </li>
+          <li style="padding: 0.5rem 0">
+            ✅ <strong>UTXO Protection</strong>: Automatic detection and protection of valuable
+            assets
+          </li>
+          <li style="padding: 0.5rem 0">
+            ✅ <strong>Multiple Algorithms</strong>: 6 UTXO selection strategies for optimization
+          </li>
+          <li style="padding: 0.5rem 0">
+            ✅ <strong>Zero Configuration</strong>: Works out-of-the-box with reliable defaults
+          </li>
+          <li style="padding: 0.5rem 0">
+            ✅ <strong>TypeScript First</strong>: Full type safety and IntelliSense support
+          </li>
+          <li style="padding: 0.5rem 0">
+            ✅ <strong>Battle Tested</strong>: 1000+ tests with high coverage
+          </li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>

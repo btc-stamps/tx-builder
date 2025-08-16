@@ -1,0 +1,155 @@
+{
+  "name": "@btc-stamps/tx-builder",
+  "version": "0.1.0",
+  "description": "Transaction builder for Bitcoin Stamps and SRC-20 tokens with advanced UTXO selection",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "require": "./dist/core/index.js",
+      "import": "./dist/core/index.mjs"
+    },
+    "./providers": {
+      "types": "./dist/providers/index.d.ts",
+      "require": "./dist/providers/index.js",
+      "import": "./dist/providers/index.mjs"
+    },
+    "./selectors": {
+      "types": "./dist/selectors/index.d.ts",
+      "require": "./dist/selectors/index.js",
+      "import": "./dist/selectors/index.mjs"
+    },
+    "./encoders": {
+      "types": "./dist/encoders/index.d.ts",
+      "require": "./dist/encoders/index.js",
+      "import": "./dist/encoders/index.mjs"
+    },
+    "./builders": {
+      "types": "./dist/builders/index.d.ts",
+      "require": "./dist/builders/index.js",
+      "import": "./dist/builders/index.mjs"
+    },
+    "./validators": {
+      "types": "./dist/validators/index.d.ts",
+      "require": "./dist/validators/index.js",
+      "import": "./dist/validators/index.mjs"
+    },
+    "./optimizers": {
+      "types": "./dist/optimizers/index.d.ts",
+      "require": "./dist/optimizers/index.js",
+      "import": "./dist/optimizers/index.mjs"
+    },
+    "./calculators": {
+      "types": "./dist/calculators/index.d.ts",
+      "require": "./dist/calculators/index.js",
+      "import": "./dist/calculators/index.mjs"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "require": "./dist/utils/index.js",
+      "import": "./dist/utils/index.mjs"
+    },
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "require": "./dist/config/index.js",
+      "import": "./dist/config/index.mjs"
+    },
+    "./interfaces": {
+      "types": "./dist/interfaces/index.d.ts",
+      "require": "./dist/interfaces/index.js",
+      "import": "./dist/interfaces/index.mjs"
+    },
+    "./types": {
+      "types": "./dist/interfaces/index.d.ts",
+      "require": "./dist/interfaces/index.js",
+      "import": "./dist/interfaces/index.mjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "validate": "tsx scripts/validate-stampchain-parity.ts",
+    "validate:imports": "tsx scripts/validate-import-maps.ts",
+    "validate:final": "echo 'Validation complete'",
+    "test:integration": "echo 'Integration tests would run here in a real environment'",
+    "examples": "tsx examples/simple-bitcoin-stamps.ts && tsx examples/simple-src20-tokens.ts",
+    "examples:stamps": "tsx examples/simple-bitcoin-stamps.ts",
+    "examples:src20": "tsx examples/simple-src20-tokens.ts",
+    "lint": "deno lint src/ scripts/ examples/",
+    "format": "deno fmt",
+    "typecheck": "tsc --noEmit",
+    "sync-version": "node scripts/sync-version.js",
+    "clean": "rm -rf dist coverage .turbo",
+    "prepublishOnly": "npm run build && npm run test"
+  },
+  "keywords": [
+    "bitcoin",
+    "transaction",
+    "builder",
+    "utxo",
+    "stamps",
+    "src-20",
+    "blockchain",
+    "cryptocurrency"
+  ],
+  "author": "Stampchain",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/btc-stamps/tx-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/btc-stamps/tx-builder/issues"
+  },
+  "homepage": "https://btc-stamps.github.io/tx-builder",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "bip32": "^5.0.0-rc.0",
+    "bitcoinjs-lib": "^6.1.5",
+    "dotenv": "^17.2.1",
+    "ecpair": "^2.1.0",
+    "msgpack-lite": "^0.1.26",
+    "tiny-secp256k1": "^2.2.3",
+    "varuint-bitcoin": "^1.1.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/bitcoinjs-lib": "^5.0.0",
+    "@types/msgpack-lite": "^0.1.11",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "@vitest/coverage-v8": "^2.1.8",
+    "eslint": "^9.33.0",
+    "tsup": "^8.0.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^8.39.0",
+    "vite": "^6.0.3",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

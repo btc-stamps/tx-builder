@@ -1,0 +1,35 @@
+# Deno ignore file
+# This ensures deno commands don't traverse into these directories
+
+node_modules/
+dist/
+coverage/
+tests/
+test/
+test-fixtures/
+debug-scripts/
+.git/
+.github/
+.vscode/
+
+# Note: examples/ and scripts/ are kept for JSR publishing
+
+# Config files
+*.config.ts
+*.config.mts
+*.config.js
+*.config.mjs
+vitest.config.mts
+tsup.config.ts
+eslint.config.js
+.eslintrc.js
+
+# Build outputs
+*.d.ts.map
+*.js.map
+*.tsbuildinfo
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

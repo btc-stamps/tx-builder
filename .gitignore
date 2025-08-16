@@ -1,0 +1,117 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+*.lcov
+stamp-validation-results.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.*.local
+
+# Local configuration
+.tx-builder.json
+tx-builder.config.json
+
+# But keep examples
+!.env.example
+!examples/tx-builder.config.json
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# Cache
+.cache/
+.turbo/
+.parcel-cache/
+
+# OS
+Thumbs.db
+desktop.ini
+
+logs
+dev-debug.log
+# Dependency directories
+# Environment variables
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# OS specific
+
+# Task files
+# tasks.json
+# tasks/ 
+
+# Documentation and example archives (keep public docs but exclude development archives)
+docs/archive/
+examples/archive/
+
+# Development artifacts and temporary files
+.claude-activity.log
+test-failures.log
+test-results.json
+test-whitelist.json
+temp/
+test-fixtures/
+test-results/
+
+# Large source maps (already in dist/ but being explicit)
+*.js.map
+*.mjs.map
+
+# Debug and temporary scripts
+debug-scripts/
+debug-sc/
+# But keep the README for reference
+!debug-scripts/README.md
+
+# Release artifacts
+*.tgz
+release_notes.md
+.release/
+.publish/
+
+# Version management
+.version-backup
+version-*.json
+
+# Publishing temp files
+.npm-publish/
+.jsr-publish/
+publish-*.log
+
+# Temporary launch files (remove after initial publish)
+LAUNCH_NOW.md

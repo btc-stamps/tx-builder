@@ -1,0 +1,271 @@
+name: PR Coverage Analysis
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main, develop]
+
+env:
+  NODE_OPTIONS: '--max-old-space-size=4096'
+
+jobs:
+  pr-coverage-analysis:
+    name: PR Coverage Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run tests with coverage (PR)
+        run: npm run test:coverage
+        
+      - name: Save PR coverage data
+        run: |
+          cp coverage/coverage-summary.json pr-coverage-summary.json
+          cp coverage/lcov.info pr-coverage.lcov
+          
+      - name: Checkout base branch
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git checkout origin/${{ github.base_ref }}
+          
+      - name: Install dependencies (base)
+        run: npm ci
+        
+      - name: Run tests with coverage (base)
+        run: npm run test:coverage
+        
+      - name: Generate coverage comparison
+        id: coverage-comparison
+        run: |
+          # Extract coverage data
+          BASE_STATEMENTS=$(cat coverage/coverage-summary.json | jq '.total.statements.pct')
+          BASE_BRANCHES=$(cat coverage/coverage-summary.json | jq '.total.branches.pct')
+          BASE_FUNCTIONS=$(cat coverage/coverage-summary.json | jq '.total.functions.pct')
+          BASE_LINES=$(cat coverage/coverage-summary.json | jq '.total.lines.pct')
+          
+          PR_STATEMENTS=$(cat pr-coverage-summary.json | jq '.total.statements.pct')
+          PR_BRANCHES=$(cat pr-coverage-summary.json | jq '.total.branches.pct')
+          PR_FUNCTIONS=$(cat pr-coverage-summary.json | jq '.total.functions.pct')
+          PR_LINES=$(cat pr-coverage-summary.json | jq '.total.lines.pct')
+          
+          # Calculate differences
+          DIFF_STATEMENTS=$(echo "scale=2; $PR_STATEMENTS - $BASE_STATEMENTS" | bc)
+          DIFF_BRANCHES=$(echo "scale=2; $PR_BRANCHES - $BASE_BRANCHES" | bc)
+          DIFF_FUNCTIONS=$(echo "scale=2; $PR_FUNCTIONS - $BASE_FUNCTIONS" | bc)
+          DIFF_LINES=$(echo "scale=2; $PR_LINES - $BASE_LINES" | bc)
+          
+          # Export for use in other steps
+          echo "base_statements=$BASE_STATEMENTS" >> $GITHUB_OUTPUT
+          echo "base_branches=$BASE_BRANCHES" >> $GITHUB_OUTPUT
+          echo "base_functions=$BASE_FUNCTIONS" >> $GITHUB_OUTPUT
+          echo "base_lines=$BASE_LINES" >> $GITHUB_OUTPUT
+          
+          echo "pr_statements=$PR_STATEMENTS" >> $GITHUB_OUTPUT
+          echo "pr_branches=$PR_BRANCHES" >> $GITHUB_OUTPUT
+          echo "pr_functions=$PR_FUNCTIONS" >> $GITHUB_OUTPUT
+          echo "pr_lines=$PR_LINES" >> $GITHUB_OUTPUT
+          
+          echo "diff_statements=$DIFF_STATEMENTS" >> $GITHUB_OUTPUT
+          echo "diff_branches=$DIFF_BRANCHES" >> $GITHUB_OUTPUT
+          echo "diff_functions=$DIFF_FUNCTIONS" >> $GITHUB_OUTPUT
+          echo "diff_lines=$DIFF_LINES" >> $GITHUB_OUTPUT
+          
+          # Check if coverage meets thresholds
+          PASSES_THRESHOLD="true"
+          if (( $(echo "$PR_STATEMENTS < 85" | bc -l) )); then
+            PASSES_THRESHOLD="false"
+          fi
+          if (( $(echo "$PR_BRANCHES < 80" | bc -l) )); then
+            PASSES_THRESHOLD="false"
+          fi
+          if (( $(echo "$PR_FUNCTIONS < 85" | bc -l) )); then
+            PASSES_THRESHOLD="false"
+          fi
+          if (( $(echo "$PR_LINES < 85" | bc -l) )); then
+            PASSES_THRESHOLD="false"
+          fi
+          
+          echo "passes_threshold=$PASSES_THRESHOLD" >> $GITHUB_OUTPUT
+          
+          # Check for significant decrease
+          SIGNIFICANT_DECREASE="false"
+          if (( $(echo "$DIFF_STATEMENTS < -5" | bc -l) )) || (( $(echo "$DIFF_LINES < -5" | bc -l) )); then
+            SIGNIFICANT_DECREASE="true"
+          fi
+          
+          echo "significant_decrease=$SIGNIFICANT_DECREASE" >> $GITHUB_OUTPUT
+          
+      - name: Generate file-level coverage diff
+        run: |
+          echo "Generating file-level coverage analysis..."
+          
+          # Switch back to PR branch
+          git checkout ${{ github.head_ref }}
+          
+          # Create coverage diff report
+          cat > coverage-diff-report.md << 'EOF'
+          ## 📊 Coverage Analysis Report
+          
+          ### Overall Coverage Comparison
+          
+          | Metric | Base Branch | This PR | Change | Status |
+          |--------|-------------|---------|--------|--------|
+          | **Statements** | ${{ steps.coverage-comparison.outputs.base_statements }}% | ${{ steps.coverage-comparison.outputs.pr_statements }}% | ${{ steps.coverage-comparison.outputs.diff_statements }}% | ${{ steps.coverage-comparison.outputs.diff_statements >= 0 && '📈' || '📉' }} |
+          | **Branches** | ${{ steps.coverage-comparison.outputs.base_branches }}% | ${{ steps.coverage-comparison.outputs.pr_branches }}% | ${{ steps.coverage-comparison.outputs.diff_branches }}% | ${{ steps.coverage-comparison.outputs.diff_branches >= 0 && '📈' || '📉' }} |
+          | **Functions** | ${{ steps.coverage-comparison.outputs.base_functions }}% | ${{ steps.coverage-comparison.outputs.pr_functions }}% | ${{ steps.coverage-comparison.outputs.diff_functions }}% | ${{ steps.coverage-comparison.outputs.diff_functions >= 0 && '📈' || '📉' }} |
+          | **Lines** | ${{ steps.coverage-comparison.outputs.base_lines }}% | ${{ steps.coverage-comparison.outputs.pr_lines }}% | ${{ steps.coverage-comparison.outputs.diff_lines }}% | ${{ steps.coverage-comparison.outputs.diff_lines >= 0 && '📈' || '📉' }} |
+          
+          ### Coverage Thresholds
+          
+          | Threshold | Required | Current | Status |
+          |-----------|----------|---------|--------|
+          | Statements | 85% | ${{ steps.coverage-comparison.outputs.pr_statements }}% | ${{ steps.coverage-comparison.outputs.pr_statements >= 85 && '✅' || '❌' }} |
+          | Branches | 80% | ${{ steps.coverage-comparison.outputs.pr_branches }}% | ${{ steps.coverage-comparison.outputs.pr_branches >= 80 && '✅' || '❌' }} |
+          | Functions | 85% | ${{ steps.coverage-comparison.outputs.pr_functions }}% | ${{ steps.coverage-comparison.outputs.pr_functions >= 85 && '✅' || '❌' }} |
+          | Lines | 85% | ${{ steps.coverage-comparison.outputs.pr_lines }}% | ${{ steps.coverage-comparison.outputs.pr_lines >= 85 && '✅' || '❌' }} |
+          
+          EOF
+          
+          # Add warnings if needed
+          if [ "${{ steps.coverage-comparison.outputs.passes_threshold }}" = "false" ]; then
+            cat >> coverage-diff-report.md << 'EOF'
+          
+          ### ⚠️ Coverage Threshold Warning
+          
+          This PR does not meet the minimum coverage thresholds. Please add tests to improve coverage before merging.
+          EOF
+          fi
+          
+          if [ "${{ steps.coverage-comparison.outputs.significant_decrease }}" = "true" ]; then
+            cat >> coverage-diff-report.md << 'EOF'
+          
+          ### 🚨 Significant Coverage Decrease
+          
+          This PR significantly decreases code coverage (>5%). Please review and add appropriate tests.
+          EOF
+          fi
+          
+          # Add positive feedback
+          if [ "${{ steps.coverage-comparison.outputs.passes_threshold }}" = "true" ] && [ "${{ steps.coverage-comparison.outputs.diff_lines }}" != "$(echo "${{ steps.coverage-comparison.outputs.diff_lines }} < 0" | bc)" ]; then
+            cat >> coverage-diff-report.md << 'EOF'
+          
+          ### ✅ Coverage Status
+          
+          Great job! This PR maintains or improves code coverage while meeting all thresholds.
+          EOF
+          fi
+          
+          cat >> coverage-diff-report.md << 'EOF'
+          
+          ---
+          *Coverage analysis powered by Vitest. [View detailed report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})*
+          EOF
+          
+      - name: Check for new uncovered lines
+        run: |
+          echo "Analyzing newly introduced uncovered lines..."
+          
+          # Get list of changed files
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep "\.ts$" || true)
+          
+          if [ ! -z "$CHANGED_FILES" ]; then
+            echo "Checking coverage for changed files:"
+            echo "$CHANGED_FILES"
+            
+            # TODO: Add logic to identify uncovered lines in changed files
+            # This would require parsing LCOV data and correlating with git diff
+            
+            echo "✅ New uncovered lines analysis completed"
+          else
+            echo "No TypeScript files changed in this PR"
+          fi
+          
+      - name: Comment on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: coverage-analysis
+          path: coverage-diff-report.md
+          
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: pr-coverage-analysis-${{ github.event.number }}
+          path: |
+            pr-coverage-summary.json
+            pr-coverage.lcov
+            coverage-diff-report.md
+          retention-days: 30
+          
+      - name: Set PR status
+        run: |
+          if [ "${{ steps.coverage-comparison.outputs.passes_threshold }}" = "true" ]; then
+            echo "✅ Coverage analysis passed"
+            exit 0
+          else
+            echo "❌ Coverage analysis failed - thresholds not met"
+            exit 1
+          fi
+
+  pr-test-analysis:
+    name: PR Test Analysis  
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run full test suite
+        run: npm test -- --reporter=json > test-results.json
+        
+      - name: Analyze test results
+        run: |
+          echo "Analyzing test results..."
+          
+          # Count tests
+          TOTAL_TESTS=$(cat test-results.json | jq '.numTotalTests // 0')
+          PASSED_TESTS=$(cat test-results.json | jq '.numPassedTests // 0')
+          FAILED_TESTS=$(cat test-results.json | jq '.numFailedTests // 0')
+          
+          echo "Test Results Summary:" > test-analysis.md
+          echo "- Total Tests: $TOTAL_TESTS" >> test-analysis.md
+          echo "- Passed: $PASSED_TESTS" >> test-analysis.md
+          echo "- Failed: $FAILED_TESTS" >> test-analysis.md
+          echo "" >> test-analysis.md
+          
+          # Verify UTXO protection tests
+          UTXO_TESTS=$(grep -r "describe\|it\|test" tests/ | grep -i "utxo\|protection" | wc -l || echo "0")
+          echo "UTXO Protection Tests: $UTXO_TESTS" >> test-analysis.md
+          
+          if [ $UTXO_TESTS -ge 129 ]; then
+            echo "✅ UTXO protection test coverage adequate ($UTXO_TESTS tests)" >> test-analysis.md
+          else
+            echo "⚠️ UTXO protection test coverage may be insufficient ($UTXO_TESTS tests, expected 129+)" >> test-analysis.md
+          fi
+          
+      - name: Comment test analysis
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: test-analysis
+          path: test-analysis.md

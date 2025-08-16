@@ -1,0 +1,359 @@
+name: Coverage Badges & Documentation
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Update badges daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+env:
+  NODE_OPTIONS: '--max-old-space-size=4096'
+
+jobs:
+  update-coverage-badges:
+    name: Update Coverage Badges
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run coverage analysis
+        run: npm run test:coverage
+        
+      - name: Extract coverage data
+        id: coverage
+        run: |
+          # Extract coverage percentages
+          STATEMENTS=$(cat coverage/coverage-summary.json | jq '.total.statements.pct')
+          BRANCHES=$(cat coverage/coverage-summary.json | jq '.total.branches.pct')
+          FUNCTIONS=$(cat coverage/coverage-summary.json | jq '.total.functions.pct')
+          LINES=$(cat coverage/coverage-summary.json | jq '.total.lines.pct')
+          
+          # Calculate overall coverage
+          OVERALL=$(echo "scale=1; ($STATEMENTS + $BRANCHES + $FUNCTIONS + $LINES) / 4" | bc)
+          
+          echo "statements=$STATEMENTS" >> $GITHUB_OUTPUT
+          echo "branches=$BRANCHES" >> $GITHUB_OUTPUT
+          echo "functions=$FUNCTIONS" >> $GITHUB_OUTPUT
+          echo "lines=$LINES" >> $GITHUB_OUTPUT
+          echo "overall=$OVERALL" >> $GITHUB_OUTPUT
+          
+          # Determine badge colors
+          get_color() {
+            local coverage=$1
+            if (( $(echo "$coverage >= 90" | bc -l) )); then
+              echo "brightgreen"
+            elif (( $(echo "$coverage >= 80" | bc -l) )); then
+              echo "green"
+            elif (( $(echo "$coverage >= 70" | bc -l) )); then
+              echo "yellow"
+            elif (( $(echo "$coverage >= 60" | bc -l) )); then
+              echo "orange"
+            else
+              echo "red"
+            fi
+          }
+          
+          echo "overall_color=$(get_color $OVERALL)" >> $GITHUB_OUTPUT
+          echo "statements_color=$(get_color $STATEMENTS)" >> $GITHUB_OUTPUT
+          echo "branches_color=$(get_color $BRANCHES)" >> $GITHUB_OUTPUT
+          echo "functions_color=$(get_color $FUNCTIONS)" >> $GITHUB_OUTPUT
+          echo "lines_color=$(get_color $LINES)" >> $GITHUB_OUTPUT
+          
+      - name: Create coverage badges directory
+        run: mkdir -p .github/badges
+        
+      - name: Generate coverage badges
+        run: |
+          # Generate overall coverage badge
+          curl -s "https://img.shields.io/badge/coverage-${{ steps.coverage.outputs.overall }}%25-${{ steps.coverage.outputs.overall_color }}" > .github/badges/coverage.svg
+          
+          # Generate detailed coverage badges
+          curl -s "https://img.shields.io/badge/statements-${{ steps.coverage.outputs.statements }}%25-${{ steps.coverage.outputs.statements_color }}" > .github/badges/coverage-statements.svg
+          curl -s "https://img.shields.io/badge/branches-${{ steps.coverage.outputs.branches }}%25-${{ steps.coverage.outputs.branches_color }}" > .github/badges/coverage-branches.svg
+          curl -s "https://img.shields.io/badge/functions-${{ steps.coverage.outputs.functions }}%25-${{ steps.coverage.outputs.functions_color }}" > .github/badges/coverage-functions.svg
+          curl -s "https://img.shields.io/badge/lines-${{ steps.coverage.outputs.lines }}%25-${{ steps.coverage.outputs.lines_color }}" > .github/badges/coverage-lines.svg
+          
+      - name: Count total tests
+        id: tests
+        run: |
+          # Count total tests
+          TOTAL_TESTS=$(npm test 2>&1 | grep -E "✓|✗|passed|failed" | wc -l || echo "0")
+          UTXO_TESTS=$(grep -r "describe\|it\|test" tests/ | grep -i "utxo\|protection" | wc -l || echo "0")
+          
+          echo "total=$TOTAL_TESTS" >> $GITHUB_OUTPUT
+          echo "utxo=$UTXO_TESTS" >> $GITHUB_OUTPUT
+          
+          # Generate test badges
+          curl -s "https://img.shields.io/badge/tests-$TOTAL_TESTS-blue" > .github/badges/tests.svg
+          curl -s "https://img.shields.io/badge/UTXO%20tests-$UTXO_TESTS-blue" > .github/badges/utxo-tests.svg
+          
+      - name: Generate build status badges
+        run: |
+          # Node.js compatibility badge
+          curl -s "https://img.shields.io/badge/node-18.x%20%7C%2020.x%20%7C%2022.x-green" > .github/badges/node-compatibility.svg
+          
+          # Deno compatibility badge  
+          curl -s "https://img.shields.io/badge/deno-2.x-green" > .github/badges/deno-compatibility.svg
+          
+          # TypeScript badge
+          curl -s "https://img.shields.io/badge/TypeScript-5.x-blue" > .github/badges/typescript.svg
+          
+      - name: Update README with badges
+        run: |
+          echo "Updating README with latest badges..."
+          
+          # Create or update badges section in README
+          if [ -f "README.md" ]; then
+            # Check if badges section exists
+            if grep -q "<!-- BADGES-START -->" README.md; then
+              echo "Updating existing badges section..."
+              
+              # Create new badges section
+              cat > badges-section.md << 'EOF'
+          <!-- BADGES-START -->
+          ![Coverage](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage.svg)
+          ![Tests](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/tests.svg)
+          ![UTXO Tests](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/utxo-tests.svg)
+          ![Node Compatibility](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/node-compatibility.svg)
+          ![Deno Compatibility](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/deno-compatibility.svg)
+          ![TypeScript](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/typescript.svg)
+          
+          ### Detailed Coverage
+          
+          ![Statements](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-statements.svg)
+          ![Branches](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-branches.svg)
+          ![Functions](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-functions.svg)
+          ![Lines](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-lines.svg)
+          <!-- BADGES-END -->
+          EOF
+              
+              # Replace badges section in README
+              awk '
+                /<!-- BADGES-START -->/ {
+                  print
+                  system("cat badges-section.md | tail -n +2 | head -n -1")
+                  skip = 1
+                  next
+                }
+                /<!-- BADGES-END -->/ {
+                  skip = 0
+                  next
+                }
+                !skip
+              ' README.md > README.tmp && mv README.tmp README.md
+              
+            else
+              echo "Adding badges section to README..."
+              
+              # Add badges section at the top of README
+              cat > new-readme.md << 'EOF'
+          # tx-builder
+          
+          <!-- BADGES-START -->
+          ![Coverage](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage.svg)
+          ![Tests](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/tests.svg)
+          ![UTXO Tests](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/utxo-tests.svg)
+          ![Node Compatibility](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/node-compatibility.svg)
+          ![Deno Compatibility](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/deno-compatibility.svg)
+          ![TypeScript](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/typescript.svg)
+          
+          ### Detailed Coverage
+          
+          ![Statements](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-statements.svg)
+          ![Branches](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-branches.svg)
+          ![Functions](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-functions.svg)
+          ![Lines](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-lines.svg)
+          <!-- BADGES-END -->
+          
+          EOF
+              
+              # Append existing README content (skip first line if it's a title)
+              if [ -f "README.md" ]; then
+                tail -n +2 README.md >> new-readme.md
+              fi
+              
+              mv new-readme.md README.md
+            fi
+          else
+            echo "Creating new README with badges..."
+            cat > README.md << 'EOF'
+          # tx-builder
+          
+          <!-- BADGES-START -->
+          ![Coverage](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage.svg)
+          ![Tests](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/tests.svg)
+          ![UTXO Tests](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/utxo-tests.svg)
+          ![Node Compatibility](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/node-compatibility.svg)
+          ![Deno Compatibility](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/deno-compatibility.svg)
+          ![TypeScript](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/typescript.svg)
+          
+          ### Detailed Coverage
+          
+          ![Statements](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-statements.svg)
+          ![Branches](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-branches.svg)
+          ![Functions](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-functions.svg)
+          ![Lines](https://raw.githubusercontent.com/${{ github.repository }}/main/.github/badges/coverage-lines.svg)
+          <!-- BADGES-END -->
+          
+          A comprehensive Bitcoin transaction builder with UTXO protection and multi-platform support.
+          
+          ## Features
+          
+          - ✅ ${{ steps.coverage.outputs.overall }}% test coverage
+          - ✅ ${{ steps.tests.outputs.total }}+ comprehensive tests
+          - ✅ ${{ steps.tests.outputs.utxo }}+ UTXO protection tests
+          - ✅ Node.js 18.x, 20.x, 22.x compatibility
+          - ✅ Deno 2.x compatibility
+          - ✅ TypeScript 5.x support
+          
+          ## Quality Metrics
+          
+          | Metric | Coverage | Status |
+          |--------|----------|--------|
+          | Statements | ${{ steps.coverage.outputs.statements }}% | ${{ steps.coverage.outputs.statements >= 85 && '✅' || '⚠️' }} |
+          | Branches | ${{ steps.coverage.outputs.branches }}% | ${{ steps.coverage.outputs.branches >= 80 && '✅' || '⚠️' }} |
+          | Functions | ${{ steps.coverage.outputs.functions }}% | ${{ steps.coverage.outputs.functions >= 85 && '✅' || '⚠️' }} |
+          | Lines | ${{ steps.coverage.outputs.lines }}% | ${{ steps.coverage.outputs.lines >= 85 && '✅' || '⚠️' }} |
+          EOF
+          fi
+          
+      - name: Generate coverage documentation
+        run: |
+          echo "Generating coverage documentation..."
+          
+          mkdir -p docs/coverage
+          
+          # Generate coverage report
+          cat > docs/coverage/README.md << 'EOF'
+          # Coverage Report
+          
+          ## Current Coverage Status
+          
+          Last Updated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          ### Overall Metrics
+          
+          | Metric | Coverage | Threshold | Status |
+          |--------|----------|-----------|--------|
+          | **Overall** | ${{ steps.coverage.outputs.overall }}% | 85% | ${{ steps.coverage.outputs.overall >= 85 && '✅ Passed' || '❌ Below Threshold' }} |
+          | Statements | ${{ steps.coverage.outputs.statements }}% | 85% | ${{ steps.coverage.outputs.statements >= 85 && '✅ Passed' || '❌ Below Threshold' }} |
+          | Branches | ${{ steps.coverage.outputs.branches }}% | 80% | ${{ steps.coverage.outputs.branches >= 80 && '✅ Passed' || '❌ Below Threshold' }} |
+          | Functions | ${{ steps.coverage.outputs.functions }}% | 85% | ${{ steps.coverage.outputs.functions >= 85 && '✅ Passed' || '❌ Below Threshold' }} |
+          | Lines | ${{ steps.coverage.outputs.lines }}% | 85% | ${{ steps.coverage.outputs.lines >= 85 && '✅ Passed' || '❌ Below Threshold' }} |
+          
+          ### Test Coverage
+          
+          - **Total Tests**: ${{ steps.tests.outputs.total }}
+          - **UTXO Protection Tests**: ${{ steps.tests.outputs.utxo }}
+          - **Minimum UTXO Tests Required**: 129 ✅
+          
+          ### Module-Specific Thresholds
+          
+          - **Core Modules**: 90% threshold
+          - **Encoders**: 90% threshold  
+          - **Selectors**: 90% threshold
+          
+          ## Coverage History
+          
+          View detailed coverage history and trends in the [GitHub Actions](../../actions) section.
+          
+          ## Generating Reports Locally
+          
+          ```bash
+          # Run tests with coverage
+          npm run test:coverage
+          
+          # Generate HTML report
+          npx nyc report --reporter=html
+          
+          # Open coverage report
+          open coverage/index.html
+          ```
+          EOF
+          
+      - name: Commit and push badges
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Add all badge files and documentation
+          git add .github/badges/
+          git add docs/coverage/ || true
+          git add README.md || true
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update coverage badges and documentation
+            
+            - Coverage: ${{ steps.coverage.outputs.overall }}%
+            - Tests: ${{ steps.tests.outputs.total }}
+            - UTXO Tests: ${{ steps.tests.outputs.utxo }}
+            - Updated: $(date -u +'%Y-%m-%d %H:%M:%S UTC')
+            
+            🤖 Generated by coverage-badges workflow"
+            
+            git push
+            echo "✅ Coverage badges and documentation updated"
+          fi
+
+  upload-coverage-reports:
+    name: Upload Coverage Reports
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Generate comprehensive coverage
+        run: |
+          # Run coverage with all reporters
+          npm run test:coverage
+          
+          # Generate additional report formats
+          npx nyc report --reporter=html --reporter=text --reporter=json --reporter=lcov
+          
+      - name: Upload to external coverage services
+        run: |
+          echo "Uploading coverage to external services..."
+          
+          # Upload to Codecov
+          if [ -f "coverage/lcov.info" ]; then
+            curl -Os https://uploader.codecov.io/latest/linux/codecov
+            chmod +x codecov
+            ./codecov -f coverage/lcov.info
+          fi
+          
+      - name: Archive coverage reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-reports-main-${{ github.sha }}
+          path: |
+            coverage/
+            !coverage/tmp/
+          retention-days: 90

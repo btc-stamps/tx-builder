@@ -1,0 +1,304 @@
+name: Quality Gates
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  NODE_OPTIONS: '--max-old-space-size=4096'
+
+jobs:
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run npm audit
+        run: |
+          echo "Running npm security audit..."
+          npm audit --audit-level=moderate
+          
+      - name: Check for known vulnerabilities
+        run: |
+          echo "Checking for known vulnerabilities..."
+          npm audit --parseable | wc -l
+          
+      - name: Dependency review
+        if: github.event_name == 'pull_request'
+        uses: actions/dependency-review-action@v3
+        with:
+          fail-on-severity: moderate
+
+  typescript-check:
+    name: TypeScript Quality Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v2.x
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Validate import maps
+        run: npm run validate:imports
+        
+      - name: TypeScript strict check
+        run: |
+          echo "Running TypeScript strict compilation check..."
+          npx tsc --noEmit --strict
+          
+      - name: Deno type check
+        run: |
+          echo "Running Deno type check..."
+          deno check src/**/*.ts
+          
+      - name: Check for type errors
+        run: |
+          echo "Checking for TypeScript errors in source files..."
+          find src -name "*.ts" -exec deno check {} \;
+
+  lint-check:
+    name: Linting & Code Style
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v2.x
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: ESLint check
+        run: |
+          echo "Running ESLint with strict error checking..."
+          npm run lint
+          
+      - name: Deno lint check
+        run: |
+          echo "Running Deno lint..."
+          deno lint
+          
+      - name: Format check
+        run: |
+          echo "Checking code formatting..."
+          deno fmt --check
+          
+      - name: Check for TODO/FIXME comments
+        run: |
+          echo "Checking for TODO/FIXME comments..."
+          TODO_COUNT=$(grep -r "TODO\|FIXME" src/ || true | wc -l)
+          echo "Found $TODO_COUNT TODO/FIXME comments"
+          
+          if [ $TODO_COUNT -gt 10 ]; then
+            echo "❌ Too many TODO/FIXME comments ($TODO_COUNT). Consider addressing some before merge."
+            exit 1
+          fi
+          
+      - name: Check file naming conventions
+        run: |
+          echo "Checking file naming conventions..."
+          # Check for kebab-case in file names
+          INVALID_FILES=$(find src -name "*.ts" | grep -E "[A-Z]" || true)
+          if [ ! -z "$INVALID_FILES" ]; then
+            echo "❌ Files should use kebab-case naming:"
+            echo "$INVALID_FILES"
+            exit 1
+          fi
+          echo "✅ File naming conventions are correct"
+
+  performance-check:
+    name: Performance Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build performance check
+        run: |
+          echo "Checking build performance..."
+          time npm run build
+          
+      - name: Bundle size analysis
+        run: |
+          echo "Analyzing bundle size..."
+          npm run build
+          
+          # Check if dist directory exists and analyze sizes
+          if [ -d "dist" ]; then
+            echo "Bundle sizes:"
+            du -sh dist/*
+            
+            # Check for large files (>1MB)
+            LARGE_FILES=$(find dist -size +1M)
+            if [ ! -z "$LARGE_FILES" ]; then
+              echo "⚠️ Large bundle files detected (>1MB):"
+              echo "$LARGE_FILES"
+            fi
+          fi
+          
+      - name: Test performance
+        run: |
+          echo "Running performance tests..."
+          time npm test
+          
+      - name: Memory usage check
+        run: |
+          echo "Checking memory usage during tests..."
+          # Run tests with memory monitoring
+          timeout 300 bash -c 'while true; do ps aux | grep node | grep -v grep; sleep 5; done' &
+          npm test
+          kill %1 || true
+
+  code-quality-metrics:
+    name: Code Quality Metrics
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Code complexity analysis
+        run: |
+          echo "Analyzing code complexity..."
+          
+          # Install complexity analysis tools
+          npm install -g plato jscpd
+          
+          # Generate complexity report
+          npx plato -r -d complexity-report src/
+          
+          # Check for code duplication
+          echo "Checking for code duplication..."
+          npx jscpd src/ --threshold 10 --reporters console
+          
+      - name: Line count analysis
+        run: |
+          echo "Code statistics:"
+          echo "Total TypeScript files: $(find src -name "*.ts" | wc -l)"
+          echo "Total lines of code: $(find src -name "*.ts" -exec cat {} \; | wc -l)"
+          echo "Total lines (excluding comments): $(find src -name "*.ts" -exec grep -v "^\s*\/\/" {} \; | wc -l)"
+          
+          # Check for very large files
+          echo "Large files (>500 lines):"
+          find src -name "*.ts" -exec wc -l {} \; | awk '$1 > 500 {print $0}' || echo "No large files found"
+          
+      - name: Documentation coverage
+        run: |
+          echo "Checking documentation coverage..."
+          
+          # Count documented functions/classes
+          TOTAL_FUNCTIONS=$(grep -r "function\|class\|interface\|type\|const.*=" src/ | wc -l)
+          DOCUMENTED_FUNCTIONS=$(grep -B1 -r "function\|class\|interface\|type\|const.*=" src/ | grep "\/\*\*\|\/\/" | wc -l)
+          
+          if [ $TOTAL_FUNCTIONS -gt 0 ]; then
+            DOC_PERCENTAGE=$(echo "scale=2; $DOCUMENTED_FUNCTIONS * 100 / $TOTAL_FUNCTIONS" | bc)
+            echo "Documentation coverage: $DOC_PERCENTAGE%"
+            
+            if (( $(echo "$DOC_PERCENTAGE < 70" | bc -l) )); then
+              echo "⚠️ Documentation coverage below 70%"
+            fi
+          fi
+          
+      - name: Upload quality reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: quality-reports-${{ github.sha }}
+          path: |
+            complexity-report/
+          retention-days: 30
+
+  final-quality-gate:
+    name: Final Quality Gate
+    runs-on: ubuntu-latest
+    needs: [security-scan, typescript-check, lint-check, performance-check, code-quality-metrics]
+    
+    steps:
+      - name: Quality gate summary
+        run: |
+          echo "🎯 Quality Gate Summary"
+          echo "======================"
+          echo "✅ Security scanning passed"
+          echo "✅ TypeScript type checking passed"
+          echo "✅ Code linting and formatting passed"
+          echo "✅ Performance analysis completed"
+          echo "✅ Code quality metrics analyzed"
+          echo ""
+          echo "🚀 All quality gates passed! Code is ready for integration."
+          
+      - name: Set quality status
+        run: |
+          echo "QUALITY_GATE_STATUS=passed" >> $GITHUB_ENV
+          
+      - name: Report to PR
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: quality-gate
+          message: |
+            ## 🎯 Quality Gate Results
+            
+            | Check | Status |
+            |-------|--------|
+            | Security Scan | ✅ Passed |
+            | TypeScript Check | ✅ Passed |
+            | Linting & Style | ✅ Passed |
+            | Performance | ✅ Passed |
+            | Code Quality | ✅ Passed |
+            
+            **Overall Status**: ✅ **PASSED** - All quality gates met!

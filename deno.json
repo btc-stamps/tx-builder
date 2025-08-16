@@ -1,0 +1,135 @@
+{
+  "name": "@btc-stamps/tx-builder",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/core/index.ts",
+    "./providers": "./src/providers/index.ts",
+    "./selectors": "./src/selectors/index.ts",
+    "./encoders": "./src/encoders/index.ts"
+  },
+  "tasks": {
+    "test": "npm test",
+    "test:watch": "npm run test:watch",
+    "test:coverage": "npm run test:coverage",
+    "dev:test": "npm run test:watch",
+    "lint": "deno lint src/",
+    "fmt": "deno fmt",
+    "fmt:check": "deno fmt --check",
+    "type-check": "deno check src/index.ts",
+    "check": "deno check src/index.ts",
+    "check:all": "deno check src/**/*.ts",
+    "check:full": "deno check src/**/*.ts && npx tsc --noEmit && npx tsc --project tsconfig.test.json --noEmit",
+    "publish:check": "deno publish --dry-run",
+    "bundle": "deno bundle src/index.ts dist/bundle.js"
+  },
+  "imports": {
+    "@btc-stamps/types": "../types/lib/types/mod.ts",
+    "@std/": "https://deno.land/std@0.210.0/",
+    "@std/testing": "https://deno.land/std@0.210.0/testing/mod.ts",
+    "@std/assert": "https://deno.land/std@0.210.0/assert/mod.ts",
+    "bitcoinjs-lib": "npm:bitcoinjs-lib@^6.1.5",
+    "ecpair": "npm:ecpair@^2.1.0",
+    "tiny-secp256k1": "npm:tiny-secp256k1@^2.2.3",
+    "varuint-bitcoin": "npm:varuint-bitcoin@^1.1.2",
+    "@btc-stamps/tx-builder": "./src/index.ts",
+    "@btc-stamps/tx-builder/": "./src/",
+    "@btc-stamps/tx-builder/core": "./src/core/index.ts",
+    "@btc-stamps/tx-builder/providers": "./src/providers/index.ts",
+    "@btc-stamps/tx-builder/selectors": "./src/selectors/index.ts",
+    "@btc-stamps/tx-builder/encoders": "./src/encoders/index.ts",
+    "@btc-stamps/tx-builder/builders": "./src/builders/index.ts",
+    "@btc-stamps/tx-builder/validators": "./src/validators/index.ts",
+    "@btc-stamps/tx-builder/optimizers": "./src/optimizers/index.ts",
+    "@btc-stamps/tx-builder/calculators": "./src/calculators/index.ts",
+    "@btc-stamps/tx-builder/utils": "./src/utils/index.ts",
+    "@btc-stamps/tx-builder/config": "./src/config/index.ts",
+    "@btc-stamps/tx-builder/interfaces": "./src/interfaces/index.ts",
+    "@btc-stamps/tx-builder/types": "./src/interfaces/index.ts"
+  },
+  "lint": {
+    "include": ["src/**/*.ts", "scripts/**/*.ts", "examples/**/*.ts"],
+    "exclude": [
+      "node_modules/**",
+      "dist/**",
+      "coverage/**",
+      "debug-scripts/**",
+      "**/*.config.ts",
+      "**/*.config.mts",
+      "**/*.config.js",
+      "**/*.config.mjs"
+    ],
+    "rules": {
+      "tags": ["recommended"],
+      "include": ["ban-untagged-todo"],
+      "exclude": ["no-explicit-any"]
+    }
+  },
+  "fmt": {
+    "include": [
+      "src/**/*.ts",
+      "tests/**/*.ts",
+      "scripts/**/*.ts",
+      "examples/**/*.ts",
+      "*.json",
+      "*.md"
+    ],
+    "exclude": [
+      "node_modules/**",
+      "dist/**",
+      "coverage/**",
+      "debug-scripts/**",
+      "**/*.config.ts",
+      "**/*.config.mts",
+      "**/*.config.js",
+      "**/*.config.mjs"
+    ],
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "singleQuote": true,
+    "proseWrap": "preserve"
+  },
+  "test": {
+    "include": ["tests/**/*.test.ts"],
+    "exclude": ["node_modules/", "dist/"]
+  },
+  "exclude": [
+    "node_modules/**",
+    "dist/**",
+    "coverage/**",
+    "debug-scripts/**",
+    "**/*.config.ts",
+    "**/*.config.mts",
+    "**/*.config.js",
+    "**/*.config.mjs",
+    "vitest.config.mts",
+    "tsup.config.ts",
+    "eslint.config.js",
+    ".eslintrc.js"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["deno.window", "deno.ns", "dom"]
+  },
+  "publish": {
+    "include": [
+      "src/",
+      "examples/",
+      "scripts/",
+      "README.md",
+      "LICENSE",
+      "deno.json"
+    ],
+    "exclude": [
+      "src/**/*.test.ts",
+      "src/**/*.spec.ts",
+      "**/*.private.ts",
+      "**/test-*",
+      "**/debug-*",
+      "**/*.d.ts.map",
+      "**/*.js.map",
+      "scripts/validate-production-endpoints.ts",
+      "scripts/validate-real-stampchain.ts"
+    ]
+  }
+}
