@@ -11,7 +11,7 @@
 
 Build Bitcoin transactions with native support for **Bitcoin Stamps**, **SRC-20 tokens**, **Ordinals protection**, and extensible metaprotocol support.
 
-[Installation](#-installation) • [Quick Start](#-quick-start) • [Examples](./docs/examples) • [Documentation](https://btc-stamps.github.io/tx-builder)
+[Installation](#-installation) • [Quick Start](#-quick-start) • [Examples](https://github.com/btc-stamps/tx-builder/tree/main/docs/examples) • [Documentation](https://btc-stamps.github.io/tx-builder)
 
 </div>
 
@@ -145,9 +145,9 @@ const provider = new ElectrumXProvider(); // Uses blockstream.info, fortress.qto
 ## 📚 Learn More
 
 - 📖 **[Full Documentation](https://btc-stamps.github.io/tx-builder)** - Complete guides and API reference
-- 💡 **[Examples](./docs/examples)** - Ready-to-use code examples
-- 🛡️ **[UTXO Protection Guide](./docs/examples/advanced-transaction-building.ts)** - Essential for production
-- 🏗️ **[Architecture Overview](./docs/examples/README.md)** - Technical deep dive
+- 💡 **[Examples](https://github.com/btc-stamps/tx-builder/tree/main/docs/examples)** - Ready-to-use code examples
+- 🛡️ **[UTXO Protection Guide](https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/advanced-transaction-building.ts)** - Essential for production
+- 🏗️ **[Architecture Overview](https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/README.md)** - Technical deep dive
 
 ---
 
