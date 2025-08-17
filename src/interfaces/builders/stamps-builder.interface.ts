@@ -6,12 +6,12 @@
  */
 
 import type { Psbt } from 'bitcoinjs-lib';
-import type { TransactionOutput } from '../transaction.interface';
-import type { BitcoinStampData } from '../encoders/stamps.interface';
-import type { IProtectionDetector } from '../protection.interface';
-import type { OrdinalsMultiProviderDetectorOptions } from '../../detectors/ordinals-multi-provider-detector';
-import type { MultiAssetProtectionDetectorOptions } from '../../detectors/multi-asset-protection-detector';
-import type { AssetValidationConfig } from '../../services/asset-validation-service';
+import type { TransactionOutput } from '../transaction.interface.ts';
+import type { BitcoinStampData } from '../encoders/stamps.interface.ts';
+import type { IProtectionDetector } from '../protection.interface.ts';
+import type { OrdinalsMultiProviderDetectorOptions } from '../../detectors/ordinals-multi-provider-detector.ts';
+import type { MultiAssetProtectionDetectorOptions } from '../../detectors/multi-asset-protection-detector.ts';
+import type { AssetValidationConfig } from '../../services/asset-validation-service.ts';
 
 /**
  * Stamp transaction building options

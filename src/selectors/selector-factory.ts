@@ -332,7 +332,7 @@ class FIFOSelector extends AccumulativeSelector {
     return 'fifo';
   }
 
-  select(utxos: UTXO[], options: SelectionOptions) {
+  override select(utxos: UTXO[], options: SelectionOptions) {
     return this.selectFIFO(utxos, options);
   }
 }
@@ -511,7 +511,7 @@ export function createConsolidationSelector(
 }
 
 // Re-export new selector types for convenience
-export type { TaxCalculation, TaxStrategy, UTXOTaxMetadata } from './tax-optimized-selector';
-export type { OutputGroup } from './output-group-selector';
-export type { ConsolidationMetrics } from './consolidation-selector';
-export { MockProtectionDetector } from './protection-aware-selector';
+export type { TaxCalculation, TaxStrategy, UTXOTaxMetadata } from './tax-optimized-selector.ts';
+export type { OutputGroup } from './output-group-selector.ts';
+export type { ConsolidationMetrics } from './consolidation-selector.ts';
+export { MockProtectionDetector } from './protection-aware-selector.ts';

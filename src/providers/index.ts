@@ -2,17 +2,17 @@
  * UTXO Provider Implementations
  */
 
-export * from './base-provider';
-export * from './electrumx-provider';
+export * from './base-provider.ts';
+export * from './electrumx-provider.ts';
 export { ConfigLoader } from '../config/index.ts';
-export * from './electrumx-connection-pool';
-export * from './electrumx-pooled-provider';
-export * from './electrumx-transaction-tracker';
-export * from './electrumx-rate-limiter';
-export * from './electrumx-fee-estimator';
-export * from './electrumx-cache';
-export * from './electrumx-metrics';
-export * from './mock-electrumx-fee-provider';
+export * from './electrumx-connection-pool.ts';
+export * from './electrumx-pooled-provider.ts';
+export * from './electrumx-transaction-tracker.ts';
+export * from './electrumx-rate-limiter.ts';
+export * from './electrumx-fee-estimator.ts';
+export * from './electrumx-cache.ts';
+export * from './electrumx-metrics.ts';
+export * from './mock-electrumx-fee-provider.ts';
 // ElectrumX fee estimation is handled by ElectrumXFeeEstimator
 // Note: These providers are not yet implemented
 // export * from './mempool-provider';

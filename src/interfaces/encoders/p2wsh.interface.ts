@@ -9,7 +9,7 @@ import type {
   EncodingOptions,
   EncodingResult,
   TransactionOutput as _TransactionOutput,
-} from './base.interface';
+} from './base.interface.ts';
 
 /**
  * P2WSH-specific encoding options

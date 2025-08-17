@@ -4,7 +4,7 @@
  */
 
 // Advanced Fee Calculator
-export { AdvancedFeeCalculator, createAdvancedFeeCalculator } from './advanced-fee-calculator';
+export { AdvancedFeeCalculator, createAdvancedFeeCalculator } from './advanced-fee-calculator.ts';
 
 // Types
 export type {
@@ -14,4 +14,4 @@ export type {
   Operation,
   Optimization,
   StampData,
-} from './advanced-fee-calculator';
+} from './advanced-fee-calculator.ts';

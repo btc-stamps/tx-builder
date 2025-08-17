@@ -2,7 +2,7 @@
  * Data Encoder Implementations
  */
 
-export * from './p2wsh-encoder';
-export * from './bitcoin-stamps-encoder';
-export * from './src20-encoder';
-export * from './counterparty-encoder';
+export * from './p2wsh-encoder.ts';
+export * from './bitcoin-stamps-encoder.ts';
+export * from './src20-encoder.ts';
+export * from './counterparty-encoder.ts';

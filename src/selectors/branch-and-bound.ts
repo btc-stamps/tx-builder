@@ -40,7 +40,7 @@ export class BranchAndBoundSelector extends BaseSelector {
   }
 
   // Ensure estimateFee is accessible (inherited from BaseSelector)
-  estimateFee(numInputs: number, numOutputs: number, feeRate: number): number {
+  override estimateFee(numInputs: number, numOutputs: number, feeRate: number): number {
     return super.estimateFee(numInputs, numOutputs, feeRate);
   }
 
@@ -802,7 +802,7 @@ export class BranchAndBoundSelector extends BaseSelector {
   /**
    * Enhanced waste calculation with Bitcoin Core alignment
    */
-  protected calculateWaste(
+  protected override calculateWaste(
     inputs: UTXO[],
     targetValue: number,
     feeRate: number,

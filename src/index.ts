@@ -84,26 +84,26 @@ export type {
 } from './builders/index.ts';
 
 // Utility exports
-export { createDustCalculator } from './utils/dust-calculator';
-export { createSrc20FeeCalculator } from './utils/src20-fee-calculator';
+export { createDustCalculator } from './utils/dust-calculator.ts';
+export { createSrc20FeeCalculator } from './utils/src20-fee-calculator.ts';
 // ElectrumX fee estimation is provided through ElectrumXFeeEstimator class
-export { DataProcessor } from './utils/data-processor';
+export { DataProcessor } from './utils/data-processor.ts';
 // Legacy export for backward compatibility
-export { DataProcessor as ImageProcessor } from './utils/data-processor';
-export { SRC20CompressionService } from './utils/src20-compression';
+export { DataProcessor as ImageProcessor } from './utils/data-processor.ts';
+export { SRC20CompressionService } from './utils/src20-compression.ts';
 
 // Service exports - Asset validation and management
-export { AssetValidationService } from './services/asset-validation-service';
+export { AssetValidationService } from './services/asset-validation-service.ts';
 export type {
   AssetValidationConfig,
   AssetValidationResult,
-} from './services/asset-validation-service';
+} from './services/asset-validation-service.ts';
 
 // Advanced Fee Calculator exports - NEW OPTIMIZATION FEATURES
 export {
   AdvancedFeeCalculator,
   createAdvancedFeeCalculator,
-} from './calculators/advanced-fee-calculator';
+} from './calculators/advanced-fee-calculator.ts';
 export type {
   CompressionAnalysis,
   FeeBreakdown,
@@ -111,7 +111,7 @@ export type {
   Operation,
   Optimization,
   StampData,
-} from './calculators/advanced-fee-calculator';
+} from './calculators/advanced-fee-calculator.ts';
 
 // Template system removed - use encoders directly for production
 // - BitcoinStampsEncoder for stamp transactions
@@ -119,7 +119,7 @@ export type {
 // - TransactionBuilder for PSBT construction
 
 // Script Optimizer Engine exports - NEW OPTIMIZATION FEATURES
-export { ScriptOptimizerEngine } from './optimizers';
+export { ScriptOptimizerEngine } from './optimizers/index.ts';
 export type {
   ChunkingStrategy,
   CompressedScript,
@@ -135,26 +135,26 @@ export type {
   PatternAnalysis,
   ScriptMinimization,
   ScriptVerification,
-} from './optimizers';
-export type { StampData as OptimizerStampData } from './optimizers';
+} from './optimizers/index.ts';
+export type { StampData as OptimizerStampData } from './optimizers/index.ts';
 
 // Validator exports - SIMPLIFIED VALIDATION
-export { createStampValidationEngine, StampValidationEngine } from './validators';
+export { createStampValidationEngine, StampValidationEngine } from './validators/index.ts';
 export type {
   StampValidationConfig,
   ValidationError,
   ValidationResult,
   ValidationWarning,
-} from './validators';
+} from './validators/index.ts';
 
 // Error exports
-export * from './errors';
+export * from './errors/index.ts';
 
 // Main builder class for convenience
 import { networks } from 'bitcoinjs-lib';
 import type { Network } from 'bitcoinjs-lib';
 
-import { TransactionBuilder } from './core/transaction-builder';
+import { TransactionBuilder } from './core/transaction-builder.ts';
 
 /**
  * Create a new transaction builder instance

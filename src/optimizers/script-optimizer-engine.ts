@@ -14,7 +14,7 @@ import {
   isBuffer as _isBuffer,
   isValidBuffer as _isValidBuffer,
   safeNumber as _safeNumber,
-} from '../utils/type-guards';
+} from '../utils/type-guards.ts';
 
 /**
  * Core interfaces for the Script Optimizer Engine

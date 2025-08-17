@@ -6,7 +6,7 @@
 import type { Network, Psbt, Transaction as BTCTransaction } from 'bitcoinjs-lib';
 import type { ECPairInterface } from 'ecpair';
 
-import type { UTXO } from './provider.interface';
+import type { UTXO } from './provider.interface.ts';
 import { Buffer } from 'node:buffer';
 
 export interface TransactionInput {

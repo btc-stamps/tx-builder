@@ -7,8 +7,8 @@
 
 import * as bitcoin from 'bitcoinjs-lib';
 import { Buffer } from 'node:buffer';
-import { SRC20Encoder } from '../encoders/src20-encoder';
-import type { SRC20Data } from '../interfaces/src20.interface';
+import { SRC20Encoder } from '../encoders/src20-encoder.ts';
+import type { SRC20Data } from '../interfaces/src20.interface.ts';
 
 /**
  * Standalone SRC-20 decoder utility

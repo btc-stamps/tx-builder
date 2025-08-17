@@ -14,7 +14,7 @@ export type {
   StampData,
   StampEncodingOptions,
   TransactionOutput,
-} from './base.interface';
+} from './base.interface.ts';
 
 // SRC-20 types
 export type {
@@ -27,7 +27,7 @@ export type {
   SRC20Operation,
   SRC20Options,
   SRC20TransferData,
-} from '../src20.interface';
+} from '../src20.interface.ts';
 
 // Bitcoin Stamps types
 export type {
@@ -36,7 +36,7 @@ export type {
   BitcoinStampEncodingResult,
   StampMetadata,
   StampValidationConfig,
-} from './stamps.interface';
+} from './stamps.interface.ts';
 
 // P2WSH types
-export type { P2WSHChunkResult, P2WSHData, P2WSHEncodingOptions } from './p2wsh.interface';
+export type { P2WSHChunkResult, P2WSHData, P2WSHEncodingOptions } from './p2wsh.interface.ts';

@@ -3,7 +3,7 @@
  */
 
 // Core domain types - export first to establish base types
-export * from './core';
+export * from './core/index.ts';
 // Explicitly export core types to avoid ambiguity
 export {
   type AddressHistory,
@@ -11,30 +11,30 @@ export {
   type Transaction,
   type TransactionOutput,
   type UTXO,
-} from './core';
+} from './core/index.ts';
 // UTXO type exported once from core
 
 // Encoder types - organized in subfolder
-export * from './encoders';
+export * from './encoders/index.ts';
 
 // Builder types - organized in subfolder
-export * from './builders';
+export * from './builders/index.ts';
 
 // Validation types - organized to avoid name collisions
-export * from './validation/base.interface';
+export * from './validation/base.interface.ts';
 // Explicitly export validation errors to avoid ambiguity
-export { type ValidationError, type ValidationWarning } from './validation/base.interface';
+export { type ValidationError, type ValidationWarning } from './validation/base.interface.ts';
 
 // Provider and selector interfaces
-export * from './provider.interface';
-export * from './selector.interface';
+export * from './provider.interface.ts';
+export * from './selector.interface.ts';
 
 // Add missing types required by type checking
-export { type SelectionOptions, type SelectionResult } from './selector.interface';
+export { type SelectionOptions, type SelectionResult } from './selector.interface.ts';
 
 // Legacy encoder interface - being phased out in favor of encoders/ folder
 // Keep for backward compatibility but prefer new organized types
-export type { TransactionOutput as ScriptTransactionOutput } from './encoder.interface';
+export type { TransactionOutput as ScriptTransactionOutput } from './encoder.interface.ts';
 export type {
   CounterpartyData,
   CounterpartyEncodingOptions,
@@ -44,19 +44,19 @@ export type {
   P2WSHData,
   P2WSHEncodingOptions,
   StampData,
-} from './encoder.interface';
+} from './encoder.interface.ts';
 
-export type { TransactionOutput as BuilderTransactionOutput } from './transaction.interface';
+export type { TransactionOutput as BuilderTransactionOutput } from './transaction.interface.ts';
 export type {
   BuildOptions,
   ITransactionBuilder,
   SignOptions,
   TransactionBuilderConfig,
   TransactionInput,
-} from './transaction.interface';
-export * from './fee.interface';
-export * from './network.interface';
-export { type ChainParams, type NetworkType } from './network.interface';
+} from './transaction.interface.ts';
+export * from './fee.interface.ts';
+export * from './network.interface.ts';
+export { type ChainParams, type NetworkType } from './network.interface.ts';
 // Explicitly re-export error classes to avoid duplicate symbol conflicts
 export {
   DuplicateSignatureError,
@@ -64,7 +64,7 @@ export {
   InvalidMultisigConfigError,
   InvalidSignatureError,
   MultisigError,
-} from './multisig.interface';
+} from './multisig.interface.ts';
 export type {
   IMultisigBuilder,
   IMultisigKeyManager,
@@ -78,21 +78,21 @@ export type {
   MultisigValidationResult,
   PartialSignature,
   SigHashType,
-} from './multisig.interface';
-export * from './rbf-cpfp.interface';
-export * from './psbt-validation.interface';
+} from './multisig.interface.ts';
+export * from './rbf-cpfp.interface.ts';
+export * from './psbt-validation.interface.ts';
 // Hardware wallet interfaces
-export * from './hardware.interface';
+export * from './hardware.interface.ts';
 export type {
   DerivationPath,
   IHardwareWallet,
   SigningError,
   SignPsbtOptions,
   SignPsbtResult,
-} from './hardware.interface';
+} from './hardware.interface.ts';
 // Prevent duplicate type names by explicit re-exports if needed
 // Note: Re-export SRC20Data only from src20.interface to avoid conflicts
-export type { SRC20Data } from './src20.interface';
+export type { SRC20Data } from './src20.interface.ts';
 export type {
   BaseSRC20Data,
   SRC20BuilderOptions,
@@ -103,21 +103,21 @@ export type {
   SRC20Operation,
   SRC20Options,
   SRC20TransferData,
-} from './src20.interface';
-export { createSRC20Options, DEFAULT_SRC20_OPTIONS } from './src20.interface';
+} from './src20.interface.ts';
+export { createSRC20Options, DEFAULT_SRC20_OPTIONS } from './src20.interface.ts';
 
 // Protection detection interfaces
-export * from './protection.interface';
+export * from './protection.interface.ts';
 export type {
   IProtectionDetector,
   ProtectedAssetData,
   ProtectionAssetType,
   ProtectionDetectorConfig,
-} from './protection.interface';
+} from './protection.interface.ts';
 export {
   createDefaultProtectionConfig,
   isProtectedAssetData,
   isProtectionDetector,
   isValidAssetType,
   ProtectionAssetTypes,
-} from './protection.interface';
+} from './protection.interface.ts';

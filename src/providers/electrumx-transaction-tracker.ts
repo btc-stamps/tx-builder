@@ -3,8 +3,8 @@
  * Advanced transaction broadcasting and status monitoring
  */
 
-import type { ElectrumXConnectionPool } from './electrumx-connection-pool';
-import type { ElectrumXProvider } from './electrumx-provider';
+import type { ElectrumXConnectionPool } from './electrumx-connection-pool.ts';
+import type { ElectrumXProvider } from './electrumx-provider.ts';
 import { Buffer } from 'node:buffer';
 
 export interface TransactionStatus {
@@ -41,7 +41,7 @@ export interface BroadcastResult {
  */
 export class ElectrumXTransactionTracker {
   private trackedTransactions = new Map<string, TransactionStatus>();
-  private trackingInterval: NodeJS.Timeout | null = null;
+  private trackingInterval: number | null = null;
   private isTracking = false;
 
   constructor(

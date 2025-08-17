@@ -5,8 +5,8 @@
  */
 
 import { Buffer } from 'node:buffer';
-import type { EncodingOptions, EncodingResult, TransactionOutput } from './base.interface';
-import type { OptimizedScript, PatternAnalysis } from '../internal/optimization.interface';
+import type { EncodingOptions, EncodingResult, TransactionOutput } from './base.interface.ts';
+import type { OptimizedScript, PatternAnalysis } from '../internal/optimization.interface.ts';
 
 /**
  * Bitcoin Stamps specific data structure

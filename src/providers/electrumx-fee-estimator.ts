@@ -3,8 +3,8 @@
  * Advanced fee estimation with caching, validation, and fallback mechanisms
  */
 
-import type { ElectrumXConnectionPool } from './electrumx-connection-pool';
-import type { ElectrumXProvider } from './electrumx-provider';
+import type { ElectrumXConnectionPool } from './electrumx-connection-pool.ts';
+import type { ElectrumXProvider } from './electrumx-provider.ts';
 
 export interface FeeEstimate {
   priority: 'economy' | 'low' | 'medium' | 'high' | 'urgent';

@@ -11,7 +11,7 @@ import * as bitcoin from 'bitcoinjs-lib';
 import * as zlib from 'node:zlib';
 import * as msgpack from 'msgpack-lite';
 import { Buffer } from 'node:buffer';
-import type { TransactionOutput } from '../interfaces/encoders/base.interface';
+import type { TransactionOutput } from '../interfaces/encoders/base.interface.ts';
 import type {
   SRC20Data,
   SRC20DeployData,
@@ -31,7 +31,7 @@ export type {
   SRC20MintData,
   SRC20Operation,
   SRC20TransferData,
-} from '../interfaces/src20.interface';
+} from '../interfaces/src20.interface.ts';
 
 const STAMP_PREFIX = 'stamp:';
 const DUST_VALUE = 330; // Match Bitcoin Stamps P2WSH dust exactly

@@ -11,7 +11,7 @@ export type {
   ITransactionBuilder,
   SignOptions,
   TransactionBuilderConfig,
-} from './base.interface';
+} from './base.interface.ts';
 
 // SRC-20 builder types
 export type {
@@ -20,7 +20,7 @@ export type {
   TokenDeployOptions,
   TokenMintOptions,
   TokenTransferOptions,
-} from './src20-builder.interface';
+} from './src20-builder.interface.ts';
 
 // Bitcoin Stamps builder types
 export type {
@@ -28,7 +28,7 @@ export type {
   BuildFromEncodedOptions,
   StampBuildResult,
   StampTransactionOptions,
-} from './stamps-builder.interface';
+} from './stamps-builder.interface.ts';
 
 // Re-export multisig builder types from existing interface
 export type {
@@ -42,4 +42,4 @@ export type {
   MultisigSigningResult,
   MultisigValidationResult,
   PartialSignature,
-} from '../multisig.interface';
+} from '../multisig.interface.ts';

@@ -3,17 +3,17 @@
  * This provides a clean migration path for v0.1.0
  */
 
-import type { UTXO } from '../interfaces/provider.interface';
+import type { UTXO } from '../interfaces/provider.interface.ts';
 import type {
   EnhancedSelectionResult,
   IUTXOSelector,
   SelectionOptions,
-} from '../interfaces/selector.interface';
+} from '../interfaces/selector.interface.ts';
 import {
   createSelectionFailure,
   createSelectionSuccess,
   SelectionFailureReason,
-} from '../interfaces/selector-result.interface';
+} from '../interfaces/selector-result.interface.ts';
 
 /**
  * Wraps an existing selector that returns SelectionResult | null

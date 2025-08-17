@@ -4,7 +4,7 @@
  * Exports all script optimization functionality for Bitcoin Stamps
  */
 
-export * from './script-optimizer-engine';
+export * from './script-optimizer-engine.ts';
 export {
   type ChunkingStrategy,
   type CompressedScript,
@@ -22,4 +22,4 @@ export {
   ScriptOptimizerEngine,
   type ScriptVerification,
   type StampData,
-} from './script-optimizer-engine';
+} from './script-optimizer-engine.ts';

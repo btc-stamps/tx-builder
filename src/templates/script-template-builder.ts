@@ -7,7 +7,7 @@
 
 import * as bitcoin from 'bitcoinjs-lib';
 import { Buffer } from 'node:buffer';
-import type { SRC20Data } from '../interfaces/src20.interface';
+import type { SRC20Data } from '../interfaces/src20.interface.ts';
 
 /**
  * Fee preferences for template building

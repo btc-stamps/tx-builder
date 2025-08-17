@@ -6,7 +6,7 @@
 
 import { Buffer } from 'node:buffer';
 import type { Network, Psbt } from 'bitcoinjs-lib';
-import type { UTXO } from '../core/utxo.interface';
+import type { UTXO } from '../core/utxo.interface.ts';
 
 /**
  * Base transaction builder interface

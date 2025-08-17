@@ -12,7 +12,7 @@ export type {
   UTXOChunk,
   UTXOSelectionCriteria,
   WitnessUTXO,
-} from './utxo.interface';
+} from './utxo.interface.ts';
 
 // Transaction types
 export type {
@@ -22,10 +22,10 @@ export type {
   TransactionInput,
   TransactionOutput,
   TransactionValidation,
-} from './transaction.interface';
+} from './transaction.interface.ts';
 
 // Re-export network types from existing interface
-export type { ChainParams, NetworkConfig, NetworkType } from '../network.interface';
+export type { ChainParams, NetworkConfig, NetworkType } from '../network.interface.ts';
 
 // Re-export hardware wallet types from existing interface
 export type {
@@ -34,4 +34,4 @@ export type {
   SigningError,
   SignPsbtOptions,
   SignPsbtResult,
-} from '../hardware.interface';
+} from '../hardware.interface.ts';

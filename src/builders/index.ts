@@ -6,10 +6,10 @@
  */
 
 // Core SRC-20 Transaction Builder
-export { SRC20TokenBuilder } from './src20-token-builder';
+export { SRC20TokenBuilder } from './src20-token-builder.ts';
 
 // Bitcoin Stamp Builder
-export { BitcoinStampBuilder } from './bitcoin-stamp-builder';
+export { BitcoinStampBuilder } from './bitcoin-stamp-builder.ts';
 
 // Core SRC-20 types
 export type {
@@ -21,11 +21,11 @@ export type {
   TokenDeployOptions,
   TokenMintOptions,
   TokenTransferOptions,
-} from './src20-token-builder';
+} from './src20-token-builder.ts';
 
 // Bitcoin Stamp types
 export type {
   BitcoinStampBuildData,
   BitcoinStampBuilderConfig,
   BitcoinStampIssuanceData,
-} from './bitcoin-stamp-builder';
+} from './bitcoin-stamp-builder.ts';

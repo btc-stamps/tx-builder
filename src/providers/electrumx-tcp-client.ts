@@ -7,7 +7,7 @@ import * as net from 'node:net';
 import * as tls from 'node:tls';
 import { EventEmitter } from 'node:events';
 import { Buffer } from 'node:buffer';
-import type { ElectrumXEndpoint } from '../config/electrumx-config';
+import type { ElectrumXEndpoint } from '../config/electrumx-config.ts';
 import { clearTimeoutCompat, setTimeoutCompat, type TimerId } from '../utils/timer-utils.ts';
 
 export interface TCPClientOptions {

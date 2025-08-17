@@ -104,8 +104,8 @@ export class ElectrumXConnectionPool {
   private serverHealth: Map<string, ServerHealth> = new Map<string, ServerHealth>();
   private performanceMonitor: ServerPerformanceMonitor = new ServerPerformanceMonitor();
   private currentServerIndex: number = 0;
-  private healthCheckTimer: NodeJS.Timeout | null = null;
-  private heartbeatTimer: NodeJS.Timeout | null = null;
+  private healthCheckTimer: number | null = null;
+  private heartbeatTimer: number | null = null;
   private connectionWaiters = new Map<
     string,
     Array<
@@ -436,7 +436,7 @@ export class ElectrumXConnectionPool {
     if (index > -1) {
       const waiter = waiters[index];
       if (waiter?.timeout) {
-        clearTimeout(waiter.timeout as unknown as NodeJS.Timeout);
+        clearTimeoutCompat(waiter.timeout);
       }
       waiters.splice(index, 1);
       this.connectionWaiters.set(serverKey, waiters);
@@ -456,7 +456,7 @@ export class ElectrumXConnectionPool {
     const waiters = this.connectionWaiters.get(serverKey) || [];
     if (waiters.length > 0 && connection.healthy) {
       const waiter = waiters.shift()!;
-      clearTimeout(waiter.timeout as unknown as NodeJS.Timeout);
+      clearTimeout(waiter.timeout as unknown as number);
 
       // Mark connection as in use and resolve
       connection.inUse = true;
@@ -813,7 +813,7 @@ export class ElectrumXConnectionPool {
       await this.performHealthChecks();
       this.cleanupIdleConnections();
       this.adjustPoolSize();
-    }, this.options.healthCheckInterval) as unknown as NodeJS.Timeout;
+    }, this.options.healthCheckInterval) as unknown as number;
   }
 
   /**
@@ -822,7 +822,7 @@ export class ElectrumXConnectionPool {
   private startHeartbeat(): void {
     this.heartbeatTimer = setInterval(async () => {
       await this.performHeartbeats();
-    }, this.options.heartbeatInterval) as unknown as NodeJS.Timeout;
+    }, this.options.heartbeatInterval) as unknown as number;
   }
 
   /**
@@ -1214,12 +1214,12 @@ export class ElectrumXConnectionPool {
   async shutdown(): Promise<void> {
     // Stop timers
     if (this.healthCheckTimer) {
-      clearInterval(this.healthCheckTimer as unknown as NodeJS.Timeout);
+      _clearIntervalCompat(this.healthCheckTimer);
       this.healthCheckTimer = null;
     }
 
     if (this.heartbeatTimer) {
-      clearInterval(this.heartbeatTimer as unknown as NodeJS.Timeout);
+      _clearIntervalCompat(this.heartbeatTimer);
       this.heartbeatTimer = null;
     }
 

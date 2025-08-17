@@ -3,7 +3,7 @@
  * Defines algorithms for selecting UTXOs for transactions
  */
 
-import type { UTXO } from './provider.interface';
+import type { UTXO } from './provider.interface.ts';
 import type {
   EnhancedSelectionResult,
   SelectionFailure,

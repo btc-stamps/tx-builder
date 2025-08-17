@@ -705,7 +705,7 @@ export class ConsolidationSelector extends BaseSelector {
   /**
    * Estimate transaction size
    */
-  public estimateTransactionSize(inputs: number, outputs: number): number {
+  public override estimateTransactionSize(inputs: number, outputs: number): number {
     // Rough estimation: 148 bytes per input, 34 bytes per output, 10 bytes overhead
     return inputs * 148 + outputs * 34 + 10;
   }

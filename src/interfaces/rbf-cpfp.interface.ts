@@ -5,7 +5,7 @@
 
 import type { Network, Psbt, Transaction } from 'bitcoinjs-lib';
 
-import type { UTXO } from './provider.interface';
+import type { UTXO } from './provider.interface.ts';
 
 export interface RBFConfig {
   /** Original transaction to replace */

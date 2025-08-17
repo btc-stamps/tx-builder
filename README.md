@@ -28,7 +28,7 @@ Build Bitcoin transactions with native support for **Bitcoin Stamps**, **SRC-20 
 - **🛡️ UTXO Protection**: Automatic protection of Ordinals, Inscriptions & Stamps
 - **⚡ Smart Selection**: 6 UTXO selection algorithms with optimization
 - **🔌 Zero Config**: Works out-of-the-box with reliable defaults
-- **🧪 Battle-Tested**: 1000+ tests, 90%+ coverage
+- **🧪 Battle-Tested**: Comprehensive test suite with 430+ tests
 
 ---
 
@@ -145,9 +145,9 @@ const provider = new ElectrumXProvider(); // Uses blockstream.info, fortress.qto
 ## 📚 Learn More
 
 - 📖 **[Full Documentation](https://btc-stamps.github.io/tx-builder)** - Complete guides and API reference
-- 💡 **[Examples](./examples)** - Ready-to-use code examples
-- 🛡️ **[UTXO Protection Guide](./examples/protection-comprehensive-guide.ts)** - Essential for production
-- 🏗️ **[Architecture Overview](./examples/README.md)** - Technical deep dive
+- 💡 **[Examples](./docs/examples)** - Ready-to-use code examples
+- 🛡️ **[UTXO Protection Guide](./docs/examples/advanced-transaction-building.ts)** - Essential for production
+- 🏗️ **[Architecture Overview](./docs/examples/README.md)** - Technical deep dive
 
 ---
 
