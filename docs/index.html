@@ -25,10 +25,10 @@
     }
     
     header {
-      background: linear-gradient(135deg, #7928CA, #FF0080);
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
       padding: 3rem 0;
       margin-bottom: 3rem;
-      box-shadow: 0 4px 20px rgba(121, 40, 202, 0.3);
+      border-bottom: 2px solid #444;
     }
     
     h1 {
@@ -116,9 +116,15 @@
     
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
       margin: 1.5rem 0;
+    }
+    
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
     
     .card {
@@ -171,9 +177,21 @@
     
     .feature-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
       margin: 1.5rem 0;
+    }
+    
+    @media (max-width: 768px) {
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
     }
     
     .feature {
@@ -213,9 +231,6 @@
       }
       h1 {
         font-size: 2rem;
-      }
-      .grid {
-        grid-template-columns: 1fr;
       }
     }
   </style>
