@@ -4,8 +4,8 @@
  */
 
 import {
-  clearIntervalCompat as _clearIntervalCompat,
-  setIntervalCompat as _setIntervalCompat,
+  clearIntervalCompat,
+  setIntervalCompat,
   type TimerId,
 } from '../utils/timer-utils.ts';
 
@@ -271,7 +271,7 @@ export class ElectrumXRateLimiter {
    * Start cleanup timer
    */
   private startCleanup(): void {
-    this.cleanupTimer = setInterval(() => {
+    this.cleanupTimer = setIntervalCompat(() => {
       this.cleanupHistory();
     }, this.config.resetWindowMs);
   }

@@ -5,11 +5,11 @@
 
 import type { Network } from 'bitcoinjs-lib';
 import {
-  clearIntervalCompat as _clearIntervalCompat,
+  clearIntervalCompat,
   clearTimeoutCompat,
-  setIntervalCompat as _setIntervalCompat,
-  setTimeoutCompat as _setTimeoutCompat,
-  type TimerId as _TimerId,
+  setIntervalCompat,
+  setTimeoutCompat,
+  type TimerId,
 } from '../utils/timer-utils.ts';
 
 import type {
@@ -411,7 +411,7 @@ export class ElectrumXConnectionPool {
     serverKey: string,
   ): Promise<ActiveConnection> {
     return new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => {
+      const timeout = setTimeoutCompat(() => {
         this.removeWaiter(serverKey, resolve, reject);
         reject(new Error(`Connection pool exhausted for server: ${serverKey}`));
       }, this.options.connectionTimeout);
@@ -809,20 +809,20 @@ export class ElectrumXConnectionPool {
    * Start periodic health checking
    */
   private startHealthChecking(): void {
-    this.healthCheckTimer = setInterval(async () => {
+    this.healthCheckTimer = setIntervalCompat(async () => {
       await this.performHealthChecks();
       this.cleanupIdleConnections();
       this.adjustPoolSize();
-    }, this.options.healthCheckInterval) as unknown as number;
+    }, this.options.healthCheckInterval) as number;
   }
 
   /**
    * Start heartbeat monitoring
    */
   private startHeartbeat(): void {
-    this.heartbeatTimer = setInterval(async () => {
+    this.heartbeatTimer = setIntervalCompat(async () => {
       await this.performHeartbeats();
-    }, this.options.heartbeatInterval) as unknown as number;
+    }, this.options.heartbeatInterval) as number;
   }
 
   /**
@@ -1214,12 +1214,12 @@ export class ElectrumXConnectionPool {
   async shutdown(): Promise<void> {
     // Stop timers
     if (this.healthCheckTimer) {
-      _clearIntervalCompat(this.healthCheckTimer);
+      clearIntervalCompat(this.healthCheckTimer);
       this.healthCheckTimer = null;
     }
 
     if (this.heartbeatTimer) {
-      _clearIntervalCompat(this.heartbeatTimer);
+      clearIntervalCompat(this.heartbeatTimer);
       this.heartbeatTimer = null;
     }
 
