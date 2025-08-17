@@ -92,18 +92,18 @@ jobs:
         run: npm run build
 
       - name: Publish to npm
-        if: ${{ !github.event.inputs.dry_run }}
+        if: ${{ github.event.inputs.dry_run != 'true' }}
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to JSR
-        if: ${{ !github.event.inputs.dry_run }}
+        if: ${{ github.event.inputs.dry_run != 'true' }}
         run: deno publish
         # No env section needed - OIDC authentication is automatic with id-token: write permission
 
       - name: Push changes and tags
-        if: ${{ !github.event.inputs.dry_run }}
+        if: ${{ github.event.inputs.dry_run != 'true' }}
         run: |
           git push origin main
           git push origin ${{ steps.version_bump.outputs.new_version }}
@@ -141,7 +141,7 @@ jobs:
           EOF
 
       - name: Create GitHub Release
-        if: ${{ !github.event.inputs.dry_run }}
+        if: ${{ github.event.inputs.dry_run != 'true' }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version_bump.outputs.new_version }}
@@ -152,7 +152,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Dry run summary
-        if: ${{ github.event.inputs.dry_run }}
+        if: ${{ github.event.inputs.dry_run == 'true' }}
         run: |
           echo "🚀 Dry run completed successfully!"
           echo "Version would be bumped to: ${{ steps.version_bump.outputs.new_version }}"
