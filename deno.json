@@ -1,6 +1,6 @@
 {
   "name": "@btc-stamps/tx-builder",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "exports": {
     ".": "./src/index.ts",
     "./core": "./src/core/index.ts",

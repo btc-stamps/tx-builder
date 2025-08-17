@@ -5,7 +5,7 @@
 [![npm version](https://img.shields.io/npm/v/@btc-stamps/tx-builder.svg)](https://www.npmjs.com/package/@btc-stamps/tx-builder)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js CI](https://img.shields.io/github/actions/workflow/status/btc-stamps/tx-builder/ci.yml?branch=main)](https://github.com/btc-stamps/tx-builder/actions)
-[![Coverage Status](https://img.shields.io/codecov/c/github/btc-stamps/tx-builder)](https://codecov.io/gh/btc-stamps/tx-builder)
+[![codecov](https://codecov.io/gh/btc-stamps/tx-builder/graph/badge.svg?token=AWB6I9Z0AQ)](https://codecov.io/gh/btc-stamps/tx-builder)
 
 **The Bitcoin transaction builder for Bitcoin Stamps and SRC-20 metaprotocols**
 
