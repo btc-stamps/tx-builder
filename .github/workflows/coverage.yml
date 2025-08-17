@@ -150,7 +150,7 @@ jobs:
             | **Lines** | ${{ steps.coverage-summary.outputs.lines }}% | 14% | ${{ steps.coverage-summary.outputs.lines >= 14 && '✅' || '❌' }} |
             | **Overall** | ${{ steps.coverage-summary.outputs.overall }}% | 38% | ${{ steps.coverage-summary.outputs.overall >= 38 && '✅' || '❌' }} |
 
-            > **Note**: Coverage baselines are set to current levels for v0.1.x. 
+            > **Note**: Coverage baselines are set to current levels for v0.1.x.
             > Future releases will gradually increase these thresholds.
 
             [View detailed coverage report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
