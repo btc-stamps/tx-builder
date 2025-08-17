@@ -1,11 +1,11 @@
 /**
  * Cross-platform timer utilities for Deno and Node compatibility
- * 
+ *
  * Timer handling differences:
  * - Node.js: setTimeout/setInterval return NodeJS.Timeout objects
  * - Deno: setTimeout/setInterval return number IDs
  * - Browser: setTimeout/setInterval return number IDs
- * 
+ *
  * This module provides a unified interface that works across all platforms.
  */
 

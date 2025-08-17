@@ -6,8 +6,7 @@
 import type { ElectrumXConnectionPool } from './electrumx-connection-pool.ts';
 import type { ElectrumXProvider } from './electrumx-provider.ts';
 import { Buffer } from 'node:buffer';
-import { setIntervalCompat, clearIntervalCompat } from '../utils/timer-utils.ts';
-
+import { clearIntervalCompat, setIntervalCompat } from '../utils/timer-utils.ts';
 
 export interface TransactionStatus {
   txid: string;

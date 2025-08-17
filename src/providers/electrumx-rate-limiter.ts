@@ -3,10 +3,7 @@
  * Implements rate limiting, request throttling, and exponential backoff
  */
 
-import {
-  setIntervalCompat,
-  type TimerId,
-} from '../utils/timer-utils.ts';
+import { setIntervalCompat, type TimerId } from '../utils/timer-utils.ts';
 
 export interface RateLimitConfig {
   maxRequestsPerSecond: number;

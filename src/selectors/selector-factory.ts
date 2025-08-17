@@ -328,7 +328,7 @@ export class SelectorFactory {
 
 // Simple legacy selector implementations
 class FIFOSelector extends AccumulativeSelector {
-  getName(): string {
+  override getName(): string {
     return 'fifo';
   }
 
@@ -338,11 +338,11 @@ class FIFOSelector extends AccumulativeSelector {
 }
 
 class LIFOSelector extends AccumulativeSelector {
-  getName(): string {
+  override getName(): string {
     return 'lifo';
   }
 
-  select(utxos: UTXO[], options: SelectionOptions): EnhancedSelectionResult {
+  override select(utxos: UTXO[], options: SelectionOptions): EnhancedSelectionResult {
     const validationFailure = this.checkOptionsValidity(options);
     if (validationFailure) return validationFailure;
 

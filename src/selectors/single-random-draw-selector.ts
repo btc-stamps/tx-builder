@@ -195,7 +195,7 @@ export class EnhancedSingleRandomDrawSelector extends SingleRandomDrawSelector {
     this.preferMixedTypes = options.preferMixedTypes || false;
   }
 
-  select(utxos: UTXO[], options: SelectionOptions): EnhancedSelectionResult {
+  override select(utxos: UTXO[], options: SelectionOptions): EnhancedSelectionResult {
     // Get base selection
     const baseResult = super.select(utxos, options);
     if (!baseResult.success) {
@@ -238,7 +238,7 @@ export class EnhancedSingleRandomDrawSelector extends SingleRandomDrawSelector {
   /**
    * Override shuffle to prefer mixed script types if configured
    */
-  protected shuffleArray<T extends UTXO>(array: T[]): T[] {
+  protected override shuffleArray<T extends UTXO>(array: T[]): T[] {
     if (!this.preferMixedTypes) {
       return super.shuffleArray(array);
     }
@@ -296,7 +296,7 @@ export class EnhancedSingleRandomDrawSelector extends SingleRandomDrawSelector {
     return 'legacy';
   }
 
-  getName(): string {
+  override getName(): string {
     return `enhanced-srd-${this.mixDepth}`;
   }
 }

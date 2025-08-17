@@ -62,7 +62,7 @@ export class TaxOptimizedSelector extends BaseSelector {
   private currentBTCPrice: number;
   private longTermThresholdDays: number;
   private fallbackSelector?: BaseSelector;
-  protected readonly DUST_THRESHOLD = 546;
+  protected override readonly DUST_THRESHOLD = 546;
 
   constructor(options?: {
     strategy?: TaxStrategy;

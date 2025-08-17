@@ -284,7 +284,7 @@ export class ConfigurableKnapsackSelector extends KnapsackSelector {
     this.inclusionProbability = options.inclusionProbability || 0.5;
   }
 
-  getName(): string {
+  override getName(): string {
     return `knapsack-${this.MAX_ITERATIONS}-${this.inclusionProbability}`;
   }
 }
