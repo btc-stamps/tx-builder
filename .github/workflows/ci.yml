@@ -71,13 +71,9 @@ jobs:
         if: matrix.node-version == '20'
         uses: codecov/codecov-action@v4
         with:
-          files: ./coverage/lcov.info
+          file: ./coverage/lcov.info
           token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          verbose: true
-          name: codecov-umbrella
-          flags: unittests
-          codecov_yml_path: ./codecov.yml
+          fail_ci_if_error: false
 
   validate:
     name: Validate Examples & Scripts
