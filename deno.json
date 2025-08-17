@@ -1,6 +1,6 @@
 {
   "name": "@btc-stamps/tx-builder",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "exports": {
     ".": "./src/index.ts",
     "./core": "./src/core/index.ts",
@@ -48,7 +48,11 @@
     "@btc-stamps/tx-builder/types": "./src/interfaces/index.ts"
   },
   "lint": {
-    "include": ["src/**/*.ts", "scripts/**/*.ts", "examples/**/*.ts"],
+    "include": [
+      "src/**/*.ts",
+      "scripts/**/*.ts",
+      "examples/**/*.ts"
+    ],
     "exclude": [
       "node_modules/**",
       "dist/**",
@@ -60,9 +64,15 @@
       "**/*.config.mjs"
     ],
     "rules": {
-      "tags": ["recommended"],
-      "include": ["ban-untagged-todo"],
-      "exclude": ["no-explicit-any"]
+      "tags": [
+        "recommended"
+      ],
+      "include": [
+        "ban-untagged-todo"
+      ],
+      "exclude": [
+        "no-explicit-any"
+      ]
     }
   },
   "fmt": {
@@ -90,8 +100,13 @@
     "proseWrap": "preserve"
   },
   "test": {
-    "include": ["tests/**/*.test.ts"],
-    "exclude": ["node_modules/", "dist/"]
+    "include": [
+      "tests/**/*.test.ts"
+    ],
+    "exclude": [
+      "node_modules/",
+      "dist/"
+    ]
   },
   "exclude": [
     "node_modules/**",
@@ -109,7 +124,11 @@
   ],
   "compilerOptions": {
     "strict": true,
-    "lib": ["deno.window", "deno.ns", "dom"]
+    "lib": [
+      "deno.window",
+      "deno.ns",
+      "dom"
+    ]
   },
   "publish": {
     "include": [
