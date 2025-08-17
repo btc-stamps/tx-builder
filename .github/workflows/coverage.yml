@@ -2,12 +2,19 @@ name: Coverage Analysis
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main, dev]  # Run on pushes to main or dev
+  pull_request:
+    branches: [main]  # Run on PRs to main for coverage diff
   schedule:
     # Run coverage analysis weekly on Monday at 3 AM UTC
     - cron: '0 3 * * 1'
   workflow_dispatch:
-# Allow manual trigger for coverage reports
+    # Allow manual trigger for coverage reports
+
+# Cancel duplicate workflow runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   NODE_OPTIONS: '--max-old-space-size=4096'
