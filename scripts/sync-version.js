@@ -6,9 +6,12 @@
  */
 
 import process from 'node:process';
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.join(__dirname, '..');
 const PACKAGE_JSON_PATH = path.join(PROJECT_ROOT, 'package.json');
 const DENO_JSON_PATH = path.join(PROJECT_ROOT, 'deno.json');
