@@ -79,6 +79,7 @@
     "README.md",
     "LICENSE"
   ],
+  "sideEffects": false,
   "scripts": {
     "build": "tsup",
     "build:watch": "tsup --watch",
@@ -107,9 +108,28 @@
     "stamps",
     "src-20",
     "blockchain",
-    "cryptocurrency"
+    "cryptocurrency",
+    "bitcoin-stamps",
+    "counterparty",
+    "ordinals",
+    "metaprotocol",
+    "transaction-builder",
+    "utxo-selection"
   ],
-  "author": "Stampchain",
+  "author": {
+    "name": "Stampchain",
+    "url": "https://stampchain.io"
+  },
+  "contributors": [
+    {
+      "name": "Stampchain Team",
+      "url": "https://github.com/btc-stamps"
+    }
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/btc-stamps"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -150,7 +170,8 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
   },
   "type": "module"
 }
