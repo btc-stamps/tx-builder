@@ -208,6 +208,7 @@ MIT License - see [LICENSE](LICENSE) file.
 ## 🙏 Acknowledgments
 
 Built on top of excellent libraries:
+
 - [bitcoinjs-lib](https://github.com/bitcoinjs/bitcoinjs-lib) - Bitcoin protocol implementation
 - [tiny-secp256k1](https://github.com/bitcoinjs/tiny-secp256k1) - Elliptic curve cryptography
 - [bip32](https://github.com/bitcoinjs/bip32) - HD wallet support

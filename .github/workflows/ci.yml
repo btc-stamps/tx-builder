@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, dev]  # Run on direct pushes to main or dev
+    branches: [main, dev] # Run on direct pushes to main or dev
   pull_request:
-    branches: [main, dev]  # Run on PRs targeting main or dev
+    branches: [main, dev] # Run on PRs targeting main or dev
 
 # Cancel duplicate workflow runs
 concurrency:
