@@ -236,7 +236,7 @@ export class ElectrumXTransactionTracker {
     this.isTracking = true;
     this.trackingInterval = setInterval(async () => {
       await this.updateTrackedTransactions();
-    }, 10000); // Check every 10 seconds
+    }, 10000) as unknown as number; // Check every 10 seconds
   }
 
   /**
