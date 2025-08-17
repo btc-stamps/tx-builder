@@ -3,8 +3,8 @@
  * Advanced caching layer with TTL management and performance optimization
  */
 
-import type { SelectionOptions } from '../interfaces/selector.interface.js';
-import type { UTXO } from '../interfaces/provider.interface.js';
+import type { SelectionOptions } from '../interfaces/selector.interface.ts';
+import type { UTXO } from '../interfaces/provider.interface.ts';
 
 export interface UTXOCacheEntry {
   utxos: UTXO[];

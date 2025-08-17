@@ -3,9 +3,9 @@
  * Comprehensive monitoring system with alerts and real-time metrics
  */
 
-import type { PerformanceReport } from './performance-monitor.js';
-import { PerformanceMonitor } from './performance-monitor.js';
-import { UTXOCacheManager } from './utxo-cache-manager.js';
+import type { PerformanceReport } from './performance-monitor.ts';
+import { PerformanceMonitor } from './performance-monitor.ts';
+import { UTXOCacheManager } from './utxo-cache-manager.ts';
 import { clearIntervalCompat, setIntervalCompat, type TimerId } from '../utils/timer-utils.ts';
 import process from 'node:process';
 
