@@ -1,0 +1,27 @@
+# Ignore test files
+**/*.test.ts
+**/*.spec.ts
+**/test/**
+**/tests/**
+
+# Ignore examples and scripts
+**/examples/**
+**/scripts/**
+
+# Ignore config files
+**/*.config.ts
+**/*.config.js
+**/*.config.mts
+**/*.config.mjs
+vitest.config.mts
+tsup.config.ts
+
+# Ignore build outputs
+**/dist/**
+**/coverage/**
+**/node_modules/**
+**/.github/**
+
+# Ignore documentation
+**/*.md
+**/docs/**
