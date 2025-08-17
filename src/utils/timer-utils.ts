@@ -34,12 +34,12 @@ export function clearIntervalCompat(id: TimerId | undefined): void {
  * Cross-platform setTimeout wrapper
  */
 export function setTimeoutCompat(callback: () => void, ms: number): TimerId {
-  return setTimeout(callback, ms) as TimerId;
+  return setTimeout(callback, ms) as unknown as TimerId;
 }
 
 /**
  * Cross-platform setInterval wrapper
  */
 export function setIntervalCompat(callback: () => void, ms: number): TimerId {
-  return setInterval(callback, ms) as TimerId;
+  return setInterval(callback, ms) as unknown as TimerId;
 }
