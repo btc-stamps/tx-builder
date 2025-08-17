@@ -1,0 +1,37 @@
+codecov:
+  require_ci_to_pass: true
+
+coverage:
+  status:
+    project:
+      default:
+        target: 60%
+        threshold: 2%
+    patch:
+      default:
+        target: 60%
+        threshold: 2%
+
+parsers:
+  javascript:
+    enable_partials: yes
+
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: false
+
+ignore:
+  - "**/*.test.ts"
+  - "**/*.spec.ts"
+  - "**/test/**"
+  - "**/tests/**"
+  - "**/examples/**"
+  - "**/scripts/**"
+  - "**/*.config.ts"
+  - "**/*.config.js"
+  - "**/*.config.mts"
+  - "**/*.config.mjs"
+  - "**/dist/**"
+  - "**/coverage/**"
+  - "**/node_modules/**"
