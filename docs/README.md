@@ -7,9 +7,7 @@ This directory contains comprehensive documentation for the tx-builder project.
 ### Development Documentation
 
 - **[Testing Guide](development/TESTING.md)** - Testing strategies and best practices
-- **[Workflow Summary](development/WORKFLOW_SUMMARY.md)** - Development workflow and CI/CD processes
-- **[Documentation Strategy](development/DOCUMENTATION_STRATEGY.md)** - Documentation architecture and guidelines
-- **[Versioning Implementation](development/VERSIONING_IMPLEMENTATION_REPORT.md)** - Version management and release processes
+- **[Current Workflows](development/CURRENT_WORKFLOWS.md)** - Active GitHub Actions workflows and CI/CD
 
 ### Publishing & Release
 
@@ -39,7 +37,7 @@ For release management, see:
 For development workflows and testing:
 
 - [Testing Guide](development/TESTING.md)
-- [Workflow Summary](development/WORKFLOW_SUMMARY.md)
+- [Current Workflows](development/CURRENT_WORKFLOWS.md)
 
 ---
 

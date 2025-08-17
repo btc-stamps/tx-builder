@@ -6,6 +6,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.3] - 2025-08-17
+
+### Added
+- JSR (Deno) registry support with full compatibility
+- Codecov integration for test coverage reporting
+- JSR badge in README
+- Cross-platform timer utilities for Deno/Node compatibility
+
+### Fixed
+- Timer compatibility issues between Deno and Node.js environments
+- TypeScript override modifiers for JSR compatibility
+- GitHub Pages documentation links now properly point to GitHub for TypeScript source files
+- README links now use absolute GitHub URLs for JSR/npm compatibility
+
+### Changed
+- Documentation links updated to work across all platforms (GitHub, npm, JSR)
+- Improved Codecov configuration with proper ignore patterns
+- Documentation structure cleaned up with outdated docs archived
+
+## [0.1.2] - 2025-08-17
+
+### Fixed
+- Import extensions changed from .js to .ts for Deno compatibility
+- Timer utility functions for cross-platform support
+- TypeScript type casting for timer returns
+
+### Changed
+- Version sync between package.json and deno.json
+
+## [0.1.1] - 2025-08-17
+
+### Fixed
+- Corrected import extensions from .js to .ts for module resolution
+- Updated all relative imports to include .ts extension
+- Fixed version synchronization between package.json and deno.json
+
+### Changed
+- Squashed commits for cleaner release history
+- Initial GitHub Pages deployment
+- Examples moved under docs/ directory
+
 ## [0.1.0] - 2025-08-16
 
 ### Added
@@ -69,3 +110,12 @@ and this project adheres to
 - Multiple usage examples for all features
 - Architecture documentation in docs/
 - Migration guides and best practices
+
+---
+
+## Links
+
+[0.1.3]: https://github.com/btc-stamps/tx-builder/compare/v0.1.1...v0.1.3
+[0.1.2]: https://github.com/btc-stamps/tx-builder/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/btc-stamps/tx-builder/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/btc-stamps/tx-builder/releases/tag/v0.1.0
