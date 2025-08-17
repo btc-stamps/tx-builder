@@ -255,7 +255,25 @@ export class DustCalculator {
 }
 
 /**
- * Helper function to create dust calculator with standard settings
+ * Create a dust calculator with standard settings for Bitcoin transactions
+ *
+ * @param networkType - The Bitcoin network type ('mainnet', 'testnet', or 'regtest')
+ * @param enableSrc20Rules - Whether to enable special SRC-20 dust rules
+ * @param src20Options - Optional SRC-20 specific configuration
+ * @returns A configured DustCalculator instance
+ *
+ * @example Basic dust calculation
+ * ```typescript
+ * const calculator = createDustCalculator();
+ * const dustAmount = calculator.getDustThreshold('p2wpkh');
+ * ```
+ *
+ * @example With SRC-20 rules
+ * ```typescript
+ * const calculator = createDustCalculator('mainnet', true, {
+ *   minOutputValue: 10000
+ * });
+ * ```
  */
 export function createDustCalculator(
   networkType: 'mainnet' | 'testnet' | 'regtest' = 'mainnet',

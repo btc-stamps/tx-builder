@@ -1182,28 +1182,36 @@ export class ElectrumXConnectionPool {
   /**
    * Get detailed performance metrics for a specific server
    */
-  getServerPerformanceMetrics(serverKey: string) {
+  getServerPerformanceMetrics(
+    serverKey: string,
+  ): import('../monitoring/server-metrics.ts').ServerMetrics | null {
     return this.performanceMonitor.getMetrics(serverKey);
   }
 
   /**
    * Get performance history for a specific server
    */
-  getServerPerformanceHistory(serverKey: string) {
+  getServerPerformanceHistory(
+    serverKey: string,
+  ): import('../monitoring/server-metrics.ts').ServerPerformanceHistory | null {
     return this.performanceMonitor.getPerformanceHistory(serverKey);
   }
 
   /**
    * Get servers ranked by performance
    */
-  getRankedServersByPerformance() {
+  getRankedServersByPerformance(): Array<
+    { serverId: string; metrics: import('../monitoring/server-metrics.ts').ServerMetrics }
+  > {
     return this.performanceMonitor.getRankedServers();
   }
 
   /**
    * Get only healthy servers based on performance criteria
    */
-  getHealthyServersByPerformance(minScore = 70) {
+  getHealthyServersByPerformance(
+    minScore = 70,
+  ): Array<{ serverId: string; metrics: import('../monitoring/server-metrics.ts').ServerMetrics }> {
     return this.performanceMonitor.getHealthyServers(minScore);
   }
 

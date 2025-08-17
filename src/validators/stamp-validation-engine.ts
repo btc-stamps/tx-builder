@@ -118,7 +118,27 @@ export class StampValidationEngine {
 }
 
 /**
- * Factory function for creating validation engine
+ * Create a stamp validation engine for validating Bitcoin Stamps data
+ *
+ * @param config - Optional validation configuration
+ * @returns A configured StampValidationEngine instance
+ *
+ * @example Basic validation
+ * ```typescript
+ * const validator = createStampValidationEngine();
+ * const result = await validator.validate(stampData);
+ * if (!result.isValid) {
+ *   console.error(result.errors);
+ * }
+ * ```
+ *
+ * @example With strict configuration
+ * ```typescript
+ * const validator = createStampValidationEngine({
+ *   maxFileSize: 5000000,
+ *   strictMode: true
+ * });
+ * ```
  */
 export function createStampValidationEngine(
   config?: StampValidationConfig,

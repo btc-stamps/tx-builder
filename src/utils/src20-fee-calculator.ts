@@ -465,7 +465,25 @@ export class Src20FeeCalculator extends FeeEstimator {
 }
 
 /**
- * Helper function to create SRC-20 fee calculator with standard settings
+ * Create an SRC-20 fee calculator with customizable rules for token transactions
+ *
+ * @param customRules - Optional partial fee rules to override defaults
+ * @param src20Options - Optional SRC-20 specific configuration
+ * @returns A configured Src20FeeCalculator instance
+ *
+ * @example Basic SRC-20 fee calculation
+ * ```typescript
+ * const calculator = createSrc20FeeCalculator();
+ * const fee = calculator.calculateTransferFee(utxos, feeRate);
+ * ```
+ *
+ * @example With custom rules
+ * ```typescript
+ * const calculator = createSrc20FeeCalculator({
+ *   baseMultiplier: 1.5,
+ *   minFeeMultiplier: 2
+ * });
+ * ```
  */
 export function createSrc20FeeCalculator(
   customRules?: Partial<Src20FeeRules>,

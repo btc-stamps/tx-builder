@@ -674,7 +674,25 @@ export class AdvancedFeeCalculator extends FeeEstimator {
 }
 
 /**
- * Factory function to create advanced fee calculator
+ * Create an advanced fee calculator with optimization features for complex transactions
+ *
+ * @param options - Optional configuration object
+ * @param options.networkType - The Bitcoin network type ('mainnet', 'testnet', or 'regtest')
+ * @returns A configured AdvancedFeeCalculator instance
+ *
+ * @example Basic usage
+ * ```typescript
+ * const calculator = createAdvancedFeeCalculator();
+ * const prediction = await calculator.predictFees(stampData, utxos, feeRate);
+ * ```
+ *
+ * @example For testnet
+ * ```typescript
+ * const calculator = createAdvancedFeeCalculator({
+ *   networkType: 'testnet'
+ * });
+ * const analysis = calculator.analyzeCompression(data);
+ * ```
  */
 export function createAdvancedFeeCalculator(options?: {
   networkType?: 'mainnet' | 'testnet' | 'regtest';

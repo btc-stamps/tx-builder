@@ -113,10 +113,10 @@ const psbt = await new SRC20TokenBuilder().buildSRC20Transaction({
 // For custom protection configuration:
 const selector = selectorFactory.createSelector('protection-aware', {
   protectionConfig: {
-    enableOrdinalsDetection: true,     // Detect inscriptions and runes
-    enableCounterpartyDetection: true, // Detect UTXO attached assets 
-    enableStampsDetection: true,       // Detect UTXO attached stamps
-  }
+    enableOrdinalsDetection: true, // Detect inscriptions and runes
+    enableCounterpartyDetection: true, // Detect UTXO attached assets
+    enableStampsDetection: true, // Detect UTXO attached stamps
+  },
 });
 
 // Use with any builder
