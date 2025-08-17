@@ -2,7 +2,7 @@ name: Coverage Analysis
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   schedule:
     # Run coverage analysis weekly on Monday at 3 AM UTC
     - cron: '0 3 * * 1'
