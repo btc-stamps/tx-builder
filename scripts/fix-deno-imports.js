@@ -43,7 +43,7 @@ function fixImportsInFile(filePath) {
           // Directory with index.ts
           newImportPath = importPath + '/index.ts';
         }
-      } catch (e) {
+      } catch {
         // If we can't resolve, just add .ts
         newImportPath = importPath + '.ts';
       }
