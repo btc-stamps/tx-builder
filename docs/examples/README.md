@@ -16,7 +16,7 @@ Complete examples for Bitcoin transaction building with ordinals/counterparty aw
 | Counterparty Encoding  | [`counterparty-encoding-decoding.md`](./counterparty-encoding-decoding.md) | Counterparty protocol encoding reference          | 📖 Reference        |
 | Encoding Validation    | [`encoding-validation-summary.md`](./encoding-validation-summary.md)       | Validation results and format compliance          | 📖 Reference        |
 | **🔧 Configuration**   |                                                                            |                                                   |                     |
-| ElectrumX Config       | [`tx-builder.config.json`](./tx-builder.config.json)                       | Sample ElectrumX server configuration             | ⚙️ Config           |
+| ElectrumX Config       | [Configuration Examples](https://github.com/btc-stamps/tx-builder/tree/main/examples) | Sample ElectrumX server configuration             | ⚙️ Config           |
 | Web Interface          | [`index.html`](./index.html)                                               | Interactive examples browser                      | 🌐 Browser          |
 
 ## 🚀 Getting Started
@@ -152,7 +152,7 @@ console.log(`Format: ${result.metadata.imageFormat}`);
 
 | File                     | Description                    | Purpose                                  |
 | ------------------------ | ------------------------------ | ---------------------------------------- |
-| `tx-builder.config.json` | Sample ElectrumX configuration | Server endpoints and connection settings |
+| Configuration Examples | Sample ElectrumX configuration | See GitHub repository for configuration examples |
 | `index.html`             | Interactive examples browser   | Web interface for exploring examples     |
 
 ### 📝 Key Features Demonstrated
@@ -233,8 +233,8 @@ cat examples/encoding-validation-summary.md
 ### Configuration Files
 
 ```bash
-# Sample ElectrumX server configuration
-cat examples/tx-builder.config.json
+# See GitHub repository for configuration examples
+# https://github.com/btc-stamps/tx-builder/tree/main/examples
 
 # Interactive examples browser (open in browser)
 open examples/index.html
@@ -307,9 +307,9 @@ Examples include comprehensive test cases:
 ## 🔗 Quick Links
 
 - **Installation**: `npm install @btc-stamps/tx-builder`
-- **Full Documentation**: [../docs/README.md](../docs/README.md)
-- **Validation Scripts**: [../scripts/](../scripts/)
-- **Source Code**: [../src/](../src/)
+- **Full Documentation**: [GitHub Repository](https://github.com/btc-stamps/tx-builder)
+- **Validation Scripts**: [GitHub Scripts](https://github.com/btc-stamps/tx-builder/tree/main/scripts)
+- **Source Code**: [GitHub Source](https://github.com/btc-stamps/tx-builder/tree/main/src)
 
 ---
 
@@ -331,7 +331,7 @@ Examples include comprehensive test cases:
 - 📖 `transaction-structures.md` - Bitcoin transaction format reference
 - 📖 `counterparty-encoding-decoding.md` - Protocol documentation
 - 📖 `encoding-validation-summary.md` - Validation report
-- ⚙️ `tx-builder.config.json` - ElectrumX server configuration
+- ⚙️ Configuration Examples - See GitHub repository
 - 🌐 `index.html` - Interactive examples browser
 - 📋 `README.md` - This comprehensive guide
 
