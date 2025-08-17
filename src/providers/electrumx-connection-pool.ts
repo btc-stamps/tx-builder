@@ -9,7 +9,6 @@ import {
   clearTimeoutCompat,
   setIntervalCompat,
   setTimeoutCompat,
-  type TimerId,
 } from '../utils/timer-utils.ts';
 
 import type {

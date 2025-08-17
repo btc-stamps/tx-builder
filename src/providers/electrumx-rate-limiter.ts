@@ -4,7 +4,6 @@
  */
 
 import {
-  clearIntervalCompat,
   setIntervalCompat,
   type TimerId,
 } from '../utils/timer-utils.ts';
