@@ -26,7 +26,7 @@ Build Bitcoin transactions with native support for **Bitcoin Stamps**, **SRC-20 
 
 - **🖼️ Bitcoin Stamps**: Complete Bitcoin Stamp metaprotocol support
 - **🪙 SRC-20 Tokens**: Full lifecycle support (deploy, mint, transfer)
-- **🛡️ UTXO Protection**: Automatic protection of Ordinals, Inscriptions & Stamps
+- **🛡️ UTXO Protection**: Automatic protection of Ordinals, Inscriptions, Stamps & Counterparty assets
 - **⚡ Smart Selection**: 6 UTXO selection algorithms with optimization
 - **🔌 Zero Config**: Works out-of-the-box with reliable defaults
 - **🧪 Battle-Tested**: Comprehensive test suite with 430+ tests
@@ -55,25 +55,28 @@ import { createTransactionBuilder } from 'https://deno.land/x/bitcoin_tx_builder
 
 ## 🚀 Quick Start
 
-### Bitcoin Stamps (Recommended)
+### Bitcoin Stamps with UTXO Protection
 
 ```typescript
 import { BitcoinStampBuilder, SelectorFactory } from '@btc-stamps/tx-builder';
 
-// Zero-config setup with comprehensive UTXO protection
+// Zero-config setup with automatic UTXO protection
 const selectorFactory = SelectorFactory.getInstance();
 const builder = new BitcoinStampBuilder(network, selectorFactory);
 
-// Build complete stamp transaction
+// Build stamp transaction - automatically protects:
+// ✅ Ordinals (sats with inscriptions or runes)
+// ✅ Bitcoin Stamps (all types)
+// ✅ Counterparty assets (XCP, PEPECASH, etc.)
+// ✅ SRC-20 tokens
 const result = await builder.buildStampTransaction(utxos, {
   stampData: {
     imageData: imageBuffer,
-    filename: 'my-stamp.png', // optional
+    filename: 'my-stamp.png',
   },
   fromAddress: 'bc1q...',
-  cpid: 'A95428956662000000',
   feeRate: 20,
-  algorithm: 'branch-and-bound',
+  algorithm: 'protection-aware', // Optional: explicitly use protection-aware selection
 });
 ```
 
@@ -102,19 +105,22 @@ const psbt = await new SRC20TokenBuilder().buildSRC20Transaction({
 });
 ```
 
-## 🛡️ UTXO Protection
+## 🛡️ Advanced UTXO Protection
 
-**Critical for production**: Automatic protection of valuable UTXOs containing Ordinals, Inscriptions, Bitcoin Stamps, and other assets.
+**Built-in protection** for **Ordinals**, **Inscriptions**, **Stamps**, **Counterparty assets**, and **SRC-20 tokens** is automatic in all builders.
 
 ```typescript
-import { OrdinalsAwareSelector, OrdinalsMultiProviderDetector } from '@btc-stamps/tx-builder';
+// For custom protection configuration:
+const selector = selectorFactory.createSelector('protection-aware', {
+  protectionConfig: {
+    enableOrdinalsDetection: true,     // Detect inscriptions and runes
+    enableCounterpartyDetection: true, // Detect UTXO attached assets 
+    enableStampsDetection: true,       // Detect UTXO attached stamps
+  }
+});
 
-// Setup protection (used automatically in BitcoinStampBuilder)
-const detector = new OrdinalsMultiProviderDetector();
-const selector = new OrdinalsAwareSelector(detector, baseSelector);
-
-// Protected selection - valuable UTXOs automatically excluded
-const selection = selector.select(utxos, options);
+// Use with any builder
+builder.setSelector(selector);
 ```
 
 ## ⚡ UTXO Selection Algorithms
