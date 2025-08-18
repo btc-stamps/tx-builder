@@ -6,18 +6,18 @@ Complete examples for Bitcoin transaction building with ordinals/counterparty aw
 
 ## 📋 Quick Reference
 
-| Category               | File                                                                       | Description                                       | Status              |
-| ---------------------- | -------------------------------------------------------------------------- | ------------------------------------------------- | ------------------- |
-| **🎯 Simple Examples** |                                                                            |                                                   |                     |
-| SRC-20 Encoding        | [`simple-src20-tokens.ts`](./simple-src20-tokens.ts)                       | **✅ WORKING** Basic SRC-20 encoding examples     | ✅ Production Ready |
-| Bitcoin Stamps         | [`simple-bitcoin-stamps.ts`](./simple-bitcoin-stamps.ts)                   | **✅ WORKING** Basic stamp encoding examples      | ✅ Production Ready |
-| **📚 Documentation**   |                                                                            |                                                   |                     |
-| Transaction Structures | [`transaction-structures.md`](./transaction-structures.md)                 | Complete Bitcoin transaction format documentation | 📖 Reference        |
-| Counterparty Encoding  | [`counterparty-encoding-decoding.md`](./counterparty-encoding-decoding.md) | Counterparty protocol encoding reference          | 📖 Reference        |
-| Encoding Validation    | [`encoding-validation-summary.md`](./encoding-validation-summary.md)       | Validation results and format compliance          | 📖 Reference        |
-| **🔧 Configuration**   |                                                                            |                                                   |                     |
+| Category               | File                                                                                  | Description                                       | Status              |
+| ---------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------- | ------------------- |
+| **🎯 Simple Examples** |                                                                                       |                                                   |                     |
+| SRC-20 Encoding        | [`simple-src20-tokens.ts`](./simple-src20-tokens.ts)                                  | **✅ WORKING** Basic SRC-20 encoding examples     | ✅ Production Ready |
+| Bitcoin Stamps         | [`simple-bitcoin-stamps.ts`](./simple-bitcoin-stamps.ts)                              | **✅ WORKING** Basic stamp encoding examples      | ✅ Production Ready |
+| **📚 Documentation**   |                                                                                       |                                                   |                     |
+| Transaction Structures | [`transaction-structures.md`](./transaction-structures.md)                            | Complete Bitcoin transaction format documentation | 📖 Reference        |
+| Counterparty Encoding  | [`counterparty-encoding-decoding.md`](./counterparty-encoding-decoding.md)            | Counterparty protocol encoding reference          | 📖 Reference        |
+| Encoding Validation    | [`encoding-validation-summary.md`](./encoding-validation-summary.md)                  | Validation results and format compliance          | 📖 Reference        |
+| **🔧 Configuration**   |                                                                                       |                                                   |                     |
 | ElectrumX Config       | [Configuration Examples](https://github.com/btc-stamps/tx-builder/tree/main/examples) | Sample ElectrumX server configuration             | ⚙️ Config           |
-| Web Interface          | [`index.html`](./index.html)                                               | Interactive examples browser                      | 🌐 Browser          |
+| Web Interface          | [`index.html`](./index.html)                                                          | Interactive examples browser                      | 🌐 Browser          |
 
 ## 🚀 Getting Started
 
@@ -150,10 +150,10 @@ console.log(`Format: ${result.metadata.imageFormat}`);
 
 ### ⚙️ Configuration Files (2/2)
 
-| File                     | Description                    | Purpose                                  |
-| ------------------------ | ------------------------------ | ---------------------------------------- |
+| File                   | Description                    | Purpose                                          |
+| ---------------------- | ------------------------------ | ------------------------------------------------ |
 | Configuration Examples | Sample ElectrumX configuration | See GitHub repository for configuration examples |
-| `index.html`             | Interactive examples browser   | Web interface for exploring examples     |
+| `index.html`           | Interactive examples browser   | Web interface for exploring examples             |
 
 ### 📝 Key Features Demonstrated
 

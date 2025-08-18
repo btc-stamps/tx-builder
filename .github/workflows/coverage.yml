@@ -2,15 +2,28 @@ name: Coverage Analysis
 
 on:
   push:
-    branches: [main, dev]
+    branches: [dev] # Run on pushes to dev
+  pull_request:
+    branches: [main, dev] # Run on PRs to main or dev for coverage diff
   schedule:
     # Run coverage analysis weekly on Monday at 3 AM UTC
     - cron: '0 3 * * 1'
   workflow_dispatch:
 # Allow manual trigger for coverage reports
 
+# Cancel duplicate workflow runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 env:
   NODE_OPTIONS: '--max-old-space-size=4096'
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  checks: write
 
 jobs:
   coverage:
@@ -67,31 +80,31 @@ jobs:
       - name: Coverage threshold check
         run: |
           echo "Checking coverage thresholds..."
-          echo "Statements: ${{ steps.coverage-summary.outputs.statements }}% (baseline: 14%)"
-          echo "Branches: ${{ steps.coverage-summary.outputs.branches }}% (baseline: 70%)"
-          echo "Functions: ${{ steps.coverage-summary.outputs.functions }}% (baseline: 53%)"
-          echo "Lines: ${{ steps.coverage-summary.outputs.lines }}% (baseline: 14%)"
+          echo "Statements: ${{ steps.coverage-summary.outputs.statements }}% (baseline: 25%)"
+          echo "Branches: ${{ steps.coverage-summary.outputs.branches }}% (baseline: 74%)"
+          echo "Functions: ${{ steps.coverage-summary.outputs.functions }}% (baseline: 71%)"
+          echo "Lines: ${{ steps.coverage-summary.outputs.lines }}% (baseline: 25%)"
           echo "Overall: ${{ steps.coverage-summary.outputs.overall }}%"
 
           # Check baseline thresholds for v0.1.0 release
           # These are set to current actual levels - will be increased in future releases
-          if (( $(echo "${{ steps.coverage-summary.outputs.statements }} < 14" | bc -l) )); then
-            echo "❌ Statements coverage below baseline (14%)"
+          if (( $(echo "${{ steps.coverage-summary.outputs.statements }} < 25" | bc -l) )); then
+            echo "❌ Statements coverage below baseline (25%)"
             exit 1
           fi
 
-          if (( $(echo "${{ steps.coverage-summary.outputs.branches }} < 70" | bc -l) )); then
-            echo "❌ Branches coverage below baseline (70%)"
+          if (( $(echo "${{ steps.coverage-summary.outputs.branches }} < 74" | bc -l) )); then
+            echo "❌ Branches coverage below baseline (74%)"
             exit 1
           fi
 
-          if (( $(echo "${{ steps.coverage-summary.outputs.functions }} < 53" | bc -l) )); then
-            echo "❌ Functions coverage below baseline (53%)"
+          if (( $(echo "${{ steps.coverage-summary.outputs.functions }} < 71" | bc -l) )); then
+            echo "❌ Functions coverage below baseline (71%)"
             exit 1
           fi
 
-          if (( $(echo "${{ steps.coverage-summary.outputs.lines }} < 14" | bc -l) )); then
-            echo "❌ Lines coverage below baseline (14%)"
+          if (( $(echo "${{ steps.coverage-summary.outputs.lines }} < 25" | bc -l) )); then
+            echo "❌ Lines coverage below baseline (25%)"
             exit 1
           fi
 
@@ -135,18 +148,16 @@ jobs:
           message: |
             ## 📊 Coverage Report
 
-            | Metric | Coverage | Threshold | Status |
-            |--------|----------|-----------|--------|
-            | **Statements** | ${{ steps.coverage-summary.outputs.statements }}% | 85% | ${{ steps.coverage-summary.outputs.statements >= 85 && '✅' || '❌' }} |
-            | **Branches** | ${{ steps.coverage-summary.outputs.branches }}% | 80% | ${{ steps.coverage-summary.outputs.branches >= 80 && '✅' || '❌' }} |
-            | **Functions** | ${{ steps.coverage-summary.outputs.functions }}% | 85% | ${{ steps.coverage-summary.outputs.functions >= 85 && '✅' || '❌' }} |
-            | **Lines** | ${{ steps.coverage-summary.outputs.lines }}% | 85% | ${{ steps.coverage-summary.outputs.lines >= 85 && '✅' || '❌' }} |
-            | **Overall** | ${{ steps.coverage-summary.outputs.overall }}% | 85% | ${{ steps.coverage-summary.outputs.overall >= 85 && '✅' || '❌' }} |
+            | Metric | Coverage | Baseline | Status |
+            |--------|----------|----------|--------|
+            | **Statements** | ${{ steps.coverage-summary.outputs.statements }}% | 25% | ${{ steps.coverage-summary.outputs.statements >= 25 && '✅' || '❌' }} |
+            | **Branches** | ${{ steps.coverage-summary.outputs.branches }}% | 74% | ${{ steps.coverage-summary.outputs.branches >= 74 && '✅' || '❌' }} |
+            | **Functions** | ${{ steps.coverage-summary.outputs.functions }}% | 71% | ${{ steps.coverage-summary.outputs.functions >= 71 && '✅' || '❌' }} |
+            | **Lines** | ${{ steps.coverage-summary.outputs.lines }}% | 25% | ${{ steps.coverage-summary.outputs.lines >= 25 && '✅' || '❌' }} |
+            | **Overall** | ${{ steps.coverage-summary.outputs.overall }}% | 49% | ${{ steps.coverage-summary.outputs.overall >= 49 && '✅' || '❌' }} |
 
-            ### Module Coverage Requirements
-            - **Core modules**: 90% threshold ✅
-            - **Encoders modules**: 90% threshold ✅
-            - **Selectors modules**: 90% threshold ✅
+            > **Note**: Coverage baselines are set to current levels for v0.1.x.
+            > Future releases will gradually increase these thresholds.
 
             [View detailed coverage report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 

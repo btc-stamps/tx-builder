@@ -1,356 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@btc-stamps/tx-builder - Examples</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      line-height: 1.6;
-      background: #0d1117;
-      color: #c9d1d9;
-    }
-    
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    
-    header {
-      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-      padding: 3rem 0;
-      margin-bottom: 3rem;
-      border-bottom: 2px solid #444;
-    }
-    
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: white;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-    
-    .subtitle {
-      font-size: 1.2rem;
-      color: rgba(255,255,255,0.9);
-      margin-bottom: 1.5rem;
-    }
-    
-    .badges {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    
-    .badge {
-      display: inline-block;
-      padding: 0.6rem 1.2rem;
-      background: rgba(255,255,255,0.1);
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 500;
-      transition: all 0.3s;
-      border: 1px solid rgba(255,255,255,0.2);
-      backdrop-filter: blur(10px);
-    }
-    
-    .badge:hover {
-      background: rgba(255,255,255,0.2);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255,255,255,0.1);
-    }
-    
-    .section {
-      background: #161b22;
-      border-radius: 12px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      border: 1px solid #30363d;
-    }
-    
-    h2 {
-      color: #f0f6fc;
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    h3 {
-      color: #58a6ff;
-      margin: 1.5rem 0 0.5rem;
-      font-size: 1.2rem;
-    }
-    
-    pre {
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 1.5rem;
-      overflow-x: auto;
-      margin: 1rem 0;
-      position: relative;
-    }
-    
-    code {
-      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-      font-size: 0.9rem;
-      color: #e6edf3;
-    }
-    
-    /* Syntax highlighting colors */
-    .keyword { color: #ff79c6; }
-    .string { color: #f1fa8c; }
-    .comment { color: #6272a4; }
-    
-    .examples-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin: 1.5rem 0;
-    }
-    
-    .example-card {
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 1.5rem;
-      transition: all 0.3s;
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-    
-    .example-card:hover {
-      border-color: #58a6ff;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(88, 166, 255, 0.2);
-    }
-    
-    .example-card h3 {
-      color: #58a6ff;
-      margin: 0 0 0.5rem;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .example-card p {
-      color: #8b949e;
-      font-size: 0.95rem;
-      margin: 0 0 1rem;
-    }
-    
-    .example-link {
-      color: #58a6ff;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    
-    .example-link:hover {
-      text-decoration: underline;
-    }
-    
-    a {
-      color: #58a6ff;
-      text-decoration: none;
-    }
-    
-    a:hover {
-      text-decoration: underline;
-    }
-    
-    ul {
-      list-style-position: inside;
-      margin: 1rem 0;
-    }
-    
-    li {
-      margin: 0.5rem 0;
-      color: #c9d1d9;
-    }
-    
-    .icon {
-      font-size: 1.5rem;
-    }
-    
-    .feature-list {
-      list-style: none;
-      padding: 0;
-    }
-    
-    .feature-list li {
-      padding: 0.5rem 0;
-      color: #c9d1d9;
-    }
-    
-    .feature-list strong {
-      color: #f0f6fc;
-    }
-    
-    footer {
-      text-align: center;
-      padding: 3rem 0;
-      color: #8b949e;
-      border-top: 1px solid #30363d;
-      margin-top: 3rem;
-    }
-    
-    footer a {
-      color: #58a6ff;
-      margin: 0 1rem;
-    }
-    
-    @media (max-width: 768px) {
-      .container {
-        padding: 1rem;
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@btc-stamps/tx-builder - Examples</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      h1 {
-        font-size: 2rem;
-      }
-      .examples-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="container">
-      <h1>📚 @btc-stamps/tx-builder Examples</h1>
-      <p class="subtitle">Interactive examples and documentation for Bitcoin Stamps & SRC-20</p>
-      <div class="badges">
-        <a href="../" class="badge">🏠 Home</a>
-        <a href="https://www.npmjs.com/package/@btc-stamps/tx-builder" class="badge">📦 npm</a>
-        <a href="https://jsr.io/@btc-stamps/tx-builder" class="badge">🦕 JSR</a>
-        <a href="https://github.com/btc-stamps/tx-builder" class="badge">💻 GitHub</a>
-      </div>
-    </div>
-  </header>
 
-  <div class="container">
-    <section class="section">
-      <h2>🚀 Quick Start</h2>
-      <p style="margin-bottom: 1rem;">
-        Get started with Bitcoin Stamps and SRC-20 tokens using our comprehensive examples.
-      </p>
-      <pre><code><span class="comment"># Install the package</span>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+          sans-serif;
+        line-height: 1.6;
+        background: #0d1117;
+        color: #c9d1d9;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      header {
+        background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-bottom: 2px solid #444;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 1.5rem;
+      }
+
+      .badges {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.6rem 1.2rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+      }
+
+      .badge:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+      }
+
+      .section {
+        background: #161b22;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid #30363d;
+      }
+
+      h2 {
+        color: #f0f6fc;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      h3 {
+        color: #58a6ff;
+        margin: 1.5rem 0 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      pre {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 1.5rem;
+        overflow-x: auto;
+        margin: 1rem 0;
+        position: relative;
+      }
+
+      code {
+        font-family:
+          'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        font-size: 0.9rem;
+        color: #e6edf3;
+      }
+
+      /* Syntax highlighting colors */
+      .keyword {
+        color: #ff79c6;
+      }
+      .string {
+        color: #f1fa8c;
+      }
+      .comment {
+        color: #6272a4;
+      }
+
+      .examples-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+      }
+
+      .example-card {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 1.5rem;
+        transition: all 0.3s;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .example-card:hover {
+        border-color: #58a6ff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(88, 166, 255, 0.2);
+      }
+
+      .example-card h3 {
+        color: #58a6ff;
+        margin: 0 0 0.5rem;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .example-card p {
+        color: #8b949e;
+        font-size: 0.95rem;
+        margin: 0 0 1rem;
+      }
+
+      .example-link {
+        color: #58a6ff;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .example-link:hover {
+        text-decoration: underline;
+      }
+
+      a {
+        color: #58a6ff;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      ul {
+        list-style-position: inside;
+        margin: 1rem 0;
+      }
+
+      li {
+        margin: 0.5rem 0;
+        color: #c9d1d9;
+      }
+
+      .icon {
+        font-size: 1.5rem;
+      }
+
+      .feature-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .feature-list li {
+        padding: 0.5rem 0;
+        color: #c9d1d9;
+      }
+
+      .feature-list strong {
+        color: #f0f6fc;
+      }
+
+      footer {
+        text-align: center;
+        padding: 3rem 0;
+        color: #8b949e;
+        border-top: 1px solid #30363d;
+        margin-top: 3rem;
+      }
+
+      footer a {
+        color: #58a6ff;
+        margin: 0 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 1rem;
+        }
+        h1 {
+          font-size: 2rem;
+        }
+        .examples-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>📚 @btc-stamps/tx-builder Examples</h1>
+        <p class="subtitle">Interactive examples and documentation for Bitcoin Stamps & SRC-20</p>
+        <div class="badges">
+          <a href="../" class="badge">🏠 Home</a>
+          <a href="https://www.npmjs.com/package/@btc-stamps/tx-builder" class="badge">📦 npm</a>
+          <a href="https://jsr.io/@btc-stamps/tx-builder" class="badge">🦕 JSR</a>
+          <a href="https://github.com/btc-stamps/tx-builder" class="badge">💻 GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <section class="section">
+        <h2>🚀 Quick Start</h2>
+        <p style="margin-bottom: 1rem">
+          Get started with Bitcoin Stamps and SRC-20 tokens using our comprehensive examples.
+        </p>
+        <pre>
+<code><span class="comment"># Install the package</span>
 npm install @btc-stamps/tx-builder
 
 <span class="comment"># Run examples</span>
 npm run examples:src20    <span class="comment"># SRC-20 token examples</span>
 npm run examples:stamps   <span class="comment"># Bitcoin Stamps examples</span></code></pre>
-    </section>
+      </section>
 
-    <section class="section">
-      <h2>✨ Working Examples</h2>
-      <div class="examples-grid">
-        <div class="example-card">
-          <h3><span class="icon">🪙</span>SRC-20 Tokens</h3>
-          <p>
-            Complete SRC-20 encoding examples including DEPLOY, MINT, and TRANSFER operations with validation.
-          </p>
-          <a href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/simple-src20-tokens.ts" class="example-link">View Code →</a>
+      <section class="section">
+        <h2>✨ Working Examples</h2>
+        <div class="examples-grid">
+          <div class="example-card">
+            <h3><span class="icon">🪙</span>SRC-20 Tokens</h3>
+            <p>
+              Complete SRC-20 encoding examples including DEPLOY, MINT, and TRANSFER operations with
+              validation.
+            </p>
+            <a
+              href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/simple-src20-tokens.ts"
+              class="example-link"
+            >View Code →</a>
+          </div>
+
+          <div class="example-card">
+            <h3><span class="icon">🖼️</span>Bitcoin Stamps</h3>
+            <p>
+              Create immutable digital artifacts with automatic chunking and compression detection.
+            </p>
+            <a
+              href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/simple-bitcoin-stamps.ts"
+              class="example-link"
+            >View Code →</a>
+          </div>
+
+          <div class="example-card">
+            <h3><span class="icon">🔧</span>Advanced Building</h3>
+            <p>
+              Advanced transaction building patterns with UTXO selection and fee optimization.
+            </p>
+            <a
+              href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/advanced-transaction-building.ts"
+              class="example-link"
+            >View Code →</a>
+          </div>
         </div>
+      </section>
 
-        <div class="example-card">
-          <h3><span class="icon">🖼️</span>Bitcoin Stamps</h3>
-          <p>
-            Create immutable digital artifacts with automatic chunking and compression detection.
-          </p>
-          <a href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/simple-bitcoin-stamps.ts" class="example-link">View Code →</a>
+      <section class="section">
+        <h2>📖 Documentation</h2>
+        <div class="examples-grid">
+          <div class="example-card">
+            <h3>Transaction Structures</h3>
+            <p>
+              Complete Bitcoin transaction format documentation for Stamps and SRC-20.
+            </p>
+            <a
+              href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/transaction-structures.md"
+              class="example-link"
+            >Read Docs →</a>
+          </div>
+
+          <div class="example-card">
+            <h3>Counterparty Encoding</h3>
+            <p>
+              Protocol documentation for message types, encoding formats, and specifications.
+            </p>
+            <a
+              href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/counterparty-encoding-decoding.md"
+              class="example-link"
+            >Read Docs →</a>
+          </div>
+
+          <div class="example-card">
+            <h3>Validation Summary</h3>
+            <p>
+              Encoding format validation results and compliance testing documentation.
+            </p>
+            <a
+              href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/encoding-validation-summary.md"
+              class="example-link"
+            >Read Docs →</a>
+          </div>
         </div>
+      </section>
 
-        <div class="example-card">
-          <h3><span class="icon">🔧</span>Advanced Building</h3>
-          <p>
-            Advanced transaction building patterns with UTXO selection and fee optimization.
-          </p>
-          <a href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/advanced-transaction-building.ts" class="example-link">View Code →</a>
-        </div>
-      </div>
-    </section>
+      <section class="section">
+        <h2>🛡️ Key Features</h2>
+        <ul class="feature-list">
+          <li>
+            ✅ <strong>Bitcoin Stamps</strong>: Complete protocol implementation with Counterparty
+            integration
+          </li>
+          <li>
+            ✅ <strong>SRC-20 Tokens</strong>: Full lifecycle support (deploy, mint, transfer)
+          </li>
+          <li>
+            ✅ <strong>UTXO Protection</strong>: Automatic detection and protection of valuable
+            assets
+          </li>
+          <li>
+            ✅ <strong>Multiple Algorithms</strong>: 6 UTXO selection strategies for optimization
+          </li>
+          <li>
+            ✅ <strong>Zero Configuration</strong>: Works out-of-the-box with reliable defaults
+          </li>
+          <li>✅ <strong>TypeScript First</strong>: Full type safety and IntelliSense support</li>
+          <li>
+            ✅ <strong>Battle Tested</strong>: Comprehensive test coverage with real-world
+            validation
+          </li>
+        </ul>
+      </section>
 
-    <section class="section">
-      <h2>📖 Documentation</h2>
-      <div class="examples-grid">
-        <div class="example-card">
-          <h3>Transaction Structures</h3>
-          <p>
-            Complete Bitcoin transaction format documentation for Stamps and SRC-20.
-          </p>
-          <a href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/transaction-structures.md" class="example-link">Read Docs →</a>
-        </div>
+      <section class="section">
+        <h2>📝 Example Categories</h2>
+        <h3>🎯 Simple Examples</h3>
+        <ul>
+          <li>
+            <strong>SRC-20 Encoding</strong>: Basic token operations without complex transaction
+            building
+          </li>
+          <li>
+            <strong>Bitcoin Stamps</strong>: Image and text encoding with automatic formatting
+          </li>
+        </ul>
 
-        <div class="example-card">
-          <h3>Counterparty Encoding</h3>
-          <p>
-            Protocol documentation for message types, encoding formats, and specifications.
-          </p>
-          <a href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/counterparty-encoding-decoding.md" class="example-link">Read Docs →</a>
-        </div>
+        <h3>📚 Technical Documentation</h3>
+        <ul>
+          <li><strong>Transaction Structures</strong>: Complete on-chain format specifications</li>
+          <li><strong>Protocol Documentation</strong>: Counterparty and SRC-20 encoding details</li>
+          <li><strong>Validation Reports</strong>: Compliance testing and format validation</li>
+        </ul>
 
-        <div class="example-card">
-          <h3>Validation Summary</h3>
-          <p>
-            Encoding format validation results and compliance testing documentation.
-          </p>
-          <a href="https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/encoding-validation-summary.md" class="example-link">Read Docs →</a>
-        </div>
-      </div>
-    </section>
+        <h3>🔧 Advanced Topics</h3>
+        <ul>
+          <li><strong>UTXO Selection</strong>: Multiple algorithms for optimal coin selection</li>
+          <li><strong>Fee Optimization</strong>: Size calculation and fee estimation</li>
+          <li><strong>Multi-Provider Support</strong>: Configuring multiple detection providers</li>
+        </ul>
+      </section>
 
-    <section class="section">
-      <h2>🛡️ Key Features</h2>
-      <ul class="feature-list">
-        <li>✅ <strong>Bitcoin Stamps</strong>: Complete protocol implementation with Counterparty integration</li>
-        <li>✅ <strong>SRC-20 Tokens</strong>: Full lifecycle support (deploy, mint, transfer)</li>
-        <li>✅ <strong>UTXO Protection</strong>: Automatic detection and protection of valuable assets</li>
-        <li>✅ <strong>Multiple Algorithms</strong>: 6 UTXO selection strategies for optimization</li>
-        <li>✅ <strong>Zero Configuration</strong>: Works out-of-the-box with reliable defaults</li>
-        <li>✅ <strong>TypeScript First</strong>: Full type safety and IntelliSense support</li>
-        <li>✅ <strong>Battle Tested</strong>: Comprehensive test coverage with real-world validation</li>
-      </ul>
-    </section>
-
-    <section class="section">
-      <h2>📝 Example Categories</h2>
-      <h3>🎯 Simple Examples</h3>
-      <ul>
-        <li><strong>SRC-20 Encoding</strong>: Basic token operations without complex transaction building</li>
-        <li><strong>Bitcoin Stamps</strong>: Image and text encoding with automatic formatting</li>
-      </ul>
-
-      <h3>📚 Technical Documentation</h3>
-      <ul>
-        <li><strong>Transaction Structures</strong>: Complete on-chain format specifications</li>
-        <li><strong>Protocol Documentation</strong>: Counterparty and SRC-20 encoding details</li>
-        <li><strong>Validation Reports</strong>: Compliance testing and format validation</li>
-      </ul>
-
-      <h3>🔧 Advanced Topics</h3>
-      <ul>
-        <li><strong>UTXO Selection</strong>: Multiple algorithms for optimal coin selection</li>
-        <li><strong>Fee Optimization</strong>: Size calculation and fee estimation</li>
-        <li><strong>Multi-Provider Support</strong>: Configuring multiple detection providers</li>
-      </ul>
-    </section>
-
-    <section class="section">
-      <h2>🚀 Running Examples</h2>
-      <pre><code><span class="comment"># Clone the repository</span>
+      <section class="section">
+        <h2>🚀 Running Examples</h2>
+        <pre>
+<code><span class="comment"># Clone the repository</span>
 git clone https://github.com/btc-stamps/tx-builder.git
 cd tx-builder
 
@@ -365,22 +415,22 @@ npx tsx docs/examples/simple-bitcoin-stamps.ts
 npm run examples:src20
 npm run examples:stamps
 npm run examples  <span class="comment"># Run all examples</span></code></pre>
-    </section>
-  </div>
-
-  <footer>
-    <div class="container">
-      <p>
-        Built with 💜 for the Bitcoin Stamps community
-        <br><br>
-        <a href="../">Home</a>
-        <a href="https://github.com/btc-stamps/tx-builder">GitHub</a>
-        <a href="https://www.npmjs.com/package/@btc-stamps/tx-builder">npm</a>
-        <a href="https://jsr.io/@btc-stamps/tx-builder">JSR</a>
-        <a href="https://t.me/BitcoinStamps">Telegram</a>
-        <a href="https://x.com/stampchain">X</a>
-      </p>
+      </section>
     </div>
-  </footer>
-</body>
+
+    <footer>
+      <div class="container">
+        <p>
+          Built with 💜 for the Bitcoin Stamps community
+          <br><br>
+          <a href="../">Home</a>
+          <a href="https://github.com/btc-stamps/tx-builder">GitHub</a>
+          <a href="https://www.npmjs.com/package/@btc-stamps/tx-builder">npm</a>
+          <a href="https://jsr.io/@btc-stamps/tx-builder">JSR</a>
+          <a href="https://t.me/BitcoinStamps">Telegram</a>
+          <a href="https://x.com/stampchain">X</a>
+        </p>
+      </div>
+    </footer>
+  </body>
 </html>

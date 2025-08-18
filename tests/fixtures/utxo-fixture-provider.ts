@@ -6,7 +6,7 @@
  */
 
 import type { UTXO } from '../../src/interfaces/provider.interface';
-import { realUTXOFixtures } from '../../test-fixtures/realUTXOFixtures';
+import { realUTXOFixtures } from './realUTXOFixtures';
 
 export interface UTXOTestSet {
   name: string;

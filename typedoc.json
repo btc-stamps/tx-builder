@@ -1,0 +1,42 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "out": "./docs/api",
+  "name": "@btc-stamps/tx-builder",
+  "readme": "./README.md",
+  "includeVersion": true,
+  "sidebarLinks": {
+    "GitHub": "https://github.com/btc-stamps/tx-builder",
+    "npm": "https://www.npmjs.com/package/@btc-stamps/tx-builder",
+    "JSR": "https://jsr.io/@btc-stamps/tx-builder"
+  },
+  "navigationLinks": {
+    "Home": "https://btc-stamps.github.io/tx-builder",
+    "Examples": "https://btc-stamps.github.io/tx-builder/examples/"
+  },
+  "categorizeByGroup": true,
+  "defaultCategory": "Other",
+  "categoryOrder": [
+    "Builders",
+    "Selectors",
+    "Encoders",
+    "Providers",
+    "Core",
+    "Utils",
+    "*"
+  ],
+  "exclude": [
+    "**/node_modules/**",
+    "**/test/**",
+    "**/tests/**",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeInternal": true,
+  "hideGenerator": false,
+  "searchInComments": true,
+  "plugin": [],
+  "theme": "default"
+}

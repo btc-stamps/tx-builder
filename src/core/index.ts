@@ -1,5 +1,51 @@
 /**
- * Core transaction building functionality
+ * @module Core
+ * @description Core transaction building functionality for Bitcoin transactions, including Bitcoin Stamps, SRC-20 tokens,
+ * and advanced UTXO management. This module provides the fundamental building blocks for creating, validating,
+ * and optimizing Bitcoin transactions with support for Replace-by-Fee (RBF), Child-Pays-for-Parent (CPFP),
+ * and comprehensive UTXO selection algorithms.
+ *
+ * @example Basic transaction building
+ * ```typescript
+ * import { TransactionBuilder } from '@btc-stamps/tx-builder/core';
+ *
+ * const builder = new TransactionBuilder({
+ *   network: bitcoin.networks.bitcoin,
+ *   feeRate: 10 // sats/vbyte
+ * });
+ *
+ * const transaction = await builder.build({
+ *   inputs: utxos,
+ *   outputs: [{ address: 'bc1...', value: 100000 }],
+ *   changeAddress: 'bc1...'
+ * });
+ * ```
+ *
+ * @example Advanced PSBT building with performance monitoring
+ * ```typescript
+ * import { EnhancedPSBTBuilder, PerformanceSystem } from '@btc-stamps/tx-builder/core';
+ *
+ * const perfSystem = new PerformanceSystem();
+ * const psbtBuilder = new EnhancedPSBTBuilder({ performanceSystem: perfSystem });
+ *
+ * const psbt = await psbtBuilder.createPSBT({
+ *   inputs: utxos,
+ *   outputs: outputs,
+ *   optimizeForLowFees: true
+ * });
+ * ```
+ *
+ * @example RBF transaction acceleration
+ * ```typescript
+ * import { RBFBuilder } from '@btc-stamps/tx-builder/core';
+ *
+ * const rbfBuilder = new RBFBuilder();
+ * const acceleratedTx = await rbfBuilder.createRBFTransaction({
+ *   originalTxId: 'abc123...',
+ *   newFeeRate: 50,
+ *   utxos: additionalUtxos
+ * });
+ * ```
  */
 
 export * from './transaction-builder.ts';

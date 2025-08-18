@@ -79,6 +79,7 @@
     "README.md",
     "LICENSE"
   ],
+  "sideEffects": false,
   "scripts": {
     "build": "tsup",
     "build:watch": "tsup --watch",
@@ -97,7 +98,11 @@
     "typecheck": "tsc --noEmit",
     "sync-version": "node scripts/sync-version.js",
     "clean": "rm -rf dist coverage .turbo",
-    "prepublishOnly": "npm run build && npm run test"
+    "prepublishOnly": "npm run build && npm run test",
+    "docs:build": "typedoc",
+    "docs:clean": "rm -rf docs/api",
+    "docs:rebuild": "npm run docs:clean && npm run docs:build",
+    "docs:serve": "npx serve docs"
   },
   "keywords": [
     "bitcoin",
@@ -107,9 +112,28 @@
     "stamps",
     "src-20",
     "blockchain",
-    "cryptocurrency"
+    "cryptocurrency",
+    "bitcoin-stamps",
+    "counterparty",
+    "ordinals",
+    "metaprotocol",
+    "transaction-builder",
+    "utxo-selection"
   ],
-  "author": "Stampchain",
+  "author": {
+    "name": "Stampchain",
+    "url": "https://stampchain.io"
+  },
+  "contributors": [
+    {
+      "name": "Stampchain Team",
+      "url": "https://github.com/btc-stamps"
+    }
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/btc-stamps"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -140,6 +164,8 @@
     "eslint": "^9.33.0",
     "tsup": "^8.0.1",
     "tsx": "^4.7.0",
+    "typedoc": "^0.28.10",
+    "typedoc-plugin-markdown": "^4.8.1",
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.39.0",
     "vite": "^6.0.3",
@@ -150,7 +176,8 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
   },
   "type": "module"
 }

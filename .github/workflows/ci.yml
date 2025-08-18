@@ -2,9 +2,14 @@ name: CI
 
 on:
   push:
-    branches: [main, dev]
+    branches: [dev] # Run on pushes to dev
   pull_request:
-    branches: [main, dev]
+    branches: [main, dev] # Run on PRs targeting main or dev
+
+# Cancel duplicate workflow runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint:

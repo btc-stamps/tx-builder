@@ -13,21 +13,21 @@ coverage:
         threshold: 2%
 
 comment:
-  layout: "reach,diff,flags,files,footer"
+  layout: 'reach,diff,flags,files,footer'
   behavior: default
   require_changes: false
 
 ignore:
-  - "**/*.test.ts"
-  - "**/*.spec.ts"
-  - "**/test/**"
-  - "**/tests/**"
-  - "**/examples/**"
-  - "**/scripts/**"
-  - "**/*.config.ts"
-  - "**/*.config.js"
-  - "**/*.config.mts"
-  - "**/*.config.mjs"
-  - "**/dist/**"
-  - "**/coverage/**"
-  - "**/node_modules/**"
+  - '**/*.test.ts'
+  - '**/*.spec.ts'
+  - '**/test/**'
+  - '**/tests/**'
+  - '**/examples/**'
+  - '**/scripts/**'
+  - '**/*.config.ts'
+  - '**/*.config.js'
+  - '**/*.config.mts'
+  - '**/*.config.mjs'
+  - '**/dist/**'
+  - '**/coverage/**'
+  - '**/node_modules/**'

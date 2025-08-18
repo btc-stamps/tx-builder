@@ -231,7 +231,25 @@ export class ElectrumXPooledProvider extends BaseProvider {
   /**
    * Get connection pool statistics
    */
-  getPoolStats() {
+  getPoolStats(): {
+    servers: Array<{
+      server: string;
+      healthy: boolean;
+      activeConnections: number;
+      totalRequests: number;
+      successRate: number;
+      averageResponseTime: number;
+      consecutiveFailures: number;
+      healthScore: number;
+      circuitBreakerState: string;
+      lastHeartbeat: Date | null;
+      connectionsInUse: number;
+    }>;
+    totalConnections: number;
+    totalActiveConnections: number;
+    averageHealthScore: number;
+    circuitBreakersOpen: number;
+  } {
     return this.pool.getStats();
   }
 

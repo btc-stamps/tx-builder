@@ -1,6 +1,33 @@
 /**
- * Bitcoin Transaction Builder
- * Main entry point for the package
+ * @module @btc-stamps/tx-builder
+ *
+ * Bitcoin Transaction Builder - A comprehensive library for building Bitcoin transactions
+ * with support for Bitcoin Stamps, SRC-20 tokens, UTXO selection algorithms, and advanced
+ * fee optimization.
+ *
+ * @example Basic transaction building
+ * ```typescript
+ * import { createTransactionBuilder } from '@btc-stamps/tx-builder';
+ *
+ * const builder = createTransactionBuilder();
+ * const psbt = await builder.buildTransaction({
+ *   inputs: [...],
+ *   outputs: [...],
+ *   feeRate: 10
+ * });
+ * ```
+ *
+ * @example SRC-20 token transaction
+ * ```typescript
+ * import { SRC20TokenBuilder } from '@btc-stamps/tx-builder';
+ *
+ * const tokenBuilder = new SRC20TokenBuilder({...});
+ * const result = await tokenBuilder.buildTransferTransaction({
+ *   tick: 'STAMP',
+ *   amount: '1000',
+ *   recipient: 'bc1q...'
+ * });
+ * ```
  */
 
 // Core exports - specific exports to avoid conflicts
@@ -157,7 +184,21 @@ import type { Network } from 'bitcoinjs-lib';
 import { TransactionBuilder } from './core/transaction-builder.ts';
 
 /**
- * Create a new transaction builder instance
+ * Create a new transaction builder instance with default configuration
+ *
+ * @param network - The Bitcoin network to use (default: bitcoin mainnet)
+ * @returns A configured TransactionBuilder instance
+ *
+ * @example Create builder for mainnet
+ * ```typescript
+ * const builder = createTransactionBuilder();
+ * ```
+ *
+ * @example Create builder for testnet
+ * ```typescript
+ * import { networks } from 'bitcoinjs-lib';
+ * const builder = createTransactionBuilder(networks.testnet);
+ * ```
  */
 export function createTransactionBuilder(network: Network = networks.bitcoin): TransactionBuilder {
   return new TransactionBuilder({

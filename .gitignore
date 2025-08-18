@@ -79,6 +79,9 @@ dev-debug.log
 docs/archive/
 examples/archive/
 
+# Auto-generated API documentation (generated in CI)
+docs/api/
+
 # Development artifacts and temporary files
 .claude-activity.log
 test-failures.log
