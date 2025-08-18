@@ -1,6 +1,6 @@
 {
   "name": "@btc-stamps/tx-builder",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Transaction builder for Bitcoin Stamps and SRC-20 tokens with advanced UTXO selection",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
