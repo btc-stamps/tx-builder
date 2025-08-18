@@ -5,10 +5,13 @@
  * Validates that all required files and configurations are in place for releases
  */
 
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import process from 'node:process';
-const fs = require('fs');
-const path = require('path');
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.join(__dirname, '..');
 
 function checkFileExists(filePath, description) {

@@ -345,14 +345,11 @@ async function demonstrateNewFeature() {
 
 ## Release Process
 
-### Overview
+We use a dual-branch strategy (`dev` → `main`) with automated releases to npm and JSR.
 
-We use a dual-branch strategy with automated releases:
+**For detailed release instructions, see [docs/publishing/RELEASING.md](docs/publishing/RELEASING.md)**
 
-- `dev` branch: Active development and feature integration
-- `main` branch: Production-ready code with clean commit history
-
-### Complete Release Workflow
+### Quick Release Guide
 
 #### 1. Feature Development
 
@@ -399,96 +396,23 @@ gh pr merge [PR-NUMBER] --squash --admin
 #### 4. Sync Dev After Squash
 
 ```bash
-# Critical: Reset dev to main after squash merge
+# Note: This is now automated via post-release-sync.yml workflow
+# Manual sync only needed if automation fails:
 git checkout main && git pull origin main
 git checkout dev
 git reset --hard origin/main
 git push origin dev --force-with-lease
 ```
 
-#### 5. Create Git Tag and Trigger Release Workflow
+#### 5. Run Release
 
 ```bash
-# Create and push a git tag for the release
-# The tag should match the version in package.json (e.g., v0.1.6)
-git tag -a v0.1.6 -m "Release v0.1.6
-
-Features:
-- List main features
-- Another feature
-
-Fixes:
-- Bug fixes
-
-Improvements:
-- Performance improvements"
-
-git push origin v0.1.6
-
-# Run the release workflow from main branch
-gh workflow run release.yml \
-  --field version_bump=patch \    # or minor/major
-  --field dry_run=false
-```
-
-The workflow will:
-
-- Bump version according to semver
-- Build and test the package
-- Publish to npm
-- Publish to JSR
-- Create a PR with version updates
-- Generate GitHub Release with the tag
-
-#### 6. Finalize Version Sync
-
-```bash
-# Merge the automated version PR
-gh pr merge [VERSION-PR] --squash --admin
-
-# Final sync of dev with main
-git checkout main && git pull origin main
-git checkout dev
-git reset --hard origin/main
-git push origin dev --force-with-lease
-```
-
-### Version Guidelines
-
-Releases follow semantic versioning (semver):
-
-- **MAJOR** version: Breaking changes
-- **MINOR** version: New features (backward compatible)
-- **PATCH** version: Bug fixes
-
-### Quick Commands Reference
-
-```bash
-# Complete release sequence after dev is ready:
-
-# 1. Squash dev to main
-gh pr create --base main --head dev --title "feat: release description"
-gh pr merge [PR] --squash --admin
-
-# 2. Sync dev with main
-git checkout dev && git reset --hard origin/main && git push origin dev --force-with-lease
-
-# 3. Run release
+# From main branch, trigger release workflow
 gh workflow run release.yml --field version_bump=patch --field dry_run=false
-
-# 4. After workflow completes, merge version PR
-gh pr merge [VERSION-PR] --squash --admin
-
-# 5. Final sync
-git checkout dev && git reset --hard origin/main && git push origin dev --force-with-lease
 ```
 
-### Important Notes
-
-- **Always squash merge** when merging to main
-- **Always sync dev** after squashing to main
-- **Never push directly** to main (except through automated workflows)
-- The release workflow creates a PR instead of pushing directly to respect branch protection
+The workflow automatically handles versioning, publishing, and creates a PR with updates.
+See [docs/publishing/RELEASING.md](docs/publishing/RELEASING.md) for full details.
 
 ## Getting Help
 
