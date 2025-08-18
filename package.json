@@ -148,7 +148,7 @@
     "bip32": "^5.0.0-rc.0",
     "bitcoinjs-lib": "^6.1.5",
     "dotenv": "^17.2.1",
-    "ecpair": "^3.0.0",
+    "ecpair": "^2.1.0",
     "msgpack-lite": "^0.1.26",
     "tiny-secp256k1": "^2.2.3",
     "varuint-bitcoin": "^2.0.0"
