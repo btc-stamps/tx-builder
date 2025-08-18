@@ -83,7 +83,37 @@ interface ElectrumXHistoryItem {
 }
 
 /**
- * ElectrumX Provider implementation with full protocol support
+ * ElectrumX provider for interacting with Bitcoin network via ElectrumX servers
+ * 
+ * @remarks
+ * ElectrumXProvider implements a robust connection to ElectrumX servers with:
+ * - Automatic server failover and retry logic
+ * - WebSocket connection management
+ * - Full ElectrumX protocol support
+ * - Built-in caching for performance
+ * - Address validation and script hash conversion
+ * 
+ * Features:
+ * - Multiple server endpoints with automatic failover
+ * - Configurable retry attempts and timeouts
+ * - UTXO fetching with mempool awareness
+ * - Transaction broadcasting and monitoring
+ * - Balance queries with confirmed/unconfirmed breakdown
+ * - Fee estimation support
+ * 
+ * @example
+ * ```typescript
+ * const provider = new ElectrumXProvider({
+ *   endpoints: [
+ *     { host: 'electrum.blockstream.info', port: 50002, ssl: true }
+ *   ],
+ *   network: networks.bitcoin,
+ *   maxRetries: 3
+ * });
+ * 
+ * const utxos = await provider.getUTXOs('bc1q...');
+ * const balance = await provider.getBalance('bc1q...');
+ * ```
  */
 export class ElectrumXProvider extends BaseProvider {
   private config: ElectrumXConfig;

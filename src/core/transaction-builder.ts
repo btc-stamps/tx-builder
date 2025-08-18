@@ -45,6 +45,32 @@ import {
   type NormalizedFeeRate as _NormalizedFeeRate,
 } from '../utils/fee-normalizer.ts';
 
+/**
+ * Main transaction builder for creating Bitcoin transactions with advanced features
+ * 
+ * @remarks
+ * Provides comprehensive transaction building capabilities including:
+ * - UTXO selection and management
+ * - Fee calculation and optimization
+ * - Multi-signature support
+ * - RBF (Replace-By-Fee) configuration
+ * - Dust threshold management
+ * 
+ * @example
+ * ```typescript
+ * const builder = new TransactionBuilder({
+ *   network: networks.bitcoin,
+ *   dustThreshold: 546,
+ *   defaultFeeRate: 10
+ * });
+ * 
+ * const psbt = await builder.buildTransaction({
+ *   inputs: [...],
+ *   outputs: [...],
+ *   feeRate: 15
+ * });
+ * ```
+ */
 export class TransactionBuilder implements ITransactionBuilder {
   private config: Required<TransactionBuilderConfig>;
   private feeEstimator: FeeEstimator;

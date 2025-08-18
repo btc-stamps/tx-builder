@@ -73,8 +73,35 @@ export interface BitcoinStampIssuanceData {
 }
 
 /**
- * Bitcoin Stamp Builder
- * Provides builder pattern interface for constructing Bitcoin Stamp transactions
+ * High-level builder for creating Bitcoin Stamp transactions
+ * 
+ * @remarks
+ * BitcoinStampBuilder simplifies the creation of Bitcoin Stamp transactions by handling:
+ * - Image/file data encoding and compression
+ * - Multi-signature output creation for data storage
+ * - UTXO selection with protection for special assets
+ * - Fee calculation optimized for stamp transactions
+ * - Counterparty protocol integration
+ * 
+ * Features:
+ * - Automatic data compression (gzip/brotli)
+ * - Base64 encoding for binary data
+ * - CPID support for Counterparty assets
+ * - Built-in UTXO protection (Ordinals, Stamps, etc.)
+ * - Configurable fee rates and algorithms
+ * 
+ * @example
+ * ```typescript
+ * const builder = new BitcoinStampBuilder(network, selectorFactory);
+ * const result = await builder.buildStampTransaction(utxos, {
+ *   stampData: {
+ *     imageData: imageBuffer,
+ *     filename: 'art.png'
+ *   },
+ *   fromAddress: 'bc1q...',
+ *   feeRate: 20
+ * });
+ * ```
  */
 export class BitcoinStampBuilder extends TransactionBuilder {
   public readonly network: bitcoin.networks.Network;

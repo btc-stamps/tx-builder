@@ -80,8 +80,44 @@ export interface ISRC20TokenBuilder {
 }
 
 /**
- * SRC-20 token transaction builder
- * Provides a builder pattern interface for constructing SRC-20 transactions
+ * High-level builder for creating SRC-20 token transactions
+ * 
+ * @remarks
+ * SRC20TokenBuilder simplifies the creation of SRC-20 token transactions by handling:
+ * - Token deployment, minting, and transfer operations
+ * - Automatic encoding of SRC-20 protocol data
+ * - Multi-signature output creation for data storage
+ * - UTXO selection with asset protection
+ * - Optimized fee calculation for token transactions
+ * 
+ * Features:
+ * - Support for all SRC-20 operations (DEPLOY, MINT, TRANSFER)
+ * - Automatic data validation and encoding
+ * - Built-in UTXO protection for special assets
+ * - Configurable fee rates and selection algorithms
+ * - Compatible with Stampchain protocol standards
+ * 
+ * @example
+ * ```typescript
+ * const builder = new SRC20TokenBuilder({
+ *   network: networks.bitcoin,
+ *   feeRate: 15
+ * });
+ * 
+ * // Deploy a new token
+ * const deployResult = await builder.buildSRC20Transaction({
+ *   encodedData: await encoder.encode({
+ *     p: 'SRC-20',
+ *     op: 'DEPLOY',
+ *     tick: 'MYTOKEN',
+ *     max: '1000000',
+ *     lim: '1000'
+ *   }),
+ *   utxos: availableUTXOs,
+ *   changeAddress: 'bc1q...',
+ *   feeRate: 20
+ * });
+ * ```
  */
 export class SRC20TokenBuilder extends TransactionBuilder implements ISRC20TokenBuilder {
   public readonly network: bitcoin.networks.Network;

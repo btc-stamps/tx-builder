@@ -40,7 +40,67 @@ interface WasteCalculationMetrics {
 }
 
 /**
- * Waste-optimized selector that runs multiple algorithms and picks the best result
+ * Waste-Optimized UTXO Selection Algorithm - Multi-algorithm optimization with waste scoring
+ * 
+ * The Waste-Optimized selector is a meta-algorithm that runs multiple UTXO selection algorithms 
+ * in parallel and chooses the result with the lowest "waste" score. This approach combines the 
+ * strengths of different algorithms to find the most efficient UTXO selection for any given scenario.
+ *
+ * @remarks
+ * The algorithm works by executing multiple selection strategies simultaneously:
+ * 1. **Branch-and-Bound**: Optimal for small UTXO sets, finds mathematically best solutions
+ * 2. **Accumulative**: Fast greedy approach, good for consolidation and large transactions  
+ * 3. **Blackjack**: Excels at finding exact matches and minimizing change outputs
+ * 
+ * Each result is scored using a comprehensive waste metric that considers:
+ * - **Change Cost**: Fee cost of creating change outputs (34 * feeRate per output)
+ * - **Excess Cost**: Penalty for selecting more value than needed (encourages precision)
+ * - **Input Cost**: Fee overhead from using multiple inputs (68 * feeRate per input * 0.1)
+ *
+ * The selector uses configurable weighting factors to balance these costs based on use case.
+ * Advanced features include timeout protection, detailed error categorization, and 
+ * comprehensive performance tracking.
+ *
+ * Key features:
+ * - Parallel execution of multiple algorithms with timeout protection (default 5s)
+ * - Sophisticated waste scoring with configurable weighting factors
+ * - Detailed UTXO filtering with categorization (dust, low confirmations, protected)
+ * - Adaptive algorithm selection based on UTXO set characteristics
+ * - Performance benchmarking and algorithm usage statistics
+ * - Graceful fallback handling when algorithms fail
+ * - Rich error reporting with failure reason categorization
+ *
+ * Performance characteristics:
+ * - Slower than individual algorithms due to parallel execution overhead
+ * - Provides best overall results across diverse scenarios
+ * - Excellent for production systems where optimal selection is critical
+ * - Configurable execution time limits prevent hanging on large UTXO sets
+ *
+ * @example
+ * ```typescript
+ * const selector = new WasteOptimizedSelector({
+ *   algorithms: ['branch-and-bound', 'blackjack', 'accumulative'],
+ *   maxExecutionTime: 3000, // 3 second timeout
+ *   wasteWeighting: {
+ *     changeCost: 1.0,   // Full penalty for change outputs
+ *     excessCost: 0.5,   // Moderate penalty for excess value
+ *     inputCost: 0.1     // Light penalty for multiple inputs
+ *   }
+ * });
+ * 
+ * const result = selector.select(utxos, {
+ *   targetValue: 500000,
+ *   feeRate: 15,
+ *   maxInputs: 10,
+ *   dustThreshold: 546
+ * });
+ * 
+ * if (result.success) {
+ *   console.log(`Best algorithm: ${result.metadata.selectedAlgorithm}`);
+ *   console.log(`Waste score: ${result.wasteMetric}`);
+ *   console.log(`Execution time: ${result.metadata.executionTime}ms`);
+ * }
+ * ```
  */
 export class WasteOptimizedSelector extends BaseSelector {
   private algorithms: Map<string, BaseSelector>;

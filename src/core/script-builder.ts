@@ -8,6 +8,34 @@ import { Buffer } from 'node:buffer';
 import * as bitcoin from 'bitcoinjs-lib';
 import type { Network } from 'bitcoinjs-lib';
 
+/**
+ * Builder for creating various types of Bitcoin scripts
+ * 
+ * @remarks
+ * ScriptBuilder provides utilities for creating different Bitcoin script types
+ * used in transactions. It abstracts the complexity of script creation and
+ * provides a simple interface for common script patterns.
+ * 
+ * Supported script types:
+ * - P2PKH (Pay to Public Key Hash)
+ * - P2WPKH (Pay to Witness Public Key Hash)
+ * - P2SH (Pay to Script Hash)
+ * - P2WSH (Pay to Witness Script Hash)
+ * - P2TR (Pay to Taproot)
+ * - Multisig scripts
+ * - Custom OP_RETURN data scripts
+ * 
+ * @example
+ * ```typescript
+ * const scriptBuilder = new ScriptBuilder(networks.bitcoin);
+ * 
+ * // Create a P2WPKH script
+ * const p2wpkhScript = scriptBuilder.createP2WPKH('bc1q...');
+ * 
+ * // Create a multisig script
+ * const multisigScript = scriptBuilder.createMultisig(2, [pubkey1, pubkey2, pubkey3]);
+ * ```
+ */
 export class ScriptBuilder {
   private network: Network;
 

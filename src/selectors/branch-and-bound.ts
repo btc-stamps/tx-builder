@@ -29,6 +29,30 @@ interface SelectionCandidate {
   hasChange: boolean;
 }
 
+/**
+ * Branch and Bound UTXO selection algorithm for optimal coin selection
+ * 
+ * @remarks
+ * Implements the Branch and Bound algorithm to find the optimal set of UTXOs
+ * that minimizes transaction fees. This algorithm explores different combinations
+ * to find exact matches or minimal change amounts.
+ * 
+ * Features:
+ * - Finds changeless solutions when possible (40% target success rate)
+ * - Minimizes total fees over time using waste metric
+ * - Bitcoin Core compatible implementation
+ * - O(n²) pruning for efficiency
+ * 
+ * @example
+ * ```typescript
+ * const selector = new BranchAndBoundSelector();
+ * const result = selector.select(utxos, {
+ *   targetValue: 100000,
+ *   feeRate: 10,
+ *   changeAddress: 'bc1q...'
+ * });
+ * ```
+ */
 export class BranchAndBoundSelector extends BaseSelector {
   private readonly MAX_ITERATIONS = 100000;
   private readonly MAX_DEPTH = 20; // Prevent stack overflow

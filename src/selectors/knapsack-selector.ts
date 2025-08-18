@@ -10,21 +10,63 @@ import {
 import { BaseSelector } from './base-selector.ts';
 
 /**
- * Knapsack UTXO Selection Algorithm
+ * Knapsack UTXO Selection Algorithm - Legacy stochastic approximation
+ * 
+ * The Knapsack selector implements Bitcoin Core's legacy UTXO selection algorithm 
+ * (pre-2018) using a stochastic approximation approach. It runs multiple random 
+ * iterations to find good solutions, making it highly reliable and capable of 
+ * finding valid selections even when more sophisticated algorithms fail.
  *
- * This is the legacy selection algorithm from Bitcoin Core (pre-2018).
- * It uses a stochastic approximation approach, running multiple random
- * iterations to find a good solution.
+ * @remarks
+ * The algorithm operates through multiple phases:
+ * 1. **Exact Match Search**: First attempts to find precise combinations for changeless transactions
+ * 2. **Stochastic Iteration**: Runs up to 1000 random trials, each selecting UTXOs with 50% probability
+ * 3. **Accumulative Fallback**: If stochastic approach fails, uses simple largest-first accumulation
+ * 
+ * Each iteration processes UTXOs from largest to smallest value, randomly including each with
+ * a configurable probability (default 50%). The algorithm tracks the best solution found across
+ * all iterations, preferring selections that minimize excess value over the target amount.
  *
- * Algorithm:
- * 1. Runs up to 1000 iterations
- * 2. Each iteration randomly selects UTXOs with 50% probability
- * 3. Accumulates from largest to smallest
- * 4. Keeps the best solution that meets the target
- * 5. Prefers solutions closer to the target amount
+ * The algorithm includes intelligent early exit conditions and prefers solutions that avoid
+ * creating dust outputs (change below 1000 satoshis threshold).
  *
- * This algorithm always finds a solution if the wallet has sufficient funds,
- * making it a reliable fallback when other algorithms fail.
+ * Key features:
+ * - Highly reliable - always finds a solution when sufficient funds are available
+ * - Stochastic approach avoids local optima that deterministic algorithms might encounter
+ * - Configurable iteration count and inclusion probability for fine-tuning
+ * - Built-in exact match optimization for small UTXO combinations
+ * - Dust threshold handling to prevent unspendable change outputs
+ * - Accumulative fallback ensures solution availability
+ * - Maximum input constraints respected throughout selection process
+ *
+ * Performance characteristics:
+ * - Moderate performance, scales well with UTXO set size
+ * - Consistent execution time due to fixed iteration limit
+ * - Less optimal than modern algorithms but more predictable
+ * - Excellent fallback algorithm when others fail due to constraints
+ *
+ * @example
+ * ```typescript
+ * const selector = new KnapsackSelector();
+ * const result = selector.select(utxos, {
+ *   targetValue: 250000,  // 250,000 satoshis
+ *   feeRate: 20,         // 20 sat/vB
+ *   maxInputs: 8,        // Limit to 8 inputs max
+ *   minConfirmations: 1   // Require confirmed UTXOs
+ * });
+ * 
+ * if (result.success) {
+ *   console.log(`Selected ${result.inputCount} UTXOs`);
+ *   console.log(`Total value: ${result.totalValue} satoshis`);
+ *   console.log(`Change: ${result.change} satoshis`);
+ * }
+ * 
+ * // Configurable version with custom parameters
+ * const customSelector = new ConfigurableKnapsackSelector({
+ *   iterations: 2000,           // More iterations for better results
+ *   inclusionProbability: 0.3   // Lower probability for tighter selection
+ * });
+ * ```
  */
 export class KnapsackSelector extends BaseSelector {
   protected MAX_ITERATIONS = 1000;
