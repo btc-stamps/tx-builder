@@ -1,0 +1,57 @@
+# Dependabot configuration for automated dependency updates
+# PRs will be created against the dev branch for testing before release
+version: 2
+updates:
+  # Enable version updates for npm dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+    target-branch: "dev"
+    open-pull-requests-limit: 5
+    pull-request-branch-name:
+      separator: "-"
+    labels:
+      - "dependencies"
+      - "automated"
+    reviewers:
+      - "kevinsitzes"  # Add your GitHub username or team
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    ignore:
+      # Add any dependencies you want to ignore
+      # - dependency-name: "example-package"
+      #   versions: ["1.x", "2.x"]
+    groups:
+      # Group related dependencies together
+      development-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+      production-dependencies:
+        dependency-type: "production"
+        update-types:
+          - "patch"
+    
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+    target-branch: "dev"
+    open-pull-requests-limit: 3
+    labels:
+      - "github-actions"
+      - "automated"
+    reviewers:
+      - "kevinsitzes"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
