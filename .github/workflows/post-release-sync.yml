@@ -1,0 +1,53 @@
+name: Post Release Sync
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  sync-dev:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Sync dev branch with main
+        run: |
+          # Fetch latest changes
+          git fetch origin
+
+          # Switch to dev branch
+          git checkout dev
+
+          # Reset dev to match main (preserving history)
+          git reset --hard origin/main
+
+          # Push the changes to dev
+          git push origin dev --force-with-lease
+
+          echo "✅ Successfully synced dev branch with main after release"
+
+      - name: Create sync confirmation comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Dev branch has been automatically synced with main after this release merge.'
+            })

@@ -26,6 +26,58 @@ GitHub repository secrets (Settings → Secrets and variables → Actions):
 3. Choose "Automation" type for CI/CD
 4. Copy token and add as `NPM_TOKEN` in GitHub Secrets
 
+## Pre-Release Checklist
+
+Before initiating any release:
+
+```bash
+# 1. Test with Node.js
+npm test
+npm run build
+npm run lint
+npm run typecheck
+
+# 2. Test with Bun (build compatibility)
+bun install
+bun run build
+bun run typecheck
+bun run test  # Uses Vitest, not Bun's test runner
+
+# 3. Verify version sync
+node scripts/sync-version.js --check
+
+# 4. Run validation scripts (if applicable to changes)
+npm run validate:all              # Run all validation scripts
+npm run validate:release-setup    # Validate release configuration
+npm run validate:import-maps      # Validate import maps
+npm run validate:counterparty     # Validate Counterparty encoding
+npm run validate:production       # Validate production endpoints
+
+# Individual validation scripts:
+# - scripts/validate-all.ts
+# - scripts/validate-release-setup.js
+# - scripts/validate-import-maps.ts
+# - scripts/validate-counterparty-encoding.ts
+# - scripts/validate-production-endpoints.ts
+# - scripts/validate-stampchain-master.ts
+# - scripts/validate-electrumx-reliability.ts
+
+# 5. Dry run the release locally
+npm version patch --no-git-tag-version
+node scripts/sync-version.js
+git status  # Check what would change
+git checkout -- .  # Revert changes
+
+# 6. Run CI workflows manually before release
+gh workflow run ci.yml --ref main
+gh workflow run bun-test.yml --ref main
+
+# 7. Do a dry run of release
+gh workflow run release.yml \
+  --field version_bump=patch \
+  --field dry_run=true
+```
+
 ## Release Process
 
 ### Automated Release (Recommended)
@@ -59,10 +111,12 @@ The project uses GitHub Actions for automated releases to both npm and JSR.
 1. **Tests & Build**: Runs full CI pipeline
 2. **Version Bump**: Updates package.json and deno.json
 3. **Build**: Creates distribution files
-4. **Publish npm**: Publishes to npmjs.com/@btc-stamps/tx-builder
-5. **Publish JSR**: Publishes to jsr.io/@btc-stamps/tx-builder (OIDC)
-6. **Git**: Creates tag and pushes changes
-7. **GitHub Release**: Creates release with changelog
+4. **Create Git Tag**: Automatically tags the release
+5. **Publish npm**: Publishes to npmjs.com/@btc-stamps/tx-builder
+6. **Publish JSR**: Publishes to jsr.io/@btc-stamps/tx-builder (OIDC)
+7. **Create PR**: Creates PR for version changes
+8. **GitHub Release**: Creates release with changelog
+9. **Trigger Sync**: Post-release sync workflow syncs dev with main
 
 ### Manual Release (Fallback)
 
@@ -156,6 +210,42 @@ fix: resolve bug
 docs: update documentation
 BREAKING CHANGE: description (triggers major version)
 ```
+
+## Runtime Compatibility Notes
+
+### Bun Support
+
+Bun is fully supported for **using** the package but has test runner limitations:
+
+**What Works with Bun:**
+
+- ✅ Installing dependencies (`bun install`)
+- ✅ Building the package (`bun run build`)
+- ✅ TypeScript compilation (`bun run typecheck`)
+- ✅ Running the package in production
+- ✅ Using as a dependency in Bun projects
+
+**Test Runner Incompatibility:**
+
+- ❌ `bun test` uses Bun's test runner (incompatible with Vitest mocks)
+- ✅ `bun run test` uses Vitest (fully compatible)
+
+**CI Configuration:**
+The Bun CI workflow uses `bun run test` to run Vitest tests through Bun.
+
+### Deno Support
+
+Partial support via npm compatibility layer. See [Deno Usage Guide](../DENO_USAGE.md) for details.
+
+## Automation Details
+
+### Post-Release Sync
+
+The `post-release-sync.yml` workflow automatically syncs the dev branch with main after any release PR is merged. This eliminates the manual sync step.
+
+### Version Synchronization
+
+The `scripts/sync-version.js` script ensures package.json and deno.json versions stay in sync. This runs automatically during the release workflow.
 
 ---
 

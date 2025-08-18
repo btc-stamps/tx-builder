@@ -345,11 +345,74 @@ async function demonstrateNewFeature() {
 
 ## Release Process
 
-Releases follow semantic versioning (semver):
+We use a dual-branch strategy (`dev` → `main`) with automated releases to npm and JSR.
 
-- **MAJOR** version: Breaking changes
-- **MINOR** version: New features (backward compatible)
-- **PATCH** version: Bug fixes
+**For detailed release instructions, see [docs/publishing/RELEASING.md](docs/publishing/RELEASING.md)**
+
+### Quick Release Guide
+
+#### 1. Feature Development
+
+```bash
+# Create feature branch from dev
+git checkout dev && git pull origin dev
+git checkout -b feature/your-feature-name
+
+# Make changes and commit
+git add .
+git commit -m "feat: your feature description"
+```
+
+#### 2. Merge Feature to Dev
+
+```bash
+# Push feature branch
+git push origin feature/your-feature-name
+
+# Create PR to dev branch
+gh pr create --base dev --head feature/your-feature-name \
+  --title "feat: your feature" \
+  --body "Description of changes"
+
+# Review and merge (regular merge is fine for dev)
+gh pr merge [PR-NUMBER] --merge
+```
+
+#### 3. Prepare Release from Dev to Main
+
+```bash
+# Ensure dev is up to date
+git checkout dev && git pull origin dev
+
+# Create PR from dev to main
+gh pr create --base main --head dev \
+  --title "chore: release vX.X.X" \
+  --body "Release notes describing all changes"
+
+# IMPORTANT: Always squash merge to keep main clean
+gh pr merge [PR-NUMBER] --squash --admin
+```
+
+#### 4. Sync Dev After Squash
+
+```bash
+# Note: This is now automated via post-release-sync.yml workflow
+# Manual sync only needed if automation fails:
+git checkout main && git pull origin main
+git checkout dev
+git reset --hard origin/main
+git push origin dev --force-with-lease
+```
+
+#### 5. Run Release
+
+```bash
+# From main branch, trigger release workflow
+gh workflow run release.yml --field version_bump=patch --field dry_run=false
+```
+
+The workflow automatically handles versioning, publishing, and creates a PR with updates.
+See [docs/publishing/RELEASING.md](docs/publishing/RELEASING.md) for full details.
 
 ## Getting Help
 

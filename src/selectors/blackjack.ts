@@ -17,6 +17,51 @@ interface BlackjackCandidate {
   exactness: number; // How close to target (lower is better)
 }
 
+/**
+ * Blackjack UTXO Selection Algorithm - Exact value matching optimization
+ *
+ * The Blackjack algorithm is inspired by the card game where the goal is to get as close
+ * to a target value as possible without going over. This selector prioritizes finding UTXO
+ * combinations that exactly match the target amount plus fees, minimizing change outputs
+ * and transaction waste.
+ *
+ * @remarks
+ * The algorithm works in two phases:
+ * 1. **Exact Match Phase**: Systematically searches for combinations that create changeless
+ *    transactions (total input = target + fee exactly)
+ * 2. **Closest Match Phase**: If no exact match exists, finds the combination closest to the
+ *    target while still covering the required amount
+ *
+ * Key features:
+ * - Prioritizes changeless transactions to minimize fees and UTXO set bloat
+ * - Uses combinatorial search with configurable limits (MAX_COMBINATIONS = 10,000)
+ * - Supports both single-output (no change) and dual-output (with change) transactions
+ * - Implements "exactness" scoring to measure how close combinations are to the target
+ * - Falls back to subset sum dynamic programming for optimization
+ * - Handles dust threshold validation to prevent unspendable outputs
+ *
+ * Performance characteristics:
+ * - Excellent for small to medium UTXO sets (< 20 UTXOs)
+ * - May be slower for large UTXO sets due to combinatorial complexity
+ * - Optimal when exact matches are likely (e.g., consolidation scenarios)
+ *
+ * @example
+ * ```typescript
+ * const selector = new BlackjackSelector();
+ * const result = selector.select(utxos, {
+ *   targetValue: 100000, // 100,000 satoshis
+ *   feeRate: 10,        // 10 sat/vB
+ *   maxInputs: 5,       // Limit search space
+ *   dustThreshold: 546  // Bitcoin dust threshold
+ * });
+ *
+ * if (result.success) {
+ *   console.log(`Selected ${result.inputCount} UTXOs`);
+ *   console.log(`Change: ${result.change} satoshis`);
+ *   console.log(`Fee: ${result.fee} satoshis`);
+ * }
+ * ```
+ */
 export class BlackjackSelector extends BaseSelector {
   private readonly MAX_COMBINATIONS = 10000;
   private readonly EXACT_MATCH_TOLERANCE = 0; // Satoshis tolerance for "exact" match

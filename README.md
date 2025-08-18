@@ -56,13 +56,14 @@ pnpm add @btc-stamps/tx-builder
 ### Deno
 
 ```typescript
-import { createTransactionBuilder } from 'https://deno.land/x/bitcoin_tx_builder/mod.ts';
+import { TransactionBuilder } from 'npm:@btc-stamps/tx-builder@^0.1.6';
 ```
 
 ### Requirements
 
-- Node.js >= 18.0.0
+- **Node.js** >= 18.0.0 or **Bun** >= 1.0.0
 - TypeScript >= 5.0.0 (for TypeScript users)
+- **Deno**: Partial support via npm compatibility ([see guide](docs/DENO_USAGE.md))
 
 ---
 

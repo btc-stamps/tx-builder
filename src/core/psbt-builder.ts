@@ -15,6 +15,26 @@ export interface PSBTOptions {
   locktime?: number;
 }
 
+/**
+ * Builder for creating and manipulating Partially Signed Bitcoin Transactions (PSBTs)
+ *
+ * @remarks
+ * PSBTBuilder provides a fluent interface for constructing PSBTs with support for:
+ * - Multiple input types (P2PKH, P2WPKH, P2SH, P2WSH)
+ * - Witness and non-witness UTXOs
+ * - Custom scripts and redeem scripts
+ * - Fee calculation and validation
+ * - Transaction finalization
+ *
+ * @example
+ * ```typescript
+ * const builder = new PSBTBuilder();
+ * const psbt = builder
+ *   .addInput(utxo)
+ *   .addOutput({ address: 'bc1q...', value: 100000 })
+ *   .build();
+ * ```
+ */
 export class PSBTBuilder {
   protected psbt: bitcoin.Psbt;
   private network: Network;
