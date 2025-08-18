@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, dev] # Run on direct pushes to main or dev
+    branches: [main] # Only run on direct pushes to main (for releases/hotfixes)
   pull_request:
     branches: [main, dev] # Run on PRs targeting main or dev
 
@@ -15,8 +15,6 @@ jobs:
   lint:
     name: Lint & Format
     runs-on: ubuntu-latest
-    # Skip push runs if there's an open PR for the same branch
-    if: github.event_name == 'pull_request' || github.event.pull_request == null
     steps:
       - uses: actions/checkout@v4
 
@@ -33,8 +31,6 @@ jobs:
   type-check:
     name: Type Check
     runs-on: ubuntu-latest
-    # Skip push runs if there's an open PR for the same branch
-    if: github.event_name == 'pull_request' || github.event.pull_request == null
     steps:
       - uses: actions/checkout@v4
 
@@ -52,8 +48,6 @@ jobs:
   test-node:
     name: Test (Node.js)
     runs-on: ubuntu-latest
-    # Skip push runs if there's an open PR for the same branch
-    if: github.event_name == 'pull_request' || github.event.pull_request == null
     strategy:
       matrix:
         node-version: ['18', '20', '21']
@@ -89,8 +83,6 @@ jobs:
   validate:
     name: Validate Examples & Scripts
     runs-on: ubuntu-latest
-    # Skip push runs if there's an open PR for the same branch
-    if: github.event_name == 'pull_request' || github.event.pull_request == null
     steps:
       - uses: actions/checkout@v4
 
@@ -113,8 +105,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    # Skip push runs if there's an open PR for the same branch
-    if: github.event_name == 'pull_request' || github.event.pull_request == null
     steps:
       - uses: actions/checkout@v4
 
