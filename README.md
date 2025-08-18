@@ -4,7 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@btc-stamps/tx-builder.svg)](https://www.npmjs.com/package/@btc-stamps/tx-builder)
 [![npm downloads](https://img.shields.io/npm/dm/@btc-stamps/tx-builder.svg)](https://www.npmjs.com/package/@btc-stamps/tx-builder)
-[![Bundle Size](https://img.shields.io/bundlephobia/minzip/@btc-stamps/tx-builder)](https://bundlephobia.com/package/@btc-stamps/tx-builder)
+[![npm package size](https://img.shields.io/npm/unpacked-size/@btc-stamps/tx-builder)](https://www.npmjs.com/package/@btc-stamps/tx-builder?activeTab=code)
 [![JSR](https://jsr.io/badges/@btc-stamps/tx-builder)](https://jsr.io/@btc-stamps/tx-builder)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js CI](https://img.shields.io/github/actions/workflow/status/btc-stamps/tx-builder/ci.yml?branch=main)](https://github.com/btc-stamps/tx-builder/actions)
