@@ -218,6 +218,7 @@ BREAKING CHANGE: description (triggers major version)
 Bun is fully supported for **using** the package but has test runner limitations:
 
 **What Works with Bun:**
+
 - ✅ Installing dependencies (`bun install`)
 - ✅ Building the package (`bun run build`)
 - ✅ TypeScript compilation (`bun run typecheck`)
@@ -225,6 +226,7 @@ Bun is fully supported for **using** the package but has test runner limitations
 - ✅ Using as a dependency in Bun projects
 
 **Test Runner Incompatibility:**
+
 - ❌ `bun test` uses Bun's test runner (incompatible with Vitest mocks)
 - ✅ `bun run test` uses Vitest (fully compatible)
 

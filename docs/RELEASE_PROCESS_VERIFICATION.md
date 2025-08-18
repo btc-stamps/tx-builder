@@ -3,11 +3,13 @@
 ## Current State (v0.1.6)
 
 ### ✅ Documentation Structure
+
 - **CONTRIBUTING.md**: Simplified, references detailed docs
 - **docs/publishing/RELEASING.md**: Comprehensive release guide
 - No duplicate content between files
 
 ### ✅ Automated Workflows
+
 1. **release.yml**: Main release workflow
    - Bumps versions automatically
    - Creates git tags
@@ -24,14 +26,18 @@
    - Runs Vitest through Bun (compatible)
 
 ### ✅ Pre-Release Checklist Updates
+
 Added to docs/publishing/RELEASING.md:
+
 - Validation scripts testing
 - Bun compatibility testing
 - Version sync verification
 - CI workflow dry runs
 
 ### ✅ Validation Scripts
+
 Added npm scripts in package.json:
+
 ```json
 "validate:all": "tsx scripts/validate-all.ts",
 "validate:release-setup": "node scripts/validate-release-setup.js",
@@ -42,6 +48,7 @@ Added npm scripts in package.json:
 ```
 
 ### ⚠️ Minor Issues Found & Fixed
+
 1. ESM compatibility in validation scripts (fixed)
 2. Missing `__dirname` in ESM modules (fixed with `import.meta.url`)
 
@@ -59,6 +66,7 @@ Added npm scripts in package.json:
 5. **Automatic**: post-release-sync.yml syncs dev with main
 
 ### What's Automated
+
 - ✅ Version bumping (package.json & deno.json)
 - ✅ Git tag creation
 - ✅ Publishing to npm & JSR
@@ -67,6 +75,7 @@ Added npm scripts in package.json:
 - ✅ Changelog generation
 
 ### What's Manual (by design)
+
 - Triggering the release workflow
 - Merging the version bump PR
 - Deciding version bump type (patch/minor/major)
@@ -74,6 +83,7 @@ Added npm scripts in package.json:
 ## Test Results
 
 ### Version Sync Test ✅
+
 ```bash
 npm version patch --no-git-tag-version  # → 0.1.7
 node scripts/sync-version.js            # → synced deno.json
@@ -81,6 +91,7 @@ git status                               # → both files updated
 ```
 
 ### Build & Test ✅
+
 - `npm run build` - Success
 - `npm run test` - All passing
 - `npm run lint` - No issues
@@ -89,6 +100,7 @@ git status                               # → both files updated
 - `bun run build` - Success
 
 ### Validation Scripts ✅
+
 - Release setup validation works
 - ESM compatibility issues fixed
 - All validation scripts accessible via npm run
@@ -113,6 +125,7 @@ git status                               # → both files updated
 ## Conclusion
 
 The release process is now:
+
 - ✅ Fully documented
 - ✅ Properly automated
 - ✅ Tested and verified
