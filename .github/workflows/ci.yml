@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main] # Only run on direct pushes to main (for releases/hotfixes)
+    branches: [dev] # Run on pushes to dev
   pull_request:
     branches: [main, dev] # Run on PRs targeting main or dev
 

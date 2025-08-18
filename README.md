@@ -164,11 +164,13 @@ const provider = new ElectrumXProvider(); // Uses blockstream.info, fortress.qto
 
 ## 📚 Learn More
 
-- 📖 **[Full Documentation](https://btc-stamps.github.io/tx-builder)** - Complete guides and API reference
+- 📖 **[Documentation Site](https://btc-stamps.github.io/tx-builder)** - Interactive documentation
+- 🔌 **[API Reference](https://btc-stamps.github.io/tx-builder/api)** - Complete API documentation
 - 💡 **[Examples](https://github.com/btc-stamps/tx-builder/tree/main/docs/examples)** - Ready-to-use code examples
 - 🛡️ **[UTXO Protection Guide](https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/advanced-transaction-building.ts)** - Essential for production
 - 🏗️ **[Architecture Overview](https://github.com/btc-stamps/tx-builder/blob/main/docs/examples/README.md)** - Technical deep dive
-- 🔌 **[API Reference](https://btc-stamps.github.io/tx-builder/api)** - Detailed API documentation
+- 📦 **[NPM Package](https://www.npmjs.com/package/@btc-stamps/tx-builder)** - View on npm registry
+- 🦕 **[JSR Package](https://jsr.io/@btc-stamps/tx-builder)** - View on JSR (Deno/TypeScript)
 
 ---
 

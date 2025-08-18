@@ -2,7 +2,7 @@ name: Coverage Analysis
 
 on:
   push:
-    branches: [main] # Only run on pushes to main (for post-merge coverage)
+    branches: [dev] # Run on pushes to dev
   pull_request:
     branches: [main, dev] # Run on PRs to main or dev for coverage diff
   schedule:
