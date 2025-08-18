@@ -406,9 +406,25 @@ git reset --hard origin/main
 git push origin dev --force-with-lease
 ```
 
-#### 5. Trigger Release Workflow
+#### 5. Create Git Tag and Trigger Release Workflow
 
 ```bash
+# Create and push a git tag for the release
+# The tag should match the version in package.json (e.g., v0.1.6)
+git tag -a v0.1.6 -m "Release v0.1.6
+
+Features:
+- List main features
+- Another feature
+
+Fixes:
+- Bug fixes
+
+Improvements:
+- Performance improvements"
+
+git push origin v0.1.6
+
 # Run the release workflow from main branch
 gh workflow run release.yml \
   --field version_bump=patch \    # or minor/major
@@ -422,7 +438,7 @@ The workflow will:
 - Publish to npm
 - Publish to JSR
 - Create a PR with version updates
-- Generate GitHub Release
+- Generate GitHub Release with the tag
 
 #### 6. Finalize Version Sync
 
