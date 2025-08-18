@@ -1,6 +1,6 @@
 {
   "name": "@btc-stamps/tx-builder",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A comprehensive Bitcoin transaction builder library with support for Bitcoin Stamps, SRC-20 tokens, UTXO selection algorithms, and advanced fee optimization",
   "exports": {
     ".": "./src/index.ts",
