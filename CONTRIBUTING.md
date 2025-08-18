@@ -348,12 +348,14 @@ async function demonstrateNewFeature() {
 ### Overview
 
 We use a dual-branch strategy with automated releases:
+
 - `dev` branch: Active development and feature integration
 - `main` branch: Production-ready code with clean commit history
 
 ### Complete Release Workflow
 
 #### 1. Feature Development
+
 ```bash
 # Create feature branch from dev
 git checkout dev && git pull origin dev
@@ -365,6 +367,7 @@ git commit -m "feat: your feature description"
 ```
 
 #### 2. Merge Feature to Dev
+
 ```bash
 # Push feature branch
 git push origin feature/your-feature-name
@@ -379,6 +382,7 @@ gh pr merge [PR-NUMBER] --merge
 ```
 
 #### 3. Prepare Release from Dev to Main
+
 ```bash
 # Ensure dev is up to date
 git checkout dev && git pull origin dev
@@ -393,6 +397,7 @@ gh pr merge [PR-NUMBER] --squash --admin
 ```
 
 #### 4. Sync Dev After Squash
+
 ```bash
 # Critical: Reset dev to main after squash merge
 git checkout main && git pull origin main
@@ -402,6 +407,7 @@ git push origin dev --force-with-lease
 ```
 
 #### 5. Trigger Release Workflow
+
 ```bash
 # Run the release workflow from main branch
 gh workflow run release.yml \
@@ -410,6 +416,7 @@ gh workflow run release.yml \
 ```
 
 The workflow will:
+
 - Bump version according to semver
 - Build and test the package
 - Publish to npm
@@ -418,6 +425,7 @@ The workflow will:
 - Generate GitHub Release
 
 #### 6. Finalize Version Sync
+
 ```bash
 # Merge the automated version PR
 gh pr merge [VERSION-PR] --squash --admin

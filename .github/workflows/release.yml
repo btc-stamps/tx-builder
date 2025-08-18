@@ -108,31 +108,31 @@ jobs:
           # Create a new branch for the version bump
           BRANCH_NAME="release/${{ steps.version_bump.outputs.new_version }}"
           git checkout -b $BRANCH_NAME
-          
+
           # Push the branch and tag
           git push origin $BRANCH_NAME
           git push origin ${{ steps.version_bump.outputs.new_version }}
-          
+
           # Create a PR using GitHub CLI
           gh pr create \
             --base main \
             --head $BRANCH_NAME \
             --title "chore: release ${{ steps.version_bump.outputs.new_version }}" \
             --body "Automated version bump to ${{ steps.version_bump.outputs.new_version }}
-          
+
           This PR was created automatically by the release workflow after successfully publishing to npm and JSR.
-          
+
           ## Published to:
           - ✅ npm: https://www.npmjs.com/package/@btc-stamps/tx-builder/v/${{ steps.version_bump.outputs.new_version }}
           - ✅ JSR: https://jsr.io/@btc-stamps/tx-builder@${{ steps.version_bump.outputs.new_version }}
-          
+
           ## Changes:
           - Updated package.json version
           - Updated deno.json version
           - Updated package-lock.json
-          
+
           Please merge this PR to keep the repository in sync with published versions."
-          
+
           # Auto-merge the PR if possible (requires auto-merge to be enabled)
           gh pr merge $BRANCH_NAME --squash --auto || echo "Auto-merge not available, manual merge required"
         env:

@@ -47,7 +47,7 @@ import {
 
 /**
  * Main transaction builder for creating Bitcoin transactions with advanced features
- * 
+ *
  * @remarks
  * Provides comprehensive transaction building capabilities including:
  * - UTXO selection and management
@@ -55,7 +55,7 @@ import {
  * - Multi-signature support
  * - RBF (Replace-By-Fee) configuration
  * - Dust threshold management
- * 
+ *
  * @example
  * ```typescript
  * const builder = new TransactionBuilder({
@@ -63,7 +63,7 @@ import {
  *   dustThreshold: 546,
  *   defaultFeeRate: 10
  * });
- * 
+ *
  * const psbt = await builder.buildTransaction({
  *   inputs: [...],
  *   outputs: [...],

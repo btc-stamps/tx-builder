@@ -15,17 +15,17 @@ import { BaseSelector } from './base-selector.ts';
 
 /**
  * Simple accumulative UTXO selection algorithm
- * 
+ *
  * @remarks
  * Selects UTXOs in order (typically largest first) until the target amount is reached.
  * This is the simplest and fastest selection algorithm, suitable for most basic transactions.
- * 
+ *
  * Features:
  * - Fast O(n) selection
  * - Deterministic results
  * - Minimal computational overhead
  * - Good for time-sensitive operations
- * 
+ *
  * @example
  * ```typescript
  * const selector = new AccumulativeSelector();

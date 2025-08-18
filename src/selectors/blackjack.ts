@@ -19,17 +19,17 @@ interface BlackjackCandidate {
 
 /**
  * Blackjack UTXO Selection Algorithm - Exact value matching optimization
- * 
- * The Blackjack algorithm is inspired by the card game where the goal is to get as close 
- * to a target value as possible without going over. This selector prioritizes finding UTXO 
- * combinations that exactly match the target amount plus fees, minimizing change outputs 
+ *
+ * The Blackjack algorithm is inspired by the card game where the goal is to get as close
+ * to a target value as possible without going over. This selector prioritizes finding UTXO
+ * combinations that exactly match the target amount plus fees, minimizing change outputs
  * and transaction waste.
  *
  * @remarks
  * The algorithm works in two phases:
- * 1. **Exact Match Phase**: Systematically searches for combinations that create changeless 
+ * 1. **Exact Match Phase**: Systematically searches for combinations that create changeless
  *    transactions (total input = target + fee exactly)
- * 2. **Closest Match Phase**: If no exact match exists, finds the combination closest to the 
+ * 2. **Closest Match Phase**: If no exact match exists, finds the combination closest to the
  *    target while still covering the required amount
  *
  * Key features:
@@ -54,7 +54,7 @@ interface BlackjackCandidate {
  *   maxInputs: 5,       // Limit search space
  *   dustThreshold: 546  // Bitcoin dust threshold
  * });
- * 
+ *
  * if (result.success) {
  *   console.log(`Selected ${result.inputCount} UTXOs`);
  *   console.log(`Change: ${result.change} satoshis`);

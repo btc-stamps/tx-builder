@@ -331,12 +331,12 @@ export class StampMetadataHandler {
 
 /**
  * Encoder for creating Bitcoin Stamps protocol-compliant transactions
- * 
+ *
  * @remarks
  * BitcoinStampsEncoder handles the encoding of data for Bitcoin Stamps, which store
- * data directly on-chain using multi-signature outputs. This makes the data 
+ * data directly on-chain using multi-signature outputs. This makes the data
  * pruning-resistant and permanently stored on the Bitcoin blockchain.
- * 
+ *
  * Features:
  * - Automatic data compression (gzip, brotli)
  * - Base64 encoding for binary data
@@ -344,7 +344,7 @@ export class StampMetadataHandler {
  * - Multi-signature script generation
  * - P2WSH output creation
  * - Chunk size optimization for efficiency
- * 
+ *
  * @example
  * ```typescript
  * const encoder = new BitcoinStampsEncoder();
@@ -353,7 +353,7 @@ export class StampMetadataHandler {
  *   encoding: 'gzip',
  *   pubkeys: [pubkey1, pubkey2, pubkey3]
  * });
- * 
+ *
  * // result.outputs contains the P2WSH outputs for the transaction
  * ```
  */

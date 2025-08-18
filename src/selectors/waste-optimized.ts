@@ -41,24 +41,24 @@ interface WasteCalculationMetrics {
 
 /**
  * Waste-Optimized UTXO Selection Algorithm - Multi-algorithm optimization with waste scoring
- * 
- * The Waste-Optimized selector is a meta-algorithm that runs multiple UTXO selection algorithms 
- * in parallel and chooses the result with the lowest "waste" score. This approach combines the 
+ *
+ * The Waste-Optimized selector is a meta-algorithm that runs multiple UTXO selection algorithms
+ * in parallel and chooses the result with the lowest "waste" score. This approach combines the
  * strengths of different algorithms to find the most efficient UTXO selection for any given scenario.
  *
  * @remarks
  * The algorithm works by executing multiple selection strategies simultaneously:
  * 1. **Branch-and-Bound**: Optimal for small UTXO sets, finds mathematically best solutions
- * 2. **Accumulative**: Fast greedy approach, good for consolidation and large transactions  
+ * 2. **Accumulative**: Fast greedy approach, good for consolidation and large transactions
  * 3. **Blackjack**: Excels at finding exact matches and minimizing change outputs
- * 
+ *
  * Each result is scored using a comprehensive waste metric that considers:
  * - **Change Cost**: Fee cost of creating change outputs (34 * feeRate per output)
  * - **Excess Cost**: Penalty for selecting more value than needed (encourages precision)
  * - **Input Cost**: Fee overhead from using multiple inputs (68 * feeRate per input * 0.1)
  *
  * The selector uses configurable weighting factors to balance these costs based on use case.
- * Advanced features include timeout protection, detailed error categorization, and 
+ * Advanced features include timeout protection, detailed error categorization, and
  * comprehensive performance tracking.
  *
  * Key features:
@@ -87,14 +87,14 @@ interface WasteCalculationMetrics {
  *     inputCost: 0.1     // Light penalty for multiple inputs
  *   }
  * });
- * 
+ *
  * const result = selector.select(utxos, {
  *   targetValue: 500000,
  *   feeRate: 15,
  *   maxInputs: 10,
  *   dustThreshold: 546
  * });
- * 
+ *
  * if (result.success) {
  *   console.log(`Best algorithm: ${result.metadata.selectedAlgorithm}`);
  *   console.log(`Waste score: ${result.wasteMetric}`);

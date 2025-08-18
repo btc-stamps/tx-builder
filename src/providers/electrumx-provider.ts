@@ -84,7 +84,7 @@ interface ElectrumXHistoryItem {
 
 /**
  * ElectrumX provider for interacting with Bitcoin network via ElectrumX servers
- * 
+ *
  * @remarks
  * ElectrumXProvider implements a robust connection to ElectrumX servers with:
  * - Automatic server failover and retry logic
@@ -92,7 +92,7 @@ interface ElectrumXHistoryItem {
  * - Full ElectrumX protocol support
  * - Built-in caching for performance
  * - Address validation and script hash conversion
- * 
+ *
  * Features:
  * - Multiple server endpoints with automatic failover
  * - Configurable retry attempts and timeouts
@@ -100,7 +100,7 @@ interface ElectrumXHistoryItem {
  * - Transaction broadcasting and monitoring
  * - Balance queries with confirmed/unconfirmed breakdown
  * - Fee estimation support
- * 
+ *
  * @example
  * ```typescript
  * const provider = new ElectrumXProvider({
@@ -110,7 +110,7 @@ interface ElectrumXHistoryItem {
  *   network: networks.bitcoin,
  *   maxRetries: 3
  * });
- * 
+ *
  * const utxos = await provider.getUTXOs('bc1q...');
  * const balance = await provider.getBalance('bc1q...');
  * ```

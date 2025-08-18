@@ -17,7 +17,7 @@ export interface PSBTOptions {
 
 /**
  * Builder for creating and manipulating Partially Signed Bitcoin Transactions (PSBTs)
- * 
+ *
  * @remarks
  * PSBTBuilder provides a fluent interface for constructing PSBTs with support for:
  * - Multiple input types (P2PKH, P2WPKH, P2SH, P2WSH)
@@ -25,7 +25,7 @@ export interface PSBTOptions {
  * - Custom scripts and redeem scripts
  * - Fee calculation and validation
  * - Transaction finalization
- * 
+ *
  * @example
  * ```typescript
  * const builder = new PSBTBuilder();

@@ -11,10 +11,10 @@ import { BaseSelector } from './base-selector.ts';
 
 /**
  * Knapsack UTXO Selection Algorithm - Legacy stochastic approximation
- * 
- * The Knapsack selector implements Bitcoin Core's legacy UTXO selection algorithm 
- * (pre-2018) using a stochastic approximation approach. It runs multiple random 
- * iterations to find good solutions, making it highly reliable and capable of 
+ *
+ * The Knapsack selector implements Bitcoin Core's legacy UTXO selection algorithm
+ * (pre-2018) using a stochastic approximation approach. It runs multiple random
+ * iterations to find good solutions, making it highly reliable and capable of
  * finding valid selections even when more sophisticated algorithms fail.
  *
  * @remarks
@@ -22,7 +22,7 @@ import { BaseSelector } from './base-selector.ts';
  * 1. **Exact Match Search**: First attempts to find precise combinations for changeless transactions
  * 2. **Stochastic Iteration**: Runs up to 1000 random trials, each selecting UTXOs with 50% probability
  * 3. **Accumulative Fallback**: If stochastic approach fails, uses simple largest-first accumulation
- * 
+ *
  * Each iteration processes UTXOs from largest to smallest value, randomly including each with
  * a configurable probability (default 50%). The algorithm tracks the best solution found across
  * all iterations, preferring selections that minimize excess value over the target amount.
@@ -54,13 +54,13 @@ import { BaseSelector } from './base-selector.ts';
  *   maxInputs: 8,        // Limit to 8 inputs max
  *   minConfirmations: 1   // Require confirmed UTXOs
  * });
- * 
+ *
  * if (result.success) {
  *   console.log(`Selected ${result.inputCount} UTXOs`);
  *   console.log(`Total value: ${result.totalValue} satoshis`);
  *   console.log(`Change: ${result.change} satoshis`);
  * }
- * 
+ *
  * // Configurable version with custom parameters
  * const customSelector = new ConfigurableKnapsackSelector({
  *   iterations: 2000,           // More iterations for better results
