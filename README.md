@@ -8,7 +8,7 @@
 [![JSR](https://jsr.io/badges/@btc-stamps/tx-builder)](https://jsr.io/@btc-stamps/tx-builder)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js CI](https://img.shields.io/github/actions/workflow/status/btc-stamps/tx-builder/ci.yml?branch=main)](https://github.com/btc-stamps/tx-builder/actions)
-[![codecov](https://codecov.io/gh/btc-stamps/tx-builder/graph/badge.svg?token=AWB6I9Z0AQ)](https://codecov.io/gh/btc-stamps/tx-builder)
+[![codecov](https://img.shields.io/codecov/c/github/btc-stamps/tx-builder?label=codecov)](https://codecov.io/gh/btc-stamps/tx-builder)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/btc-stamps/tx-builder/graphs/commit-activity)
 [![Dependencies Status](https://img.shields.io/librariesio/release/npm/@btc-stamps/tx-builder)](https://libraries.io/npm/@btc-stamps%2Ftx-builder)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](https://github.com/btc-stamps/tx-builder/pulls)
