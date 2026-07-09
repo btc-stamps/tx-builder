@@ -1,25 +1,36 @@
-# @btc-stamps/tx-builder 🚀
-
 <div align="center">
+  <img src="https://raw.githubusercontent.com/btc-stamps/tx-builder/main/docs/assets/bitcoinstamps-txbuilder-github-hero.png" alt="Bitcoin Stamps - TX Builder" width="100%">
 
-[![npm version](https://img.shields.io/npm/v/@btc-stamps/tx-builder.svg)](https://www.npmjs.com/package/@btc-stamps/tx-builder)
-[![npm downloads](https://img.shields.io/npm/dm/@btc-stamps/tx-builder.svg)](https://www.npmjs.com/package/@btc-stamps/tx-builder)
-[![npm package size](https://img.shields.io/npm/unpacked-size/@btc-stamps/tx-builder)](https://www.npmjs.com/package/@btc-stamps/tx-builder?activeTab=code)
-[![JSR](https://jsr.io/badges/@btc-stamps/tx-builder)](https://jsr.io/@btc-stamps/tx-builder)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js CI](https://img.shields.io/github/actions/workflow/status/btc-stamps/tx-builder/ci.yml?branch=main)](https://github.com/btc-stamps/tx-builder/actions)
-[![codecov](https://img.shields.io/codecov/c/github/btc-stamps/tx-builder?label=codecov)](https://codecov.io/gh/btc-stamps/tx-builder)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/btc-stamps/tx-builder/graphs/commit-activity)
+### Bitcoin Stamps - Tx Builder
+#### Immutable digital assets stored in Bitcoin's UTXO set
+
+&nbsp;
+
+[![JSR](https://jsr.io/badges/@btc-stamps/tx-builder)](https://jsr.io/@btc-stamps/tx-builder)&nbsp;&nbsp;
+[![npm version](https://img.shields.io/npm/v/@btc-stamps/tx-builder.svg)](https://www.npmjs.com/package/@btc-stamps/tx-builder)&nbsp;&nbsp;
+[![npm package size](https://img.shields.io/npm/unpacked-size/@btc-stamps/tx-builder)](https://www.npmjs.com/package/@btc-stamps/tx-builder?activeTab=code)&nbsp;&nbsp;
+[![npm downloads](https://img.shields.io/npm/dm/@btc-stamps/tx-builder.svg)](https://www.npmjs.com/package/@btc-stamps/tx-builder)&nbsp;&nbsp;
+[![Star on GitHub](https://img.shields.io/github/stars/btc-stamps/tx-builder.svg?style=social)](https://github.com/btc-stamps/tx-builder)
+
+[![Node.js CI](https://img.shields.io/github/actions/workflow/status/btc-stamps/tx-builder/ci.yml?branch=main)](https://github.com/btc-stamps/tx-builder/actions)&nbsp;&nbsp;
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/btc-stamps/tx-builder/graphs/commit-activity)&nbsp;&nbsp;
+[![codecov](https://img.shields.io/codecov/c/github/btc-stamps/tx-builder?label=codecov)](https://codecov.io/gh/btc-stamps/tx-builder)&nbsp;&nbsp;
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)&nbsp;&nbsp;
 [![Dependencies Status](https://img.shields.io/librariesio/release/npm/@btc-stamps/tx-builder)](https://libraries.io/npm/@btc-stamps%2Ftx-builder)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](https://github.com/btc-stamps/tx-builder/pulls)
 
+&nbsp;
+
+---
+
+</div> 
+&nbsp;
+
+## 📋 Overview
 **The Bitcoin transaction builder for Bitcoin Stamps and SRC-20 metaprotocols**
 
 Build Bitcoin transactions with native support for **Bitcoin Stamps**, **SRC-20 tokens**, **Ordinals protection**, and extensible metaprotocol support.
 
 [Installation](#-installation) • [Quick Start](#-quick-start) • [Examples](https://github.com/btc-stamps/tx-builder/tree/main/docs/examples) • [Documentation](https://btc-stamps.github.io/tx-builder) • [API Reference](https://btc-stamps.github.io/tx-builder/api)
-
-</div>
 
 ---
 
@@ -222,14 +233,12 @@ Built on top of excellent libraries:
 - **Discussions**: [Ask questions and share ideas](https://github.com/btc-stamps/tx-builder/discussions)
 - **Telegram**: [@BitcoinStamps](https://t.me/BitcoinStamps)
 
+&nbsp;
+
 ---
 
 <div align="center">
 
-**GitHub**: [btc-stamps/tx-builder](https://github.com/btc-stamps/tx-builder) • **NPM**: [@btc-stamps/tx-builder](https://www.npmjs.com/package/@btc-stamps/tx-builder) • **JSR**: [@btc-stamps/tx-builder](https://jsr.io/@btc-stamps/tx-builder) • **Telegram**: [@BitcoinStamps](https://t.me/BitcoinStamps)
-
-**Built with ❤️ by the Stampchain team**
-
-[![Star on GitHub](https://img.shields.io/github/stars/btc-stamps/tx-builder.svg?style=social)](https://github.com/btc-stamps/tx-builder)
+Built with Bitcoin 🧡 Permanent by design
 
 </div>
